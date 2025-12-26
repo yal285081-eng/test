@@ -16,4 +16,249 @@
             padding-bottom: 60px; /* مساحة لشريط الأخبار */
         }
 
-        /* === تأثير
+        /* === تأثير الحروف الطائرة بالخلفية === */
+        .floating-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .float-letter {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.05);
+            font-family: 'Permanent Marker', cursive;
+            font-size: 4rem;
+            animation: floatUp 10s linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* === الهيدر === */
+        header {
+            background: #e74c3c;
+            padding: 20px;
+            box-shadow: 0 4px 0 #c0392b;
+            transform: rotate(-1deg);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        header p { margin: 5px 0 0; font-weight: bold; }
+
+        /* === الصورة الشخصية === */
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+            transition: transform 0.3s;
+        }
+        .profile-container:hover {
+            transform: scale(1.05) rotate(2deg); /* حركة عند اللمس */
+        }
+
+        .profile-img {
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: #fff;
+        }
+
+        .badge {
+            position: absolute;
+            bottom: 5px; right: -5px;
+            background: #f1c40f; color: #333;
+            padding: 5px 12px; border-radius: 15px;
+            font-weight: bold; font-family: 'Permanent Marker', cursive;
+            transform: rotate(-10deg); border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* === النص المضحك === */
+        .funny-text {
+            font-size: 1.3rem;
+            margin: 20px auto;
+            max-width: 90%;
+            line-height: 1.8;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .en-word {
+            font-family: 'Permanent Marker', cursive;
+            color: #f1c40f;
+            font-size: 1.3em;
+            display: inline-block;
+            transform: rotate(-2deg);
+        }
+
+        /* === جدول الإحصائيات === */
+        .grades-card {
+            background: white; color: #333;
+            width: 85%; max-width: 350px;
+            margin: 20px auto;
+            border-radius: 10px; overflow: hidden;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+            transform: rotate(1deg);
+        }
+
+        .card-header {
+            background: #27ae60; color: white;
+            padding: 10px; font-weight: bold;
+        }
+
+        .grade-row {
+            display: flex; justify-content: space-between;
+            padding: 12px 15px; border-bottom: 2px solid #eee;
+            font-weight: bold; font-size: 0.95rem;
+        }
+        .grade { color: #c0392b; font-family: 'Permanent Marker', cursive; }
+
+        /* === الزر === */
+        .action-btn {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white; border: none;
+            padding: 12px 25px; font-size: 1.1rem;
+            border-radius: 50px; cursor: pointer;
+            margin-top: 15px; margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            font-family: 'Tajawal', sans-serif;
+            transition: transform 0.1s;
+        }
+        .action-btn:active { transform: scale(0.95); }
+
+        .secret-msg {
+            display: none; margin: 20px auto; width: 90%;
+            padding: 20px; background: #fff; color: #333;
+            border-radius: 10px; animation: popUp 0.5s;
+        }
+        @keyframes popUp { from {transform: scale(0.5); opacity:0;} to {transform: scale(1); opacity:1;} }
+
+        /* === شريط الأخبار العاجلة === */
+        .news-ticker {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #c0392b; color: white;
+            padding: 10px 0; overflow: hidden;
+            white-space: nowrap; border-top: 3px solid #f1c40f;
+            z-index: 100;
+        }
+        .news-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 15s linear infinite;
+            font-family: 'Tajawal', sans-serif; font-weight: bold;
+        }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(100%, 0, 0); } /* تعديل الاتجاه للعربي */
+        }
+        
+        /* تعديل اتجاه الحركة للشريط لأن الموقع عربي */
+        @keyframes ticker {
+           0% { transform: translateX(100%); }
+           100% { transform: translateX(-100%); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="floating-bg">
+        <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
+        <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
+        <div class="float-letter" style="left: 70%; animation-duration: 6s;">C</div>
+        <div class="float-letter" style="left: 50%; animation-duration: 11s;">A+</div>
+        <div class="float-letter" style="left: 85%; animation-duration: 8s;">?</div>
+    </div>
+
+    <header>
+        <h1>Mr. Thayer 🇬🇧</h1>
+        <p>The King of English / ملك اللغة</p>
+    </header>
+
+    <div class="profile-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/1995/1995515.png" alt="Mr. Thayer" class="profile-img">
+        <div class="badge">#1 Teacher</div>
+    </div>
+
+    <div class="funny-text">
+        <p>
+            مرحباً بكم في <span class="en-word">Thayer's Zone</span> 🚧<br>
+            حيث الـ <span class="en-word">Past Simple</span> يصير ماضي جميل.. <br>
+            والـ <span class="en-word">Future</span> مشرق 
+            <span style="color:#f1c40f; font-weight:bold;">ما دام استاذ ثائر موجود!</span> <br>
+            <small style="color:#bdc3c7; font-size:0.9em;">(الانكليزي صار بجيب 😎)</small>
+        </p>
+    </div>
+
+    <div class="grades-card">
+        <div class="card-header">Teacher Stats (إحصائيات)</div>
+        <div class="grade-row">
+            <span>Grammar Skills</span>
+            <span class="grade">Level Max 🚀</span>
+        </div>
+        <div class="grade-row">
+            <span>Student Love</span>
+            <span class="grade">100% ❤️</span>
+        </div>
+        <div class="grade-row">
+            <span>Homework</span>
+            <span class="grade">Easy Peasy 🍋</span>
+        </div>
+    </div>
+
+    <button class="action-btn" onclick="revealSecret()">Press for Surprise 🎁</button>
+
+    <div id="secret" class="secret-msg">
+        <h2 style="color: #2c3e50;">رسالة من القلب ❤️</h2>
+        <p>
+            يا أخي الغالي ثائر..<br>
+            أنت مو بس تدرس الطلاب لغة،<br>
+            أنت تعلمهم معنى الأخلاق والطيب.<br>
+            <strong>فخور بيك يا "مستر" العائلة.</strong>
+        </p>
+        <div style="font-size: 2.5rem; margin-top: 10px;">👑📚🍎</div>
+    </div>
+
+    <div class="news-ticker">
+        <div class="news-content">
+            🔴 عاجل: وزارة التربية تعلن أن الطلاب يحبون حصة الأستاذ ثائر أكثر من الفرصة!  ---  Breaking News: Mr. Thayer voted best brother and teacher ever!  ---  🔴 خبر هام: الانكليزي صار أسهل مادة بالعراق!
+        </div>
+    </div>
+
+    <script>
+        function revealSecret() {
+            var secretDiv = document.getElementById('secret');
+            var btn = document.querySelector('.action-btn');
+            
+            if (secretDiv.style.display === 'block') {
+                secretDiv.style.display = 'none';
+                btn.innerHTML = "Press for Surprise 🎁";
+                btn.style.background = "linear-gradient(to bottom, #3498db, #2980b9)";
+            } else {
+                secretDiv.style.display = 'block';
+                btn.innerHTML = "Close / إغلاق";
+                btn.style.background = "#e74c3c";
+            }
+        }
+    </script>
+
+</body>
+        </html>
