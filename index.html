@@ -52,8 +52,26 @@
         .profile-container {
             position: relative; display: inline-block;
             margin-top: 10px; transition: transform 0.3s;
+            cursor: pointer;
         }
-        .profile-container:hover { transform: scale(1.05) rotate(2deg); }
+
+        /* === كود الاهتزاز والرقص الجديد === */
+        .playing-animation {
+            /* اهتزاز سريع جداً */
+            animation: shake 0.3s infinite; 
+            border-color: #f1c40f !important;
+            /* توهج ذهبي */
+            box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
+        }
+
+        /* تفاصيل الاهتزاز */
+        @keyframes shake {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-3deg) scale(1.05); }
+            50% { transform: rotate(3deg) scale(1.05); }
+            75% { transform: rotate(-3deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
 
         .profile-img {
             width: 170px; height: 170px;
@@ -61,6 +79,7 @@
             border: 5px solid white;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             background: #fff;
+            transition: all 0.2s;
         }
 
         .badge {
@@ -71,6 +90,14 @@
             transform: rotate(-10deg); border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        .click-hint {
+            display: block; font-size: 0.8rem; color: #f1c40f; 
+            margin-bottom: 5px; font-weight: bold;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
 
         /* النص المضحك */
         .funny-text {
@@ -98,7 +125,7 @@
         }
         .action-btn:active { transform: scale(0.95); }
 
-        /* === الرسالة (نافذة منبثقة بنص الشاشة) === */
+        /* === الرسالة === */
         .modal-overlay {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -131,7 +158,7 @@
             font-weight: bold;
         }
 
-        /* === شريط الأخبار اليدوي === */
+        /* === شريط الأخبار === */
         .news-container {
             position: fixed;
             bottom: 0;
@@ -173,8 +200,9 @@
         <p>The King of English / ملك اللغة</p>
     </header>
 
-    <div class="profile-container">
-        <img src="img1.jpg" alt="Mr. Thayer" class="profile-img">
+    <div class="profile-container" onclick="toggleSong()">
+        <span class="click-hint">🎵 اضغط هنا لتشغيل الأغنية 🎵</span>
+        <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
 
@@ -199,7 +227,7 @@
                 أنت أحسن أخ بالدنيا. <br>
                 <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
             </p>
-            <div style="font-size: 4rem; margin: 15px 0;">🎁👑🍎</div>
+            <div style="font-size: 4rem; margin: 15px 0;">❤️</div>
             <button class="close-btn" onclick="closeSecret()">إغلاق X</button>
         </div>
     </div>
@@ -212,7 +240,7 @@
             <span class="sep">|</span>
             🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
             <span class="sep">|</span>
-            📖 خبر هام: قاموس أكسفورد يضيف كلمة "Thayer" كمرادف للروعة 😎 
+            📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
             <span class="sep">|</span>
             🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
             <span class="sep">|</span>
@@ -221,10 +249,30 @@
     </div>
 
     <script>
+        // تعريف الأغنية
+        var mySong = new Audio('song.mp3'); 
+        var isPlaying = false;
+
+        function toggleSong() {
+            var img = document.getElementById('teacherImg');
+            
+            if (isPlaying) {
+                mySong.pause();
+                isPlaying = false;
+                img.classList.remove('playing-animation'); // ايقاف الرقص
+            } else {
+                mySong.play();
+                isPlaying = true;
+                img.classList.add('playing-animation'); // تشغيل الرقص والاهتزاز
+                
+                // دفعة قوية من الأوراق الملونة عند تشغيل الأغنية
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
+            }
+        }
+
         function openSecret() {
             document.getElementById('modal').style.display = 'flex';
             
-            // تشغيل الاحتفالات (بدون صوت)
             confetti({
                 particleCount: 200,
                 spread: 90,
