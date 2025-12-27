@@ -230,31 +230,30 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        /* === شريط الأخبار الحديث (بدون Marquee) === */
-        .ticker-wrap {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            height: 50px; background: #c0392b;
+        /* === شريط الأخبار القديم (Marquee) === */
+        .news-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: #c0392b;
             border-top: 4px solid var(--highlight);
-            z-index: 9999; overflow: hidden;
-            display: flex; align-items: center;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            direction: ltr; 
+        }
+        
+        .ticker-text {
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            width: 100%;
         }
 
-        .ticker-content {
-            display: inline-block; white-space: nowrap;
-            padding-left: 100%;
-            animation: ticker 35s linear infinite;
-        }
-
-        .ticker-item {
-            display: inline-block; font-family: 'Tajawal', sans-serif;
-            font-weight: bold; font-size: 1.2rem; color: white;
-        }
-        .sep { color: var(--highlight); margin: 0 15px; }
-
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
+        .sep { color: var(--highlight); margin: 0 10px; }
 
     </style>
 </head>
@@ -357,22 +356,20 @@
         </div>
     </div>
 
-    <div class="ticker-wrap">
-        <div class="ticker-content">
-            <div class="ticker-item">
-                🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
-                <span class="sep">|</span>
-                🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
-                <span class="sep">|</span>
-                🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
-                <span class="sep">|</span>
-                📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
-                <span class="sep">|</span>
-                🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
-                <span class="sep">|</span>
-                ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
-            </div>
-        </div>
+    <div class="news-container">
+        <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
+            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
+            <span class="sep">|</span>
+            🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
+            <span class="sep">|</span>
+            🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
+            <span class="sep">|</span>
+            📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
+            <span class="sep">|</span>
+            🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
+            <span class="sep">|</span>
+            ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
+        </marquee>
     </div>
 
     <script>
@@ -389,7 +386,6 @@
                 img.classList.remove('playing-animation'); 
             } else {
                 var playPromise = mySong.play();
-                // التعامل مع سياسات المتصفح اذا منع الصوت
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
                         isPlaying = true;
@@ -402,7 +398,7 @@
             }
         }
 
-        // === دالة المترجم (نفس القديمة المضبوطة) ===
+        // === دالة المترجم ===
         function openGoogleTranslate() {
             var width = 500;
             var height = 650;
@@ -473,7 +469,6 @@
             var modal = document.getElementById('modalPredict');
             textElement.style.opacity = 0;
             
-            // إعادة ضبط المحتوى لتأثير التغيير
             setTimeout(function() {
                 var randomResult = results[Math.floor(Math.random() * results.length)];
                 textElement.innerHTML = randomResult;
@@ -508,4 +503,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
