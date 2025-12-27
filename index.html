@@ -16,7 +16,7 @@
             padding-bottom: 60px;
         }
 
-        /* === خلفية الحروف الطائرة === */
+        /* خلفية الحروف الطائرة */
         .floating-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: -1; overflow: hidden;
@@ -34,7 +34,7 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* === الهيدر === */
+        /* الهيدر */
         header {
             background: #e74c3c; padding: 20px;
             box-shadow: 0 4px 0 #c0392b;
@@ -47,7 +47,7 @@
         }
         header p { margin: 5px 0 0; font-weight: bold; }
 
-        /* === الصورة الشخصية === */
+        /* الصورة الشخصية */
         .profile-container {
             position: relative; display: inline-block;
             margin-top: 10px; transition: transform 0.3s;
@@ -71,7 +71,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* === النص المضحك === */
+        /* النص المضحك */
         .funny-text {
             font-size: 1.3rem; margin: 20px auto; max-width: 90%;
             line-height: 1.8; background: rgba(255,255,255,0.1);
@@ -85,7 +85,7 @@
             display: inline-block; transform: rotate(-2deg);
         }
 
-        /* === جدول الإحصائيات === */
+        /* جدول الإحصائيات */
         .grades-card {
             background: white; color: #333;
             width: 85%; max-width: 350px; margin: 20px auto;
@@ -100,7 +100,7 @@
         }
         .grade { color: #c0392b; font-family: 'Permanent Marker', cursive; }
 
-        /* === الزر === */
+        /* الزر */
         .action-btn {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white; border: none;
@@ -119,26 +119,29 @@
         }
         @keyframes popUp { from {transform: scale(0.5); opacity:0;} to {transform: scale(1); opacity:1;} }
 
-        /* === شريط الأخبار العاجلة (مبطأ) === */
+        /* شريط الأخبار المتصل */
         .news-ticker {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: #c0392b; color: white;
-            padding: 10px 0; overflow: hidden;
+            padding: 12px 0; overflow: hidden;
             white-space: nowrap; border-top: 3px solid #f1c40f;
             z-index: 100;
+            display: flex;
         }
+        
         .news-content {
             display: inline-block;
-            padding-left: 100%;
-            /* تم تبطئ السرعة هنا الى 40 ثانية */
-            animation: ticker 40s linear infinite; 
+            white-space: nowrap;
+            padding-left: 0;
+            animation: ticker 60s linear infinite; /* وقت أطول لحركة أنعم */
             font-family: 'Tajawal', sans-serif; font-weight: bold;
             font-size: 1.1rem;
         }
-        
+
+        /* حركة الشريط - تكرار لانهائي */
         @keyframes ticker {
-           0% { transform: translateX(100%); }
-           100% { transform: translateX(-100%); }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); } /* تحريك النص بالكامل لليسار */
         }
 
     </style>
@@ -154,12 +157,12 @@
     </div>
 
     <header>
-        <h1>Mr. Thayer 🇬🇧</h1>
+        <h1>Mr. Thayer 🇮🇶</h1>
         <p>The King of English / ملك اللغة</p>
     </header>
 
     <div class="profile-container">
-        <img src="https://images.pexels.com/photos/3184644/pexels-photo-3184644.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mr. Thayer" class="profile-img">
+        <img src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mr. Thayer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
 
@@ -204,7 +207,8 @@
 
     <div class="news-ticker">
         <div class="news-content">
-            🔴 عاجل: الطلاب يطالبون بتمديد حصة الأستاذ ثائر!  ---  ⚠️ Warning: English level is rising fast!  ---  🔴 خبر هام: "الهوم وورك" صار أسهل بوجود المستر  ---  🔥 Breaking: Thayer voted best brother and teacher in the world!  ---  🔴 الانكليزي صار بجيبك!
+            &nbsp; &nbsp; 🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 --- 🔴 عاجل: الطلاب يحبون حصة الأستاذ ثائر أكثر من الفرصة! --- ⚠️ Warning: English level is rising fast! --- 🔴 خبر هام: الانكليزي صار أسهل مادة بالعراق! --- 🔥 Breaking: Thayer voted best brother and teacher in the world! &nbsp; &nbsp; 
+            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 --- 🔴 عاجل: الطلاب يحبون حصة الأستاذ ثائر أكثر من الفرصة! --- ⚠️ Warning: English level is rising fast! --- 🔴 خبر هام: الانكليزي صار أسهل مادة بالعراق! --- 🔥 Breaking: Thayer voted best brother and teacher in the world! &nbsp; &nbsp;
         </div>
     </div>
 
