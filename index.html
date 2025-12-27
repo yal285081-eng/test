@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mr. Thayer's Class 🎓</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
             background-color: #2c3e50;
@@ -126,15 +127,14 @@
             left: 0;
             width: 100%;
             height: 50px;
-            background: #c0392b; /* أحمر */
+            background: #c0392b;
             border-top: 4px solid #f1c40f;
             z-index: 9999;
             display: flex;
             align-items: center;
-            direction: ltr; /* مهم جداً للحركة */
+            direction: ltr; 
         }
         
-        /* تنسيق النص داخل الشريط */
         .ticker-text {
             font-family: 'Tajawal', sans-serif;
             font-weight: bold;
@@ -148,6 +148,8 @@
     </style>
 </head>
 <body>
+
+    <audio id="cheer-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
 
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
@@ -226,6 +228,7 @@
         function revealSecret() {
             var secretDiv = document.getElementById('secret');
             var btn = document.querySelector('.action-btn');
+            var sound = document.getElementById('cheer-sound'); // تعريف الصوت
             
             if (secretDiv.style.display === 'block') {
                 secretDiv.style.display = 'none';
@@ -233,6 +236,17 @@
                 btn.style.background = "linear-gradient(to bottom, #3498db, #2980b9)";
             } else {
                 secretDiv.style.display = 'block';
+                
+                // تشغيل الاحتفالات
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+
+                // تشغيل الصوت
+                sound.play(); 
+                
                 btn.innerHTML = "Close / إغلاق";
                 btn.style.background = "#e74c3c";
             }
