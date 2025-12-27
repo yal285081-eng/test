@@ -199,6 +199,19 @@
             opacity: 1;
         }
 
+        /* زر الاغلاق X بالزاوية */
+        .close-icon {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+        }
+        .close-icon:hover { color: #e74c3c; }
+
         .close-btn {
             color: white; border: none;
             padding: 10px 20px; border-radius: 20px;
@@ -292,10 +305,14 @@
     </div>
 
     <div id="modalPredict" class="modal-overlay">
-        <div class="secret-box predict-style">
+        <div class="secret-box predict-style" style="position: relative;">
+            
+            <span class="close-icon" onclick="closeModal('modalPredict')">✖</span>
+
             <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
-            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0;"></p>
-            <button class="close-btn" style="background: #8e44ad;" onclick="closeModal('modalPredict')">جرب مرة ثانية 🎲</button>
+            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; transition: all 0.2s;"></p>
+            
+            <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">جرب مرة ثانية 🎲</button>
         </div>
     </div>
 
@@ -364,13 +381,10 @@
 
         function animateFactChange() {
             var textElement = document.getElementById('randomFactDisplay');
-            
-            // اخفاء النص
             textElement.style.opacity = 0;
-            
             setTimeout(function() {
-                updateFact(); // تغيير النص
-                textElement.style.opacity = 1; // اعادة اظهار النص
+                updateFact(); 
+                textElement.style.opacity = 1; 
             }, 500); 
         }
 
@@ -389,7 +403,7 @@
             }
         }
 
-        // === التوقعات ===
+        // === التوقعات (محدثة: اعادة التوليد) ===
         function predictGrade() {
             var results = [
                 "100% (غصباً علي)",
@@ -416,13 +430,28 @@
                 "راسب (بقلوبنا) ❤️"
             ];
             
-            var randomResult = results[Math.floor(Math.random() * results.length)];
-            document.getElementById('predictionText').innerHTML = randomResult;
-            document.getElementById('modalPredict').style.display = 'flex';
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            var textElement = document.getElementById('predictionText');
+            var modal = document.getElementById('modalPredict');
+            
+            // تأثير بصري بسيط عند التحديث (يصغر ويكبر)
+            textElement.style.opacity = 0;
+            textElement.style.transform = "scale(0.8)";
+            
+            setTimeout(function() {
+                var randomResult = results[Math.floor(Math.random() * results.length)];
+                textElement.innerHTML = randomResult;
+                textElement.style.opacity = 1;
+                textElement.style.transform = "scale(1)";
+                
+                // اظهار النافذة اذا كانت مخفية
+                modal.style.display = 'flex';
+                
+                // احتفال جديد
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }, 200); // تأخير بسيط جداً حتى يبين التغيير
         }
 
     </script>
 
 </body>
-                </html>
+</html>
