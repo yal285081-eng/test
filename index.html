@@ -55,21 +55,16 @@
             margin-top: 10px; transition: transform 0.3s;
             cursor: pointer;
         }
-
         .playing-animation {
             animation: shake 0.3s infinite; 
             border-color: #f1c40f !important;
             box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
         }
-
         @keyframes shake {
-            0% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-3deg) scale(1.05); }
-            50% { transform: rotate(3deg) scale(1.05); }
-            75% { transform: rotate(-3deg) scale(1.05); }
-            100% { transform: rotate(0deg) scale(1); }
+            0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); }
+            100% { transform: rotate(0deg); }
         }
-
         .profile-img {
             width: 170px; height: 170px;
             object-fit: cover; border-radius: 50%;
@@ -78,7 +73,6 @@
             background: #fff;
             transition: all 0.2s;
         }
-
         .badge {
             position: absolute; bottom: 5px; right: -5px;
             background: #f1c40f; color: #333;
@@ -97,71 +91,48 @@
 
         /* النص المضحك */
         .funny-text {
-            font-size: 1.1rem; 
-            margin: 20px auto; 
-            max-width: 90%;
-            line-height: 1.6; 
-            background: rgba(255,255,255,0.1);
-            padding: 15px; 
-            border-radius: 15px;
+            font-size: 1.1rem; margin: 20px auto; max-width: 90%;
+            line-height: 1.6; background: rgba(255,255,255,0.1);
+            padding: 15px; border-radius: 15px;
             border: 2px dashed rgba(255,255,255,0.3);
         }
-
         .en-word {
-            font-family: 'Permanent Marker', cursive;
-            color: #f1c40f; font-size: 1.2em;
-            display: inline-block; 
-            margin: 0 2px;
+            font-family: 'Permanent Marker', cursive; color: #f1c40f;
+            font-size: 1.2em; display: inline-block; margin: 0 2px;
         }
 
-        /* === ترتيب الأزرار الجديد (Grid Layout) === */
+        /* === ترتيب الأزرار (Grid Layout) === */
         .btn-wrapper {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            margin: 30px auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 10px;
+            position: relative; width: 90%; max-width: 400px;
+            margin: 30px auto; display: grid; grid-template-columns: 1fr 1fr;
+            gap: 15px; padding: 10px;
         }
-
         .action-btn {
             background: linear-gradient(to bottom, #3498db, #2980b9);
-            color: white; border: none;
-            padding: 20px 10px; font-size: 1rem;
+            color: white; border: none; padding: 20px 10px; font-size: 1rem;
             border-radius: 15px; cursor: pointer;
             box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
             font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
             width: 100%; height: 100px;
-            display: flex; flex-direction: column; 
-            align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .action-btn:active { transform: scale(0.95); }
 
-        /* الألوان */
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
 
-        /* زر الاختبار الدائري (Iron Man Style) */
+        /* الزر الدائري في المنتصف */
         .quiz-center-btn {
-            position: absolute;
-            top: 50%; left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 90px; height: 90px;
-            border-radius: 50%;
+            width: 90px; height: 90px; border-radius: 50%;
             background: radial-gradient(circle, #f1c40f, #f39c12);
-            border: 5px solid #2c3e50;
-            color: #2c3e50;
-            font-weight: 800;
-            font-size: 1.1rem;
-            cursor: pointer;
-            z-index: 10;
+            border: 5px solid #2c3e50; color: #2c3e50;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer; z-index: 10;
             box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
             display: flex; align-items: center; justify-content: center;
-            text-align: center;
-            font-family: 'Tajawal', sans-serif;
+            text-align: center; font-family: 'Tajawal', sans-serif;
             animation: pulseBtn 2s infinite;
         }
         @keyframes pulseBtn {
@@ -172,38 +143,26 @@
 
         /* === عداد الإنقاذ === */
         .hero-counter {
-            margin: 30px auto 10px;
-            padding: 15px;
+            margin: 30px auto 10px; padding: 15px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            width: 85%;
-            max-width: 400px;
+            border-radius: 15px; width: 85%; max-width: 400px;
         }
         .hero-label { font-size: 0.9rem; color: #bdc3c7; display: block; margin-bottom: 5px; }
         .hero-number {
-            font-family: 'Permanent Marker', cursive;
-            font-size: 2rem; color: #2ecc71;
+            font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71;
             text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
         }
 
-        /* === النوافذ المنبثقة (Modals) === */
+        /* === النوافذ المنبثقة === */
         .modal-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 2000;
+            justify-content: center; align-items: center; backdrop-filter: blur(5px);
         }
-
         .secret-box {
-            background: white; color: #333;
-            width: 85%; max-width: 400px;
-            padding: 30px; border-radius: 20px;
-            text-align: center;
-            position: relative;
+            background: white; color: #333; width: 85%; max-width: 400px;
+            padding: 30px; border-radius: 20px; text-align: center; position: relative;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -211,26 +170,17 @@
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
         .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
-        /* ستايل الاختبار */
-        .quiz-style { 
-            border: 5px solid #e67e22; 
-            background: #34495e; 
-            color: white;
-            box-shadow: 0 0 30px rgba(230, 126, 34, 0.5);
-        }
+        .quiz-style { border: 5px solid #e67e22; background: #34495e; color: white; box-shadow: 0 0 30px rgba(230, 126, 34, 0.5); }
 
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         /* ستايلات الاختبار المستحيل */
         .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
-        .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; height: 220px; justify-content: center; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; min-height: 220px; justify-content: center; }
         
         .quiz-btn-opt {
             background: white; color: #2c3e50; border: none;
-            padding: 12px; border-radius: 10px; font-size: 1.1rem;
+            padding: 12px; border-radius: 10px; font-size: 1rem;
             cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold;
             transition: all 0.3s; width: 100%; position: relative; z-index: 2;
         }
@@ -241,8 +191,13 @@
         .anim-ghost { opacity: 0; pointer-events: none; }
         .anim-break { animation: shake 0.5s; background: #e74c3c !important; color: white !important; transform: rotate(15deg); }
         .anim-run { position: absolute !important; width: auto !important; }
+        .anim-fall { animation: fallDown 0.8s forwards; pointer-events: none; background: #e74c3c !important; }
+        .anim-shrink { animation: shrinkEffect 0.5s forwards; pointer-events: none; }
+        .anim-zoom { transform: scale(1.2); background: #e74c3c !important; color: white !important; z-index: 10; }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fallDown { 0% { transform: translateY(0) rotate(0); } 100% { transform: translateY(300px) rotate(45deg); opacity: 0; } }
+        @keyframes shrinkEffect { to { transform: scale(0); opacity: 0; } }
 
         /* بقية العناصر */
         .fact-box {
@@ -258,7 +213,7 @@
         .status-text { font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px; }
         .fail-message { display: none; color: #e74c3c; font-size: 1.3rem; font-weight: bold; margin-top: 20px; animation: shake 0.5s; }
 
-        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; }
+        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; z-index: 10; }
         .close-icon:hover { color: #e74c3c; }
         .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
 
@@ -306,7 +261,7 @@
         <button class="action-btn" onclick="openSecret()">📚<br>الواجب</button>
         <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍<br>المترجم</button>
         
-        <button class="quiz-center-btn" onclick="openQuiz()">الاختبار<br>المستحيل</button>
+        <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
 
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>التوقع</button>
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br>المقلب</button>
@@ -320,12 +275,14 @@
     <div id="modalQuiz" class="modal-overlay">
         <div class="secret-box quiz-style">
             <span class="close-icon" onclick="closeModal('modalQuiz')">✖</span>
-            <h2 style="color: #f1c40f;">💀 الاختبار المستحيل</h2>
+            <div style="margin-bottom:10px; color:#bdc3c7;">سؤال <span id="qNumber" style="color:#e67e22; font-weight:bold;">1</span>/10</div>
+            <h2 style="color: #f1c40f; margin-top:0;">💀 الاختبار المستحيل</h2>
             <div id="quizContainer">
                 <p id="qText" class="quiz-question">...</p>
                 <div id="qOptions" class="quiz-options">
                     </div>
             </div>
+            <button class="close-btn" style="background: #c0392b; margin-top:15px;" onclick="closeModal('modalQuiz')">انسحاب (يا خواف) 🏳️</button>
         </div>
     </div>
 
@@ -388,14 +345,9 @@
     </div>
 
     <script>
-        // === الموسيقى والاصوات ===
+        // === الموسيقى (صوت الاغنية فقط) ===
         var mySong = new Audio('song.mp3'); 
         mySong.loop = true; 
-        
-        // روابط أصوات من الانترنت (تنبيه: تعتمد على وجود الانترنت)
-        var soundCorrect = new Audio('https://www.soundjay.com/human/applause-01.mp3');
-        var soundWrong = new Audio('https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3'); 
-        
         var isPlaying = false;
 
         function toggleSong() {
@@ -490,31 +442,74 @@
             document.getElementById('savedStudents').innerText = savedCount.toLocaleString();
         }, 2000);
 
-        // === كود الاختبار المستحيل ===
+        // === كود الاختبار المستحيل (الـ 10 أسئلة الأصلية) ===
         var questions = [
             {
-                q: "شنو هو جمع كلمة Information؟",
-                a: ["Informations", "Info", "ما تنجمع يا ذكي", "بس أستاذ ثائر يجمعها"],
-                correct: 3,
-                wrongTypes: ["anim-break", "anim-melt", "anim-spin"]
-            },
-            {
-                q: "كم درجة راح تجيب بالوزاري؟",
-                a: ["50", "100", "99", "صفر"],
-                correct: 1,
-                wrongTypes: ["anim-ghost", "anim-run", "anim-break"]
-            },
-            {
-                q: "شنو معنى Past Simple؟",
-                a: ["ماضي بسيط", "ماضي معقد", "ماضي مال أستاذ ثائر (سهل)", "مضارع"],
+                q: "ليش الـ Past Simple نسميه (بسيط)؟",
+                a: ["لأن قاعدته سهلة", "لأن يعبر عن ماضي", "لأن صار (زلاطة) بيد أستاذ ثائر"],
                 correct: 2,
-                wrongTypes: ["anim-melt", "anim-spin", "anim-ghost"]
+                wrongTypes: ["anim-break", "anim-melt"]
+            },
+            {
+                q: "شنو أسرع شي بالدنيا؟",
+                a: ["سرعة الضوء", "لسان أستاذ ثائر بالـ Irregular Verbs", "الإنترنت بالعراق"],
+                correct: 1,
+                wrongTypes: ["anim-ghost", "anim-zoom"]
+            },
+            {
+                q: "ما هو مصير الطالب اللي ينسى الدفتر؟",
+                a: ["يصير عبرة لمن اعتبر", "ينطرد", "يسامحه الأستاذ"],
+                correct: 0,
+                wrongTypes: ["anim-break", "anim-melt"]
+            },
+            {
+                q: "ترجم جملة: (I want to sleep)",
+                a: ["حسرة بقلبي", "أريد أن أنام", "أنا نعسان"],
+                correct: 0,
+                wrongTypes: ["anim-shrink", "anim-spin"]
+            },
+            {
+                q: "منو ملك الغابة الحقيقي؟",
+                a: ["الأسد (Lion)", "أستاذ ثائر بالقاعة", "النمر"],
+                correct: 1,
+                wrongTypes: ["anim-run", "anim-fall"]
+            },
+            {
+                q: "شنو رأي ChatGPT بأستاذ ثائر؟",
+                a: ["هو اللي علمني إنكليزي", "مدرس جيد", "ما أعرفه"],
+                correct: 0,
+                wrongTypes: ["anim-ghost", "anim-spin"]
+            },
+            {
+                q: "شنو العلاقة بين الـ Grammar والباجة؟",
+                a: ["اثنينهم يرادلهم (تفتيت) وخبز", "ماكو علاقة", "طيبين"],
+                correct: 0,
+                wrongTypes: ["anim-break", "anim-melt"]
+            },
+            {
+                q: "لو عندك أمنية وحدة، شتختار؟",
+                a: ["مليون دولار", "إعفاء عام بالإنكليزي", "آيفون 16"],
+                correct: 1,
+                wrongTypes: ["anim-run", "anim-zoom"]
+            },
+            {
+                q: "شلون الأستاذ يعرف الما كاتب الواجب؟",
+                a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل العريف"],
+                correct: 0,
+                wrongTypes: ["anim-ghost", "anim-zoom"]
+            },
+            {
+                q: "جاهز للامتحان القادم؟",
+                a: ["لا (No)", "نص ونص", "طبعاً، چا غير طالب ثائر!"],
+                correct: 2,
+                wrongTypes: ["anim-zoom", "anim-break"]
             }
         ];
 
         var currentQIndex = 0;
 
-        function openQuiz() {
+        function startQuiz() {
+            currentQIndex = 0;
             document.getElementById('modalQuiz').style.display = 'flex';
             loadQuestion();
         }
@@ -522,12 +517,12 @@
         function loadQuestion() {
             if (currentQIndex >= questions.length) {
                 document.getElementById('quizContainer').innerHTML = "<h3 style='color:#2ecc71'>مبروووك! أنت طالب مثالي 🎓</h3>";
-                soundCorrect.play();
                 confetti({ particleCount: 300, spread: 180 });
                 return;
             }
 
             var q = questions[currentQIndex];
+            document.getElementById('qNumber').innerText = currentQIndex + 1;
             document.getElementById('qText').innerText = q.q;
             var optsDiv = document.getElementById('qOptions');
             optsDiv.innerHTML = "";
@@ -545,31 +540,33 @@
             if (index === qData.correct) {
                 btn.style.background = "#2ecc71";
                 btn.innerText = "صح! كفووو 😍";
-                soundCorrect.currentTime = 0; 
-                soundCorrect.play();
                 confetti({ particleCount: 50, spread: 50, origin: { y: 0.5 } });
                 setTimeout(() => {
                     currentQIndex++;
                     loadQuestion();
-                }, 1500);
+                }, 1000);
             } else {
                 // حركة عشوائية للزر الغلط
                 var randomAnim = qData.wrongTypes[Math.floor(Math.random() * qData.wrongTypes.length)];
                 btn.classList.add(randomAnim);
                 
                 if(randomAnim === 'anim-run') {
-                    // حركة الهروب العشوائية
                     var x = Math.random() * 200 - 100;
                     var y = Math.random() * 200 - 100;
                     btn.style.transform = `translate(${x}px, ${y}px)`;
+                    btn.innerText = "ما تكدر تلزمني 🏃‍♂️";
+                } else if(randomAnim === 'anim-melt') {
+                     btn.innerText = "ذبت من الفشلة 🫠";
+                } else if(randomAnim === 'anim-break') {
+                     btn.innerText = "انكسر الزر! 🔨";
+                } else if(randomAnim === 'anim-ghost') {
+                     // لا تغيير للنص، فقط يختفي
+                } else {
+                     btn.innerText = "غلط! 😂";
                 }
-
-                btn.innerText = "غلط! 😂";
-                soundWrong.currentTime = 0; 
-                soundWrong.play();
             }
         }
 
     </script>
 </body>
-</html>
+    </html>
