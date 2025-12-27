@@ -146,4 +146,84 @@
 <body>
 
     <div class="floating-bg">
-        <div class="float-letter" style="left: 10%; animation-duration: 7
+        <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
+        <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
+        <div class="float-letter" style="left: 70%; animation-duration: 6s;">C</div>
+        <div class="float-letter" style="left: 50%; animation-duration: 11s;">A+</div>
+        <div class="float-letter" style="left: 85%; animation-duration: 8s;">?</div>
+    </div>
+
+    <header>
+        <h1>Mr. Thayer 🇬🇧</h1>
+        <p>The King of English / ملك اللغة</p>
+    </header>
+
+    <div class="profile-container">
+        <img src="https://images.pexels.com/photos/3184644/pexels-photo-3184644.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mr. Thayer" class="profile-img">
+        <div class="badge">Top Teacher</div>
+    </div>
+
+    <div class="funny-text">
+        <p>
+            مرحباً بكم في <span class="en-word">Thayer's Zone</span> 🚧<br>
+            حيث الـ <span class="en-word">Past Simple</span> يصير ماضي جميل.. <br>
+            والـ <span class="en-word">Future</span> مشرق 
+            <span style="color:#f1c40f; font-weight:bold;">ما دام استاذ ثائر موجود!</span> <br>
+            <small style="color:#bdc3c7; font-size:0.9em;">(الانكليزي صار بجيب 😎)</small>
+        </p>
+    </div>
+
+    <div class="grades-card">
+        <div class="card-header">Teacher Stats (إحصائيات)</div>
+        <div class="grade-row">
+            <span>Grammar Skills</span>
+            <span class="grade">Level Max 🚀</span>
+        </div>
+        <div class="grade-row">
+            <span>Student Love</span>
+            <span class="grade">100% ❤️</span>
+        </div>
+        <div class="grade-row">
+            <span>Using Red Pen</span>
+            <span class="grade">Dangerous 🔥</span>
+        </div>
+    </div>
+
+    <button class="action-btn" onclick="revealSecret()">Press for Homework 📚</button>
+
+    <div id="secret" class="secret-msg">
+        <h2 style="color: #2c3e50;">No Homework Today! 🎉</h2>
+        <p>
+            بس حبيت أكولك يا أخي الغالي..<br>
+            أنت مو بس <span class="en-word">Teacher</span> عظيم،<br>
+            أنت أحسن أخ بالدنيا. <br>
+            <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
+        </p>
+        <div style="font-size: 3rem; margin-top: 10px;">🍎📖❤️</div>
+    </div>
+
+    <div class="news-ticker">
+        <div class="news-content">
+            🔴 عاجل: الطلاب يطالبون بتمديد حصة الأستاذ ثائر!  ---  ⚠️ Warning: English level is rising fast!  ---  🔴 خبر هام: "الهوم وورك" صار أسهل بوجود المستر  ---  🔥 Breaking: Thayer voted best brother and teacher in the world!  ---  🔴 الانكليزي صار بجيبك!
+        </div>
+    </div>
+
+    <script>
+        function revealSecret() {
+            var secretDiv = document.getElementById('secret');
+            var btn = document.querySelector('.action-btn');
+            
+            if (secretDiv.style.display === 'block') {
+                secretDiv.style.display = 'none';
+                btn.innerHTML = "Press for Homework 📚";
+                btn.style.background = "linear-gradient(to bottom, #3498db, #2980b9)";
+            } else {
+                secretDiv.style.display = 'block';
+                btn.innerHTML = "Close / إغلاق";
+                btn.style.background = "#e74c3c";
+            }
+        }
+    </script>
+
+</body>
+</html>
