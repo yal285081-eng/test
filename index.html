@@ -141,11 +141,18 @@
             box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4);
         }
 
+        /* زر الخدعة (إلغاء الامتحان) */
+        .prank-btn {
+            background: linear-gradient(to bottom, #c0392b, #922b21);
+            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4);
+            border: 2px solid #e74c3c;
+        }
+
         /* === النوافذ المنبثقة (Modals) === */
         .modal-overlay {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -163,6 +170,7 @@
         
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
+        .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
 
         @keyframes popIn {
             from { transform: scale(0.5); opacity: 0; }
@@ -199,6 +207,34 @@
             opacity: 1;
         }
 
+        /* === تنسيق شريط التحميل (للخدعة) === */
+        .progress-container {
+            width: 100%;
+            background-color: #34495e;
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 25px;
+            overflow: hidden;
+            border: 1px solid #7f8c8d;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #2ecc71; /* اخضر بالبداية */
+            transition: width 0.3s;
+        }
+        .status-text {
+            font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px;
+        }
+        .fail-message {
+            display: none;
+            color: #e74c3c;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: shake 0.5s;
+        }
+
         /* زر الاغلاق X بالزاوية */
         .close-icon {
             position: absolute;
@@ -207,7 +243,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-            color: #7f8c8d;
+            color: #bdc3c7;
             transition: color 0.3s;
         }
         .close-icon:hover { color: #e74c3c; }
@@ -283,6 +319,8 @@
         <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
         
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮 توقع درجتك بالامتحان</button>
+
+        <button class="action-btn prank-btn" onclick="openPrank()">⚠️ اضغط هنا لإلغاء الامتحان القادم</button>
     </div>
 
     <div id="modalHomework" class="modal-overlay">
@@ -306,13 +344,30 @@
 
     <div id="modalPredict" class="modal-overlay">
         <div class="secret-box predict-style" style="position: relative;">
-            
             <span class="close-icon" onclick="closeModal('modalPredict')">✖</span>
-
             <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
             <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; transition: all 0.2s;"></p>
-            
             <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">جرب مرة ثانية 🎲</button>
+        </div>
+    </div>
+
+    <div id="modalPrank" class="modal-overlay">
+        <div class="secret-box prank-style" style="position: relative;">
+            <span class="close-icon" onclick="closeModal('modalPrank')">✖</span>
+            
+            <h2 style="font-family: 'Tajawal'; margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
+            
+            <div id="statusText" class="status-text">جاري الاتصال بوزارة التربية...</div>
+            
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <div id="failMessage" class="fail-message">
+                🚫 فشل العملية! <br>
+                الأستاذ ثائر كشف المحاولة.<br>
+                <span style="color: #f1c40f; font-size: 1rem;">(روح اقرأ أحسنلك 😂📖)</span>
+            </div>
         </div>
     </div>
 
@@ -364,19 +419,18 @@
         ];
 
         var factInterval; 
-        var currentFactIndex = 0;
 
         // === النوافذ ===
         function openSecret() {
             document.getElementById('modalHomework').style.display = 'flex';
             confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
 
-            // 1. عرض معلومة فوراً
+            // 1. عرض معلومة فوراً (بشكل عشوائي)
             updateFact();
             
-            // 2. تشغيل العداد (كل 5 ثواني)
+            // 2. تشغيل العداد (كل 4 ثواني)
             clearInterval(factInterval);
-            factInterval = setInterval(animateFactChange, 5000); 
+            factInterval = setInterval(animateFactChange, 4000); 
         }
 
         function animateFactChange() {
@@ -389,11 +443,9 @@
         }
 
         function updateFact() {
-            document.getElementById('randomFactDisplay').innerHTML = facts[currentFactIndex];
-            currentFactIndex++;
-            if (currentFactIndex >= facts.length) {
-                currentFactIndex = 0; 
-            }
+            // اختيار عشوائي (Random) بدل التسلسل
+            var randomIndex = Math.floor(Math.random() * facts.length);
+            document.getElementById('randomFactDisplay').innerHTML = facts[randomIndex];
         }
 
         function closeModal(modalId) {
@@ -403,7 +455,7 @@
             }
         }
 
-        // === التوقعات (محدثة: اعادة التوليد) ===
+        // === التوقعات ===
         function predictGrade() {
             var results = [
                 "100% (غصباً علي)",
@@ -433,7 +485,6 @@
             var textElement = document.getElementById('predictionText');
             var modal = document.getElementById('modalPredict');
             
-            // تأثير بصري بسيط عند التحديث (يصغر ويكبر)
             textElement.style.opacity = 0;
             textElement.style.transform = "scale(0.8)";
             
@@ -443,12 +494,50 @@
                 textElement.style.opacity = 1;
                 textElement.style.transform = "scale(1)";
                 
-                // اظهار النافذة اذا كانت مخفية
                 modal.style.display = 'flex';
-                
-                // احتفال جديد
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            }, 200); // تأخير بسيط جداً حتى يبين التغيير
+            }, 200);
+        }
+
+        // === كود الخدعة (إلغاء الامتحان) ===
+        function openPrank() {
+            var modal = document.getElementById('modalPrank');
+            var bar = document.getElementById('progressBar');
+            var status = document.getElementById('statusText');
+            var failMsg = document.getElementById('failMessage');
+            
+            // إعادة تعيين (Reset)
+            modal.style.display = 'flex';
+            bar.style.width = '0%';
+            bar.style.backgroundColor = '#2ecc71';
+            status.innerHTML = "جاري الاتصال بوزارة التربية...";
+            status.style.display = 'block';
+            failMsg.style.display = 'none';
+            
+            // سيناريو التحميل
+            setTimeout(() => { bar.style.width = '30%'; }, 500);
+            
+            setTimeout(() => { 
+                bar.style.width = '55%'; 
+                status.innerHTML = "جاري تهكير السيرفر...";
+            }, 1500);
+
+            setTimeout(() => { 
+                bar.style.width = '80%'; 
+                status.innerHTML = "جاري حذف الأسئلة...";
+            }, 3000);
+
+            setTimeout(() => { 
+                bar.style.width = '99%'; 
+                status.innerHTML = "لحظة واحدة...";
+            }, 4500);
+
+            // الصدمة (Fail)
+            setTimeout(() => { 
+                bar.style.backgroundColor = '#e74c3c'; // يصير احمر
+                status.style.display = 'none';
+                failMsg.style.display = 'block';
+            }, 5500);
         }
 
     </script>
