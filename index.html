@@ -95,18 +95,24 @@
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 
+
         /* النص المضحك */
         .funny-text {
-            font-size: 1.3rem; margin: 20px auto; max-width: 90%;
-            line-height: 1.8; background: rgba(255,255,255,0.1);
-            padding: 20px; border-radius: 15px;
+            font-size: 1.1rem; 
+            margin: 20px auto; 
+            max-width: 90%;
+            line-height: 1.6; 
+            background: rgba(255,255,255,0.1);
+            padding: 15px; 
+            border-radius: 15px;
             border: 2px dashed rgba(255,255,255,0.3);
         }
 
         .en-word {
             font-family: 'Permanent Marker', cursive;
-            color: #f1c40f; font-size: 1.3em;
-            display: inline-block; transform: rotate(-2deg);
+            color: #f1c40f; font-size: 1.2em;
+            display: inline-block; 
+            margin: 0 2px;
         }
 
         /* الأزرار */
@@ -155,21 +161,21 @@
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
-        /* ستايل نافذة الواجب */
-        .homework-style {
-            border: 5px solid #f1c40f; /* أصفر */
-            box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
-        }
-
-        /* ستايل نافذة التوقعات */
-        .predict-style {
-            border: 5px solid #9b59b6; /* بنفسجي */
-            box-shadow: 0 0 30px rgba(155, 89, 182, 0.5);
-        }
+        .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
+        .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
 
         @keyframes popIn {
             from { transform: scale(0.5); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
+        }
+
+        /* نبض القلب */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         .close-btn {
@@ -229,11 +235,13 @@
 
     <div class="funny-text">
         <p>
-            مرحباً بكم في <span class="en-word">Thayer's Zone</span> 🚧<br>
-            حيث الـ <span class="en-word">Past Simple</span> يصير ماضي جميل.. <br>
-            والـ <span class="en-word">Future</span> مشرق 
-            <span style="color:#f1c40f; font-weight:bold;">ما دام استاذ ثائر موجود!</span> <br>
-            <small style="color:#bdc3c7; font-size:0.9em;">(الانكليزي صار بجيب 😎)</small>
+            يا هلا بيكم في <span class="en-word">Thayer's Zone</span> 👋<br>
+            هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
+            والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
+            والـ <span class="en-word">Irregular Verbs</span>؟ راح تمشي عدل "غصباً عنها"! 😂<br>
+            الماضي جان عندك عقدة؟ سويناه <span class="en-word">Was/Were</span> وراح.<br>
+            ولا تشيل هم الـ <span class="en-word">Passive</span>، لأنك مع أستاذ ثائر دائماً <span class="en-word">Active</span> ومسيطر 💪<br>
+            <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
         </p>
     </div>
 
@@ -250,8 +258,9 @@
                 بس حبيت أكولك يا أخي الغالي..<br>
                 أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
                 أنت أحسن أخ بالدنيا. <br>
-                <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
+                <strong>الله يحفظك ويخليك إلنا سند.</strong>
             </p>
+            <div style="font-size: 5rem; margin-top: 15px; animation: heartbeat 1.5s infinite;">❤️</div>
             <button class="close-btn" style="background: #e74c3c;" onclick="closeModal('modalHomework')">إغلاق X</button>
         </div>
     </div>
@@ -259,9 +268,7 @@
     <div id="modalPredict" class="modal-overlay">
         <div class="secret-box predict-style">
             <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
-            
             <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0;"></p>
-            
             <button class="close-btn" style="background: #8e44ad;" onclick="closeModal('modalPredict')">جرب مرة ثانية 🎲</button>
         </div>
     </div>
@@ -283,9 +290,9 @@
     </div>
 
     <script>
-        // === الموسيقى ===
+        // === الموسيقى (مع تكرار) ===
         var mySong = new Audio('song.mp3'); 
-        mySong.loop = true; // تكرار
+        mySong.loop = true; 
         var isPlaying = false;
 
         function toggleSong() {
@@ -312,12 +319,12 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // === التوقعات ===
+        // === التوقعات (تم حذف "ناجح حافة" و "مطيح حظ المادة") ===
         function predictGrade() {
             var results = [
                 "100% (غصباً علي)",
                 "إعفاء عام (تستاهل) 🫡",
-                "ناجح حافة (دفرات) 🌚",
+                "ناجح بامتياز (كفو) 🌟",
                 "الأول عالعراق 🥇",
                 "يرادلك خرزة وزيارة 🧿",
                 "راجعني للإدارة فوراً 🏃‍♂️",
@@ -329,25 +336,20 @@
                 "بس تنجح نذبح طلي 🐑",
                 "99 (باقيلك درجة) 🤏",
                 "وزير التربية القادم 💼",
-                "عبالك تنجح 😂",
+                "ملك القواعد 👑",
                 "ناجح بس لا تسأل شلون 🤫",
                 "طالع دور ثاني (جذب الشقة) 😂",
                 "راح ترفع راسنا 🦁",
                 "الوضع Under Control 😎",
                 "ادرس زين معليك بالتوقعات 🤓",
-                "ناجح على حافة",
+                "ناجح ومسيطر 🦁",
                 "راسب (بقلوبنا) ❤️"
             ];
             
             var randomResult = results[Math.floor(Math.random() * results.length)];
             
-            // وضع النص في النافذة الجديدة
             document.getElementById('predictionText').innerHTML = randomResult;
-            
-            // فتح النافذة
             document.getElementById('modalPredict').style.display = 'flex';
-            
-            // احتفال
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
     </script>
