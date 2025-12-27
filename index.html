@@ -135,6 +135,12 @@
         }
         .action-btn:active { transform: scale(0.95); }
 
+        /* زر المترجم */
+        .google-btn {
+            background: linear-gradient(to bottom, #4285F4, #34a853);
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4);
+        }
+
         /* زر التوقع */
         .predict-btn {
             background: linear-gradient(to bottom, #9b59b6, #8e44ad);
@@ -166,6 +172,17 @@
             position: relative;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* نافذة مترجم جوجل خاصة */
+        .google-style {
+            width: 95%;
+            max-width: 600px;
+            height: 80vh;
+            padding: 10px;
+            border: 5px solid #4285F4;
+            display: flex;
+            flex-direction: column;
         }
         
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
@@ -245,6 +262,7 @@
             cursor: pointer;
             color: #bdc3c7;
             transition: color 0.3s;
+            z-index: 2100;
         }
         .close-icon:hover { color: #e74c3c; }
 
@@ -293,8 +311,8 @@
     </div>
 
     <header>
-        <h1>Mr.Thaer 🇮🇶</h1>
-        <p>The King of English /  ملك اللغة الانجليزية</p>
+        <h1>Mr. Thayer 🇮🇶</h1>
+        <p>The King of English / ملك اللغة</p>
     </header>
 
     <div class="profile-container" onclick="toggleSong()">
@@ -318,9 +336,24 @@
     <div class="btn-container">
         <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
         
+        <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍 مترجم Google الفوري</button>
+
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮 توقع درجتك بالامتحان</button>
 
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️ اضغط هنا لإلغاء الامتحان القادم</button>
+    </div>
+
+    <div id="modalGoogle" class="modal-overlay">
+        <div class="secret-box google-style">
+            <span class="close-icon" onclick="closeModal('modalGoogle')" style="color: #333;">✖</span>
+            <h3 style="margin: 10px 0; color: #4285f4; font-family: 'Tajawal';">مساعد أستاذ ثائر للترجمة 🤖</h3>
+            <iframe 
+                src="https://translate.google.com/?sl=ar&tl=en&op=translate" 
+                style="width: 100%; height: 100%; border: none; border-radius: 10px;"
+                title="Google Translate">
+            </iframe>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">ملاحظة: المترجم مقدم لخدمة طلاب أستاذ ثائر</p>
+        </div>
     </div>
 
     <div id="modalHomework" class="modal-overlay">
@@ -421,29 +454,30 @@
         var factInterval; 
 
         // === النوافذ ===
+        function openGoogleTranslate() {
+            document.getElementById('modalGoogle').style.display = 'flex';
+        }
+
         function openSecret() {
             document.getElementById('modalHomework').style.display = 'flex';
             confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
-
-            // 1. عرض معلومة فوراً (بشكل عشوائي)
             updateFact();
-            
-            // 2. تشغيل العداد (كل 4 ثواني)
             clearInterval(factInterval);
             factInterval = setInterval(animateFactChange, 4000); 
         }
 
         function animateFactChange() {
             var textElement = document.getElementById('randomFactDisplay');
-            textElement.style.opacity = 0;
-            setTimeout(function() {
-                updateFact(); 
-                textElement.style.opacity = 1; 
-            }, 500); 
+            if(textElement) {
+                textElement.style.opacity = 0;
+                setTimeout(function() {
+                    updateFact(); 
+                    textElement.style.opacity = 1; 
+                }, 500); 
+            }
         }
 
         function updateFact() {
-            // اختيار عشوائي (Random) بدل التسلسل
             var randomIndex = Math.floor(Math.random() * facts.length);
             document.getElementById('randomFactDisplay').innerHTML = facts[randomIndex];
         }
@@ -458,28 +492,14 @@
         // === التوقعات ===
         function predictGrade() {
             var results = [
-                "100% (غصباً علي)",
-                "إعفاء عام (تستاهل) 🫡",
-                "ناجح بامتياز (كفو) 🌟",
-                "الأول عالعراق 🥇",
-                "يرادلك خرزة وزيارة 🧿",
-                "راجعني للإدارة فوراً 🏃‍♂️",
-                "دكتور المستقبل 🩺",
-                "صفر مكعب (لا تصدك) 🧊",
-                "عبقري زمانك 🧠",
-                "راح تجيب العيد 🎉",
-                "ناجح بدعوات الوالدة 🤲",
-                "بس تنجح نذبح طلي 🐑",
-                "99 (باقيلك درجة) 🤏",
-                "وزير التربية القادم 💼",
-                "ملك القواعد 👑",
-                "ناجح بس لا تسأل شلون 🤫",
-                "طالع دور ثاني (جذب الشقة) 😂",
-                "راح ترفع راسنا 🦁",
-                "الوضع Under Control 😎",
-                "ادرس زين معليك بالتوقعات 🤓",
-                "ناجح ومسيطر 🦁",
-                "ناجح (بقلوبنا) ❤️"
+                "100% (غصباً علي)", "إعفاء عام (تستاهل) 🫡", "ناجح بامتياز (كفو) 🌟",
+                "الأول عالعراق 🥇", "يرادلك خرزة وزيارة 🧿", "راجعني للإدارة فوراً 🏃‍♂️",
+                "دكتور المستقبل 🩺", "صفر مكعب (لا تصدك) 🧊", "عبقري زمانك 🧠",
+                "راح تجيب العيد 🎉", "ناجح بدعوات الوالدة 🤲", "بس تنجح نذبح طلي 🐑",
+                "99 (باقيلك درجة) 🤏", "وزير التربية القادم 💼", "ملك القواعد 👑",
+                "ناجح بس لا تسأل شلون 🤫", "طالع دور ثاني (جذب الشقة) 😂",
+                "راح ترفع راسنا 🦁", "الوضع Under Control 😎", "ادرس زين معليك بالتوقعات 🤓",
+                "ناجح ومسيطر 🦁", "راسب (بقلوبنا) ❤️"
             ];
             
             var textElement = document.getElementById('predictionText');
@@ -506,7 +526,6 @@
             var status = document.getElementById('statusText');
             var failMsg = document.getElementById('failMessage');
             
-            // إعادة تعيين (Reset)
             modal.style.display = 'flex';
             bar.style.width = '0%';
             bar.style.backgroundColor = '#2ecc71';
@@ -514,27 +533,12 @@
             status.style.display = 'block';
             failMsg.style.display = 'none';
             
-            // سيناريو التحميل
             setTimeout(() => { bar.style.width = '30%'; }, 500);
-            
+            setTimeout(() => { bar.style.width = '55%'; status.innerHTML = "جاري تهكير السيرفر..."; }, 1500);
+            setTimeout(() => { bar.style.width = '80%'; status.innerHTML = "جاري حذف الأسئلة..."; }, 3000);
+            setTimeout(() => { bar.style.width = '99%'; status.innerHTML = "لحظة واحدة..."; }, 4500);
             setTimeout(() => { 
-                bar.style.width = '55%'; 
-                status.innerHTML = "جاري تهكير السيرفر...";
-            }, 1500);
-
-            setTimeout(() => { 
-                bar.style.width = '80%'; 
-                status.innerHTML = "جاري حذف الأسئلة...";
-            }, 3000);
-
-            setTimeout(() => { 
-                bar.style.width = '99%'; 
-                status.innerHTML = "لحظة واحدة...";
-            }, 4500);
-
-            // الصدمة (Fail)
-            setTimeout(() => { 
-                bar.style.backgroundColor = '#e74c3c'; // يصير احمر
+                bar.style.backgroundColor = '#e74c3c';
                 status.style.display = 'none';
                 failMsg.style.display = 'block';
             }, 5500);
@@ -543,5 +547,4 @@
     </script>
 
 </body>
-</html>
-
+            </html>
