@@ -4,544 +4,351 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mr. Thayer's Class 🎓</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #f1c40f;
+            --dark: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
-            background-color: #2c3e50;
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #334155);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: white;
             font-family: 'Tajawal', sans-serif;
             margin: 0;
+            padding-bottom: 80px;
+            min-height: 100vh;
             text-align: center;
-            overflow-x: hidden;
-            padding-bottom: 70px;
         }
 
-        /* خلفية الحروف الطائرة */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* الحروف الطائرة بشكل أرقى */
         .floating-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; overflow: hidden;
+            pointer-events: none; z-index: -1;
         }
         .float-letter {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.05);
-            font-family: 'Permanent Marker', cursive;
-            font-size: 4rem;
-            animation: floatUp 10s linear infinite;
+            position: absolute; color: rgba(241, 196, 15, 0.08);
+            font-family: 'Permanent Marker', cursive; font-size: 5rem;
+            animation: float 12s linear infinite;
         }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* الهيدر */
+        /* الهيدر الحديث */
         header {
-            background: #e74c3c; padding: 20px;
-            box-shadow: 0 4px 0 #c0392b;
-            transform: rotate(-1deg); margin-bottom: 30px;
-            position: relative; z-index: 10;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-bottom: 2px solid var(--glass-border);
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        header h1 {
-            margin: 0; font-family: 'Permanent Marker', cursive;
-            font-size: 2.2rem; letter-spacing: 1px;
-        }
-        header p { margin: 5px 0 0; font-weight: bold; }
-
-        /* الصورة الشخصية */
-        .profile-container {
-            position: relative; display: inline-block;
-            margin-top: 10px; transition: transform 0.3s;
-            cursor: pointer;
+        header h1 { 
+            margin: 0; font-weight: 900; font-size: 2.2rem;
+            background: linear-gradient(to right, #fff, var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* حركة الاهتزاز والرقص */
-        .playing-animation {
-            animation: shake 0.3s infinite; 
-            border-color: #f1c40f !important;
-            box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
+        /* البروفايل */
+        .profile-container { position: relative; display: inline-block; margin-bottom: 20px; }
+        .profile-img {
+            width: 160px; height: 160px; object-fit: cover;
+            border-radius: 50%; border: 4px solid white;
+            box-shadow: 0 0 40px rgba(241, 196, 15, 0.2);
+            transition: 0.5s;
+        }
+        .playing-animation { 
+            animation: shake 0.4s infinite alternate; 
+            border-color: var(--secondary);
+            box-shadow: 0 0 50px var(--secondary);
         }
 
         @keyframes shake {
-            0% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-3deg) scale(1.05); }
-            50% { transform: rotate(3deg) scale(1.05); }
-            75% { transform: rotate(-3deg) scale(1.05); }
-            100% { transform: rotate(0deg) scale(1); }
+            from { transform: scale(1) rotate(-3deg); }
+            to { transform: scale(1.05) rotate(3deg); }
         }
 
-        .profile-img {
-            width: 170px; height: 170px;
-            object-fit: cover; border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background: #fff;
-            transition: all 0.2s;
+        /* البطاقة الرئيسية */
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            margin: 20px auto; width: 92%; max-width: 500px;
+            padding: 25px; border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .badge {
-            position: absolute; bottom: 5px; right: -5px;
-            background: #f1c40f; color: #333;
-            padding: 5px 12px; border-radius: 15px;
-            font-weight: bold; font-family: 'Permanent Marker', cursive;
-            transform: rotate(-10deg); border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        /* الأزرار الراقية */
+        .btn-grid {
+            display: grid; grid-template-columns: 1fr; gap: 15px;
+            padding: 0 20px; margin-top: 30px;
+        }
+        .btn-modern {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            padding: 18px; border-radius: 18px;
+            color: white; font-weight: 700; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-modern:active { transform: scale(0.92); background: rgba(255,255,255,0.1); }
+        
+        .btn-hw { border-right: 5px solid #3498db; }
+        .btn-predict { border-right: 5px solid #9b59b6; }
+        .btn-prank { border-right: 5px solid #e74c3c; }
+        .btn-cursed { 
+            background: transparent; color: #64748b; font-size: 0.8rem;
+            margin-top: 20px; border: 1px dashed #64748b;
         }
 
-        .click-hint {
-            display: block; font-size: 0.8rem; color: #f1c40f; 
-            margin-bottom: 5px; font-weight: bold;
-            animation: blink 2s infinite;
-        }
-        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-
-
-        /* النص المضحك */
-        .funny-text {
-            font-size: 1.1rem; 
-            margin: 20px auto; 
-            max-width: 90%;
-            line-height: 1.6; 
-            background: rgba(255,255,255,0.1);
-            padding: 15px; 
-            border-radius: 15px;
-            border: 2px dashed rgba(255,255,255,0.3);
-        }
-
-        .en-word {
-            font-family: 'Permanent Marker', cursive;
-            color: #f1c40f; font-size: 1.2em;
-            display: inline-block; 
-            margin: 0 2px;
-        }
-
-        /* الأزرار */
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .action-btn {
-            background: linear-gradient(to bottom, #3498db, #2980b9);
-            color: white; border: none;
-            padding: 15px 40px; font-size: 1.2rem;
-            border-radius: 50px; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
-            font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
-            width: 80%; max-width: 300px;
-        }
-        .action-btn:active { transform: scale(0.95); }
-
-        /* زر التوقع */
-        .predict-btn {
-            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
-            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4);
-        }
-
-        /* زر الخدعة (إلغاء الامتحان) */
-        .prank-btn {
-            background: linear-gradient(to bottom, #c0392b, #922b21);
-            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4);
-            border: 2px solid #e74c3c;
-        }
-
-        /* === النوافذ المنبثقة (Modals) === */
+        /* النوافذ (Modals) */
         .modal-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95); z-index: 10000;
+            backdrop-filter: blur(10px); justify-content: center; align-items: center;
         }
+        .modal-card {
+            background: #1e293b; width: 88%; max-width: 400px;
+            padding: 35px; border-radius: 30px; border: 1px solid var(--glass-border);
+            position: relative; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } }
 
-        .secret-box {
-            background: white; color: #333;
-            width: 85%; max-width: 400px;
-            padding: 30px; border-radius: 20px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* فقرة هل تعلم */
+        .fact-container {
+            background: rgba(241, 196, 15, 0.1);
+            border-radius: 15px; padding: 15px; margin-top: 20px;
+            border-top: 3px solid var(--secondary);
         }
-        
-        .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
-        .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
-        .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
+        .fact-text { font-weight: bold; font-size: 1.1rem; line-height: 1.6; transition: 0.5s; }
 
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        /* شريط الأخبار السفلي */
+        .ticker {
+            position: fixed; bottom: 0; width: 100%; height: 55px;
+            background: #e74c3c; display: flex; align-items: center;
+            border-top: 3px solid var(--secondary); z-index: 999;
         }
+        .ticker marquee { font-weight: 800; font-size: 1.1rem; color: white; }
 
-        /* تنسيق فقرة هل تعلم داخل النافذة */
-        .fact-box {
-            background: #fdf2e9;
-            border-left: 5px solid #e67e22;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 10px;
-            text-align: right;
-            direction: rtl;
-            min-height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* شاشة الممنوع */
+        #kickScreen {
+            display: none; position: fixed; inset: 0; background: #000;
+            z-index: 20000; flex-direction: column; justify-content: center; align-items: center;
+            color: #e74c3c; padding: 30px;
         }
-        .fact-title {
-            color: #e67e22;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            font-family: 'Tajawal';
-            font-size: 0.9rem;
-        }
-        .fact-content {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1rem;
-            transition: opacity 0.5s ease-in-out; 
-            opacity: 1;
-        }
-
-        /* === تنسيق شريط التحميل (للخدعة) === */
-        .progress-container {
-            width: 100%;
-            background-color: #34495e;
-            border-radius: 10px;
-            margin: 20px 0;
-            height: 25px;
-            overflow: hidden;
-            border: 1px solid #7f8c8d;
-        }
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #2ecc71; /* اخضر بالبداية */
-            transition: width 0.3s;
-        }
-        .status-text {
-            font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px;
-        }
-        .fail-message {
-            display: none;
-            color: #e74c3c;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: shake 0.5s;
-        }
-
-        /* زر الاغلاق X بالزاوية */
-        .close-icon {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: #bdc3c7;
-            transition: color 0.3s;
-        }
-        .close-icon:hover { color: #e74c3c; }
-
-        .close-btn {
-            color: white; border: none;
-            padding: 10px 20px; border-radius: 20px;
-            font-size: 1rem; cursor: pointer; margin-top: 20px;
-            font-weight: bold;
-        }
-
-        /* === شريط الأخبار === */
-        .news-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background: #c0392b;
-            border-top: 4px solid #f1c40f;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            direction: ltr; 
-        }
-        
-        .ticker-text {
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            width: 100%;
-        }
-
-        .sep { color: #f1c40f; margin: 0 10px; }
 
     </style>
 </head>
-<body>
+<body id="mainBody">
 
     <div class="floating-bg">
-        <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
-        <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
-        <div class="float-letter" style="left: 70%; animation-duration: 6s;">C</div>
-        <div class="float-letter" style="left: 50%; animation-duration: 11s;">A+</div>
-        <div class="float-letter" style="left: 85%; animation-duration: 8s;">?</div>
+        <div class="float-letter" style="left: 10%; animation-delay: 0s;">A</div>
+        <div class="float-letter" style="left: 45%; animation-delay: 2s;">A+</div>
+        <div class="float-letter" style="left: 85%; animation-delay: 5s;">?</div>
     </div>
 
     <header>
-        <h1>Mr. Thayer 🇮🇶</h1>
-        <p>The King of English / ملك اللغة</p>
+        <h1>Mr. Thayer's Zone 🎓</h1>
     </header>
 
     <div class="profile-container" onclick="toggleSong()">
-        <span class="click-hint">🎵 اضغط هنا لتشغيل الأغنية 🎵</span>
-        <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
-        <div class="badge">Top Teacher</div>
+        <img src="img1.jpg" id="teacherImg" class="profile-img">
+        <div style="color:var(--secondary); font-weight:900; margin-top:12px; font-size: 0.9rem;">
+            ✨ اضغط هنا لتشغيل الأغنية ✨
+        </div>
     </div>
 
-    <div class="funny-text">
-        <p>
-            يا هلا بيكم في <span class="en-word">Thayer's Zone</span> 👋<br>
-            هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
-            والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
-            والـ <span class="en-word">Irregular Verbs</span>؟ راح تمشي عدل "غصباً عنها"! 😂<br>
-            الماضي جان عندك عقدة؟ سويناه <span class="en-word">Was/Were</span> وراح.<br>
-            ولا تشيل هم الـ <span class="en-word">Passive</span>، لأنك مع أستاذ ثائر دائماً <span class="en-word">Active</span> ومسيطر 💪<br>
-            <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
+    <div class="main-card">
+        <p style="font-size: 1.2rem; line-height: 1.8; margin: 0;">
+            أهلاً بكم في عالم <span class="en-word">English</span><br>
+            هنا القواعد تصير <span class="en-word">Easy</span><br>
+            والدرجة الكاملة مضمونة! 😎
         </p>
     </div>
 
-    <div class="btn-container">
-        <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
-        
-        <button class="action-btn predict-btn" onclick="predictGrade()">🔮 توقع درجتك بالامتحان</button>
-
-        <button class="action-btn prank-btn" onclick="openPrank()">⚠️ اضغط هنا لإلغاء الامتحان القادم</button>
+    <div class="btn-grid">
+        <button class="btn-modern btn-hw" onclick="openSecret()">
+            <span>📚</span> الواجب البيتي
+        </button>
+        <button class="btn-modern btn-predict" onclick="predictGrade()">
+            <span>🔮</span> توقع درجتك
+        </button>
+        <button class="btn-modern btn-prank" onclick="openPrank()">
+            <span>⚠️</span> إلغاء الامتحان
+        </button>
+        <button class="btn-modern btn-cursed" onclick="handleCursedClick()">
+            لا تضغط هنا أبداً! 🚫
+        </button>
     </div>
 
     <div id="modalHomework" class="modal-overlay">
-        <div class="secret-box homework-style">
-            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
-            <p style="font-size: 1.2rem; line-height: 1.6;">
-                بس حبيت أكولك يا أخي الغالي..<br>
-                أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
-                أنت أحسن أخ بالدنيا. <br>
-                <strong>الله يحفظك ويخليك إلنا سند.</strong>
-            </p>
+        <div class="modal-card">
+            <h2 style="color: var(--secondary); margin-top:0;">No Homework! 🎉</h2>
+            <p style="font-size: 1.2rem;">أنت أحسن أخ وسند بالدنيا يا غالي ❤️</p>
             
-            <div class="fact-box">
-                <span class="fact-title">💡 هل تعلم؟</span>
-                <span id="randomFactDisplay" class="fact-content">...</span>
+            <div class="fact-container">
+                <div style="color:var(--secondary); font-size: 0.8rem; margin-bottom: 8px;">💡 معلومة عشوائية:</div>
+                <div id="randomFactDisplay" class="fact-text">...</div>
             </div>
-
-            <button class="close-btn" style="background: #e74c3c;" onclick="closeModal('modalHomework')">إغلاق X</button>
+            
+            <button class="btn-modern" style="width:100%; margin-top:25px; background:var(--primary);" onclick="closeModal('modalHomework')">إغلاق</button>
         </div>
     </div>
 
     <div id="modalPredict" class="modal-overlay">
-        <div class="secret-box predict-style" style="position: relative;">
-            <span class="close-icon" onclick="closeModal('modalPredict')">✖</span>
-            <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
-            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; transition: all 0.2s;"></p>
-            <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">جرب مرة ثانية 🎲</button>
+        <div class="modal-card">
+            <h2 style="color: #9b59b6; margin-top:0;">🔮 رادار التوقعات:</h2>
+            <div id="predictionText" style="font-size: 1.8rem; font-weight: 900; margin: 30px 0; color: white;"></div>
+            <button class="btn-modern btn-predict" style="width:100%" onclick="predictGrade()">إعادة المحاولة 🎲</button>
+            <p style="margin-top:20px; color:#64748b; cursor:pointer;" onclick="closeModal('modalPredict')">إغلاق</p>
         </div>
     </div>
 
     <div id="modalPrank" class="modal-overlay">
-        <div class="secret-box prank-style" style="position: relative;">
-            <span class="close-icon" onclick="closeModal('modalPrank')">✖</span>
-            
-            <h2 style="font-family: 'Tajawal'; margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
-            
-            <div id="statusText" class="status-text">جاري الاتصال بوزارة التربية...</div>
-            
-            <div class="progress-container">
-                <div id="progressBar" class="progress-bar"></div>
+        <div class="modal-card" style="border-color: var(--primary);">
+            <h2 id="prankTitle" style="color: var(--primary);">System Processing...</h2>
+            <div id="statusText" style="margin-bottom:15px; color:var(--secondary);">جاري تهكير الأسئلة...</div>
+            <div style="width:100%; background:#0f172a; height:12px; border-radius:10px; overflow:hidden;">
+                <div id="progressBar" style="width:0%; height:100%; background:var(--primary); transition: 0.4s;"></div>
             </div>
-
-            <div id="failMessage" class="fail-message">
-                🚫 فشل العملية! <br>
-                الأستاذ ثائر كشف المحاولة.<br>
-                <span style="color: #f1c40f; font-size: 1rem;">(روح اقرأ أحسنلك 😂📖)</span>
+            <div id="failMessage" style="display:none; margin-top:25px; color:white; font-weight:bold;">
+                <span style="font-size: 1.5rem;">🚫 خطأ في النظام!</span><br><br>
+                الأستاذ ثائر كشف المحاولة.<br>روح اقرأ أحسنلك! 😂
+                <button class="btn-modern" style="width:100%; margin-top:20px;" onclick="closeModal('modalPrank')">اعتذر وأروح أقرأ</button>
             </div>
         </div>
     </div>
 
-    <div class="news-container">
-        <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
-            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
-            <span class="sep">|</span>
-            🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
-            <span class="sep">|</span>
-            🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
-            <span class="sep">|</span>
-            📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
-            <span class="sep">|</span>
-            🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
-            <span class="sep">|</span>
-            ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
+    <div id="kickScreen">
+        <h1 style="font-size: 3.5rem; margin-bottom: 0;">صادوه! 📸</h1>
+        <p style="font-size: 1.3rem; text-align:center; line-height:1.8;">
+            بدل ما تحاول تخرب الموقع وتلعب بالزر الممنوع..<br>
+            روح راجع ملزمة اليونت الثاني! 😂
+        </p>
+        <div style="margin-top:30px; font-family: monospace;">جاري إعادتك للقاعة... 5s</div>
+    </div>
+
+    <div class="ticker">
+        <marquee direction="right" scrollamount="8">
+            ⭐ الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم | 🎓 عاجل: أكسفورد تعتمد اسم الأستاذ ثائر مرادفاً للإبداع | 🔥 وحوش اللغة الإنكليزية مستعدون للـ A+ دائماً 
         </marquee>
     </div>
 
     <script>
-        // === الموسيقى ===
-        var mySong = new Audio('song.mp3'); 
-        mySong.loop = true; 
-        var isPlaying = false;
+        const mySong = new Audio('song.mp3');
+        let isPlaying = false;
+        const facts = [
+            "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر. 📖",
+            "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها. ✨",
+            "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information. 🧠",
+            "الإنكليزي يخاف من الأستاذ ثائر مو العكس. 🦁",
+            "Google Translate يستأذن من المستر قبل لا يترجم. 🌐",
+            "العطلة تخجل تجي بيوم بي محاضرة للمستر ثائر. 🗓️"
+        ];
+        let factInterval;
 
         function toggleSong() {
-            var img = document.getElementById('teacherImg');
+            const img = document.getElementById('teacherImg');
             if (isPlaying) {
-                mySong.pause();
-                isPlaying = false;
-                img.classList.remove('playing-animation'); 
+                mySong.pause(); isPlaying = false;
+                img.classList.remove('playing-animation');
             } else {
-                mySong.play();
-                isPlaying = true;
-                img.classList.add('playing-animation'); 
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
+                mySong.play(); isPlaying = true;
+                img.classList.add('playing-animation');
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
         }
 
-        // === حقائق هل تعلم ===
-        var facts = [
-            "Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى قبل لا يترجم.",
-            "الأستاذ ثائر ما يصحح الأوراق، الأوراق هي تصلح أخطاءها من الخوف.",
-            "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.",
-            "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.",
-            "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.",
-            "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.",
-            "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."
-        ];
-
-        var factInterval; 
-
-        // === النوافذ ===
         function openSecret() {
             document.getElementById('modalHomework').style.display = 'flex';
-            confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
-
-            // 1. عرض معلومة فوراً (بشكل عشوائي)
             updateFact();
-            
-            // 2. تشغيل العداد (كل 4 ثواني)
             clearInterval(factInterval);
-            factInterval = setInterval(animateFactChange, 4000); 
-        }
-
-        function animateFactChange() {
-            var textElement = document.getElementById('randomFactDisplay');
-            textElement.style.opacity = 0;
-            setTimeout(function() {
-                updateFact(); 
-                textElement.style.opacity = 1; 
-            }, 500); 
+            factInterval = setInterval(() => {
+                const f = document.getElementById('randomFactDisplay');
+                f.style.opacity = 0;
+                setTimeout(() => { updateFact(); f.style.opacity = 1; }, 500);
+            }, 4000);
         }
 
         function updateFact() {
-            // اختيار عشوائي (Random) بدل التسلسل
-            var randomIndex = Math.floor(Math.random() * facts.length);
-            document.getElementById('randomFactDisplay').innerHTML = facts[randomIndex];
+            document.getElementById('randomFactDisplay').innerText = facts[Math.floor(Math.random() * facts.length)];
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'modalHomework') {
-                clearInterval(factInterval);
-            }
-        }
-
-        // === التوقعات ===
         function predictGrade() {
-            var results = [
-                "100% (غصباً علي)",
-                "إعفاء عام (تستاهل) 🫡",
-                "ناجح بامتياز (كفو) 🌟",
-                "الأول عالعراق 🥇",
-                "يرادلك خرزة وزيارة 🧿",
-                "راجعني للإدارة فوراً 🏃‍♂️",
-                "دكتور المستقبل 🩺",
-                "صفر مكعب (لا تصدك) 🧊",
-                "عبقري زمانك 🧠",
-                "راح تجيب العيد 🎉",
-                "ناجح بدعوات الوالدة 🤲",
-                "بس تنجح نذبح طلي 🐑",
-                "99 (باقيلك درجة) 🤏",
-                "وزير التربية القادم 💼",
-                "ملك القواعد 👑",
-                "ناجح بس لا تسأل شلون 🤫",
-                "طالع دور ثاني (جذب الشقة) 😂",
-                "راح ترفع راسنا 🦁",
-                "الوضع Under Control 😎",
-                "ادرس زين معليك بالتوقعات 🤓",
-                "ناجح ومسيطر 🦁",
-                "ناجح (بقلوبنا) ❤️"
-            ];
-            
-            var textElement = document.getElementById('predictionText');
-            var modal = document.getElementById('modalPredict');
-            
-            textElement.style.opacity = 0;
-            textElement.style.transform = "scale(0.8)";
-            
-            setTimeout(function() {
-                var randomResult = results[Math.floor(Math.random() * results.length)];
-                textElement.innerHTML = randomResult;
-                textElement.style.opacity = 1;
-                textElement.style.transform = "scale(1)";
-                
-                modal.style.display = 'flex';
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            }, 200);
+            const res = ["100% (غصباً علي)", "إعفاء عام 🫡", "الأول عالعراق 🥇", "راجعني للإدارة فوراً 🏃‍♂️", "دكتور المستقبل 🩺", "99 (باقيلك درجة) 🤏", "ملك القواعد 👑"];
+            document.getElementById('predictionText').innerText = res[Math.floor(Math.random() * res.length)];
+            document.getElementById('modalPredict').style.display = 'flex';
+            confetti({ particleCount: 100, spread: 60 });
         }
 
-        // === كود الخدعة (إلغاء الامتحان) ===
         function openPrank() {
-            var modal = document.getElementById('modalPrank');
-            var bar = document.getElementById('progressBar');
-            var status = document.getElementById('statusText');
-            var failMsg = document.getElementById('failMessage');
+            const modal = document.getElementById('modalPrank');
+            const bar = document.getElementById('progressBar');
+            const status = document.getElementById('statusText');
+            const fail = document.getElementById('failMessage');
             
-            // إعادة تعيين (Reset)
             modal.style.display = 'flex';
             bar.style.width = '0%';
-            bar.style.backgroundColor = '#2ecc71';
-            status.innerHTML = "جاري الاتصال بوزارة التربية...";
+            fail.style.display = 'none';
             status.style.display = 'block';
-            failMsg.style.display = 'none';
-            
-            // سيناريو التحميل
-            setTimeout(() => { bar.style.width = '30%'; }, 500);
-            
-            setTimeout(() => { 
-                bar.style.width = '55%'; 
-                status.innerHTML = "جاري تهكير السيرفر...";
-            }, 1500);
 
+            setTimeout(() => { bar.style.width = '35%'; status.innerText='جاري الاتصال بالسيرفر...'; }, 600);
+            setTimeout(() => { bar.style.width = '70%'; status.innerText='تغيير قاعدة البيانات...'; }, 1800);
             setTimeout(() => { 
-                bar.style.width = '80%'; 
-                status.innerHTML = "جاري حذف الأسئلة...";
-            }, 3000);
-
-            setTimeout(() => { 
-                bar.style.width = '99%'; 
-                status.innerHTML = "لحظة واحدة...";
-            }, 4500);
-
-            // الصدمة (Fail)
-            setTimeout(() => { 
-                bar.style.backgroundColor = '#e74c3c'; // يصير احمر
+                bar.style.width = '95%'; 
+                bar.style.background = '#e74c3c';
                 status.style.display = 'none';
-                failMsg.style.display = 'block';
-            }, 5500);
+                fail.style.display = 'block';
+            }, 3500);
         }
 
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            clearInterval(factInterval);
+        }
+
+        let cursedCount = 0;
+        function handleCursedClick() {
+            cursedCount++;
+            const body = document.getElementById('mainBody');
+            
+            if (cursedCount == 1) alert("كتلك لا تضغط.. عوف الزر بحاله! 😤");
+            else if (cursedCount == 2) {
+                alert("ترا راح أعصب.. والـ Past Simple يكلب Future! 😠");
+                body.style.filter = "sepia(1) hue-rotate(300deg)";
+            }
+            else if (cursedCount == 3) {
+                alert("آخر إنذار.. إذا ضغطت بعد، الموقع راح ينفجر! 🚨");
+                body.style.animation = "shake 0.1s infinite";
+            }
+            else if (cursedCount == 4) {
+                document.getElementById('kickScreen').style.display = 'flex';
+                if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
+                setTimeout(() => {
+                    document.getElementById('kickScreen').style.display = 'none';
+                    body.style.filter = "none";
+                    body.style.animation = "gradientBG 15s ease infinite";
+                    cursedCount = 0;
+                }, 5000);
+            }
+        }
     </script>
-
 </body>
-    </html>
-
+</html>
