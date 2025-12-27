@@ -100,9 +100,9 @@
 
         /* === الرسالة (نافذة منبثقة بنص الشاشة) === */
         .modal-overlay {
-            display: none; /* مخفي بالبداية */
+            display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* خلفية معتمة */
+            background: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -125,120 +125,4 @@
         }
 
         .close-btn {
-            background: #e74c3c; color: white; border: none;
-            padding: 10px 20px; border-radius: 20px;
-            font-size: 1rem; cursor: pointer; margin-top: 20px;
-            font-weight: bold;
-        }
-
-        /* === شريط الأخبار اليدوي === */
-        .news-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background: #c0392b;
-            border-top: 4px solid #f1c40f;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            direction: ltr; 
-        }
-        
-        .ticker-text {
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            width: 100%;
-        }
-
-        .sep { color: #f1c40f; margin: 0 10px; }
-
-    </style>
-</head>
-<body>
-
-    <div class="floating-bg">
-        <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
-        <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
-        <div class="float-letter" style="left: 70%; animation-duration: 6s;">C</div>
-        <div class="float-letter" style="left: 50%; animation-duration: 11s;">A+</div>
-        <div class="float-letter" style="left: 85%; animation-duration: 8s;">?</div>
-    </div>
-
-    <header>
-        <h1>Mr. Thayer 🇮🇶</h1>
-        <p>The King of English / ملك اللغة</p>
-    </header>
-
-    <div class="profile-container">
-        <img src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mr. Thayer" class="profile-img">
-        <div class="badge">Top Teacher</div>
-    </div>
-
-    <div class="funny-text">
-        <p>
-            مرحباً بكم في <span class="en-word">Thayer's Zone</span> 🚧<br>
-            حيث الـ <span class="en-word">Past Simple</span> يصير ماضي جميل.. <br>
-            والـ <span class="en-word">Future</span> مشرق 
-            <span style="color:#f1c40f; font-weight:bold;">ما دام استاذ ثائر موجود!</span> <br>
-            <small style="color:#bdc3c7; font-size:0.9em;">(الانكليزي صار بجيب 😎)</small>
-        </p>
-    </div>
-
-    <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
-
-    <div id="modal" class="modal-overlay">
-        <div class="secret-box">
-            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
-            <p style="font-size: 1.2rem; line-height: 1.6;">
-                بس حبيت أكلك يا أخي الغالي..<br>
-                أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
-                أنت أحسن أخ بالدنيا. <br>
-                <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
-            </p>
-            <div style="font-size: 4rem; margin: 15px 0;">❤</div>
-            <button class="close-btn" onclick="closeSecret()">إغلاق X</button>
-        </div>
-    </div>
-
-    <div class="news-container">
-        <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
-            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
-            <span class="sep">|</span>
-            🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
-            <span class="sep">|</span>
-            🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
-            <span class="sep">|</span>
-            📖 خبر هام: قاموس أكسفورد يضيف كلمة "Thayer" كمرادف للروعة 😎 
-            <span class="sep">|</span>
-            🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
-            <span class="sep">|</span>
-            ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
-        </marquee>
-    </div>
-
-    <script>
-        function openSecret() {
-            // إظهار النافذة
-            document.getElementById('modal').style.display = 'flex';
-            
-            // تشغيل الاحتفالات (بدون صوت)
-            confetti({
-                particleCount: 200,
-                spread: 90,
-                origin: { y: 0.6 }
-            });
-        }
-
-        function closeSecret() {
-            // إخفاء النافذة
-            document.getElementById('modal').style.display = 'none';
-        }
-    </script>
-
-</body>
-</html>
-
+            background: #e74c3c; color:
