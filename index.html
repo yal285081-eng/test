@@ -7,22 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #e74c3c;
-            --highlight: #f1c40f;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
-
         body {
-            background-color: var(--primary);
+            background-color: #2c3e50;
             color: white;
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             text-align: center;
             overflow-x: hidden;
-            padding-bottom: 80px; 
+            padding-bottom: 90px;
             user-select: none;
         }
 
@@ -32,8 +24,10 @@
             pointer-events: none; z-index: -1; overflow: hidden;
         }
         .float-letter {
-            position: absolute; color: rgba(255, 255, 255, 0.05);
-            font-family: 'Permanent Marker', cursive; font-size: 4rem;
+            position: absolute;
+            color: rgba(255, 255, 255, 0.05);
+            font-family: 'Permanent Marker', cursive;
+            font-size: 4rem;
             animation: floatUp 10s linear infinite;
         }
         @keyframes floatUp {
@@ -42,270 +36,354 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* تأثير الزجاج */
-        .glass-effect {
-            background: var(--glass-bg); backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); border-radius: 15px;
-        }
-
         /* الهيدر */
         header {
-            background: var(--accent); padding: 20px;
-            box-shadow: 0 4px 0 #c0392b; transform: rotate(-1deg);
-            margin-bottom: 30px; position: relative; z-index: 10;
+            background: #e74c3c; padding: 20px;
+            box-shadow: 0 4px 0 #c0392b;
+            transform: rotate(-1deg); margin-bottom: 30px;
+            position: relative; z-index: 10;
         }
-        header h1 { margin: 0; font-family: 'Permanent Marker', cursive; font-size: 2.2rem; }
+        header h1 {
+            margin: 0; font-family: 'Permanent Marker', cursive;
+            font-size: 2.2rem; letter-spacing: 1px;
+        }
+        header p { margin: 5px 0 0; font-weight: bold; }
 
-        /* الصورة */
+        /* الصورة الشخصية */
         .profile-container {
-            position: relative; display: inline-block; margin-top: 10px; cursor: pointer;
+            position: relative; display: inline-block;
+            margin-top: 10px; transition: transform 0.3s;
+            cursor: pointer;
         }
+
         .playing-animation {
             animation: shake 0.3s infinite; 
-            border-color: var(--highlight) !important;
-            box-shadow: 0 0 25px var(--highlight);
+            border-color: #f1c40f !important;
+            box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
         }
+
         @keyframes shake {
-            0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); }
-            100% { transform: rotate(0deg); }
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-3deg) scale(1.05); }
+            50% { transform: rotate(3deg) scale(1.05); }
+            75% { transform: rotate(-3deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
         }
+
         .profile-img {
-            width: 160px; height: 160px; object-fit: cover; border-radius: 50%;
-            border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background: #fff; transition: all 0.2s;
+            width: 170px; height: 170px;
+            object-fit: cover; border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: #fff;
+            transition: all 0.2s;
         }
+
         .badge {
             position: absolute; bottom: 5px; right: -5px;
-            background: var(--highlight); color: #333; padding: 5px 12px;
-            border-radius: 15px; font-weight: bold; font-family: 'Permanent Marker', cursive;
+            background: #f1c40f; color: #333;
+            padding: 5px 12px; border-radius: 15px;
+            font-weight: bold; font-family: 'Permanent Marker', cursive;
             transform: rotate(-10deg); border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* الأزرار Grid */
-        .btn-container {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 15px; margin-bottom: 40px; padding: 0 10px;
-            max-width: 600px; margin-left: auto; margin-right: auto;
+        .click-hint {
+            display: block; font-size: 0.8rem; color: #f1c40f; 
+            margin-bottom: 5px; font-weight: bold;
+            animation: blink 2s infinite;
         }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+        /* النص المضحك */
+        .funny-text {
+            font-size: 1.1rem; 
+            margin: 20px auto; 
+            max-width: 90%;
+            line-height: 1.6; 
+            background: rgba(255,255,255,0.1);
+            padding: 15px; 
+            border-radius: 15px;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .en-word {
+            font-family: 'Permanent Marker', cursive;
+            color: #f1c40f; font-size: 1.2em;
+            display: inline-block; 
+            margin: 0 2px;
+        }
+
+        /* === ترتيب الأزرار الجديد (Grid Layout) === */
+        .btn-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 10px;
+        }
+
         .action-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white; border: none; padding: 15px; border-radius: 20px;
-            cursor: pointer; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            font-family: 'Tajawal', sans-serif; transition: transform 0.2s;
-            width: 44%; min-width: 140px; height: 110px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white; border: none;
+            padding: 20px 10px; font-size: 1rem;
+            border-radius: 15px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
+            width: 100%; height: 100px;
+            display: flex; flex-direction: column; 
+            align-items: center; justify-content: center;
         }
         .action-btn:active { transform: scale(0.95); }
-        .btn-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
-        .btn-text { font-size: 1rem; font-weight: bold; }
 
-        .google-btn { background: linear-gradient(135deg, #4285F4, #34a853); }
-        .predict-btn { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
-        .prank-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-        .quiz-btn { background: linear-gradient(135deg, #f39c12, #d35400); }
+        /* الألوان */
+        .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
+        .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
+        .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
 
-        /* عداد الإنقاذ */
-        .hero-counter-box {
-            max-width: 90%; margin: 0 auto 30px auto; padding: 20px;
-            text-align: center; border-top: 5px solid #2ecc71;
+        /* زر الاختبار الدائري (Iron Man Style) */
+        .quiz-center-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #f1c40f, #f39c12);
+            border: 5px solid #2c3e50;
+            color: #2c3e50;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            animation: pulseBtn 2s infinite;
         }
-        .counter-title { font-size: 1rem; color: #bdc3c7; margin-bottom: 10px; display: block; }
-        .counter-number {
-            font-family: 'Permanent Marker', cursive; font-size: 2.5rem;
-            color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        @keyframes pulseBtn {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
+            70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
         }
 
-        /* النوافذ المنبثقة */
+        /* === عداد الإنقاذ === */
+        .hero-counter {
+            margin: 30px auto 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            width: 85%;
+            max-width: 400px;
+        }
+        .hero-label { font-size: 0.9rem; color: #bdc3c7; display: block; margin-bottom: 5px; }
+        .hero-number {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem; color: #2ecc71;
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+        }
+
+        /* === النوافذ المنبثقة (Modals) === */
         .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 2000;
-            justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .secret-box {
-            background: white; color: #333; width: 90%; max-width: 400px;
-            padding: 25px; border-radius: 25px; text-align: center;
-            position: relative; animation: popIn 0.4s;
-        }
-        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        /* ستايلات النوافذ */
-        .homework-style { border-top: 10px solid var(--highlight); }
-        .predict-style { border-top: 10px solid #9b59b6; background: #fdf2f8; }
-        .prank-style { border-top: 10px solid #e74c3c; background: #2c3e50; color: white;}
-        .quiz-style { border: 4px solid #f39c12; background: #2c3e50; color: white; }
-
-        .close-btn {
-            color: white; border: none; padding: 10px 25px; border-radius: 50px;
-            font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold;
-        }
-
-        /* === ستايلات الاختبار المستحيل والحركات === */
-        .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
-        .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; min-height: 200px; justify-content: center; }
-        .quiz-option-btn {
-            background: white; color: #333; border: none; padding: 15px;
-            border-radius: 10px; font-size: 1.1rem; cursor: pointer;
-            font-family: 'Tajawal'; font-weight: bold; transition: all 0.3s;
-            position: relative; width: 100%; z-index: 2;
-        }
-        
-        /* الحركات الجديدة */
-        .shake-btn { animation: quickShake 0.4s; background: #e74c3c !important; color: white !important; }
-        @keyframes quickShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        
-        .shrink-btn { animation: shrinkEffect 0.5s forwards; pointer-events: none; }
-        @keyframes shrinkEffect { to { transform: scale(0); opacity: 0; } }
-
-        .spin-btn { animation: spinEffect 0.5s; background: #95a5a6 !important; }
-        @keyframes spinEffect { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* حركة السقوط */
-        .fall-btn { animation: fallDown 0.8s forwards; pointer-events: none; background: #e74c3c !important; color: white !important; }
-        @keyframes fallDown { 
-            0% { transform: translateY(0) rotate(0); } 
-            100% { transform: translateY(300px) rotate(45deg); opacity: 0; } 
-        }
-
-        /* حركة الشبح */
-        .ghost-btn { opacity: 0.1; background: #bdc3c7 !important; transform: scale(0.9); pointer-events: none; }
-
-        /* حركة الزوم (تكبير) */
-        .zoom-btn { transform: scale(1.2); background: #e74c3c !important; color: white !important; z-index: 10; }
-
-        /* فلاش الكاميرا */
-        .camera-flash {
+            display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; opacity: 0; pointer-events: none; z-index: 3000;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
         }
-        .flash-anim { animation: flash 0.3s ease-out; }
-        @keyframes flash { 0% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* شريط الأخبار */
+        .secret-box {
+            background: white; color: #333;
+            width: 85%; max-width: 400px;
+            padding: 30px; border-radius: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
+        .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
+        .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
+        /* ستايل الاختبار */
+        .quiz-style { 
+            border: 5px solid #e67e22; 
+            background: #34495e; 
+            color: white;
+            box-shadow: 0 0 30px rgba(230, 126, 34, 0.5);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* ستايلات الاختبار المستحيل */
+        .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; height: 220px; justify-content: center; }
+        
+        .quiz-btn-opt {
+            background: white; color: #2c3e50; border: none;
+            padding: 12px; border-radius: 10px; font-size: 1.1rem;
+            cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold;
+            transition: all 0.3s; width: 100%; position: relative; z-index: 2;
+        }
+
+        /* حركات الأزرار الغلط */
+        .anim-melt { transition: 1s; transform: scaleY(0); opacity: 0; }
+        .anim-spin { animation: spin 0.5s linear; background: #95a5a6 !important; }
+        .anim-ghost { opacity: 0; pointer-events: none; }
+        .anim-break { animation: shake 0.5s; background: #e74c3c !important; color: white !important; transform: rotate(15deg); }
+        .anim-run { position: absolute !important; width: auto !important; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* بقية العناصر */
+        .fact-box {
+            background: #fdf2e9; border-left: 5px solid #e67e22; padding: 15px; margin-top: 20px;
+            border-radius: 10px; text-align: right; direction: rtl; min-height: 60px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .fact-title { color: #e67e22; font-weight: bold; display: block; margin-bottom: 5px; font-family: 'Tajawal'; font-size: 0.9rem; }
+        .fact-content { font-weight: bold; color: #2c3e50; font-size: 1.1rem; transition: opacity 0.5s ease-in-out; opacity: 1; }
+
+        .progress-container { width: 100%; background-color: #34495e; border-radius: 10px; margin: 20px 0; height: 25px; overflow: hidden; border: 1px solid #7f8c8d; }
+        .progress-bar { width: 0%; height: 100%; background-color: #2ecc71; transition: width 0.3s; }
+        .status-text { font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px; }
+        .fail-message { display: none; color: #e74c3c; font-size: 1.3rem; font-weight: bold; margin-top: 20px; animation: shake 0.5s; }
+
+        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; }
+        .close-icon:hover { color: #e74c3c; }
+        .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
+
         .news-container {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
-            background: #c0392b; border-top: 4px solid var(--highlight);
+            background: #c0392b; border-top: 4px solid #f1c40f;
             z-index: 9999; display: flex; align-items: center; direction: ltr; 
         }
-        .ticker-text {
-            font-family: 'Tajawal', sans-serif; font-weight: bold;
-            font-size: 1.2rem; color: white; width: 100%;
-        }
+        .ticker-text { font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 1.2rem; color: white; width: 100%; }
+        .sep { color: #f1c40f; margin: 0 10px; }
+
     </style>
 </head>
 <body>
 
-    <div id="cameraFlash" class="camera-flash"></div>
-
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
-        <div class="float-letter" style="left: 80%; animation-duration: 9s;">?</div>
+        <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
+        <div class="float-letter" style="left: 70%; animation-duration: 6s;">C</div>
         <div class="float-letter" style="left: 50%; animation-duration: 11s;">A+</div>
+        <div class="float-letter" style="left: 85%; animation-duration: 8s;">?</div>
     </div>
 
     <header>
         <h1>Mr. Thayer 🇮🇶</h1>
-        <p>The King of English</p>
+        <p>The King of English / ملك اللغة</p>
     </header>
 
     <div class="profile-container" onclick="toggleSong()">
+        <span class="click-hint">🎵 اضغط هنا لتشغيل الأغنية 🎵</span>
         <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
 
-    <div class="glass-effect" style="margin: 20px; padding: 15px;">
-        <p style="margin:0; font-size: 1.1rem;">
-            يا هلا بيكم في <span style="color:#f1c40f; font-family:'Permanent Marker'">Thayer's Zone</span> 👋<br>
-            هنا الـ Past يصير "زلاطة" والـ Future بجيبك ✨
+    <div class="funny-text">
+        <p>
+            يا هلا بيكم في <span class="en-word">Thayer's Zone</span> 👋<br>
+            هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
+            والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
+            <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
         </p>
     </div>
 
-    <div class="btn-container">
+    <div class="btn-wrapper">
+        <button class="action-btn" onclick="openSecret()">📚<br>الواجب</button>
+        <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍<br>المترجم</button>
         
-        <button class="action-btn quiz-btn" onclick="startQuiz()">
-            <span class="btn-icon">💀</span>
-            <span class="btn-text">الاختبار المستحيل</span>
-        </button>
+        <button class="quiz-center-btn" onclick="openQuiz()">الاختبار<br>المستحيل</button>
 
-        <button class="action-btn" onclick="openSecret()">
-            <span class="btn-icon">📚</span>
-            <span class="btn-text">الواجب البيتي</span>
-        </button>
-        
-        <button class="action-btn predict-btn" onclick="predictGrade()">
-            <span class="btn-icon">🔮</span>
-            <span class="btn-text">توقع درجتك</span>
-        </button>
-
-        <button class="action-btn prank-btn" onclick="openPrank()">
-            <span class="btn-icon">⚠️</span>
-            <span class="btn-text">إلغاء الامتحان</span>
-        </button>
-
-        <button class="action-btn google-btn" onclick="openGoogleTranslate()">
-            <span class="btn-icon">🌍</span>
-            <span class="btn-text">مترجم فوري</span>
-        </button>
-
+        <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>التوقع</button>
+        <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br>المقلب</button>
     </div>
 
-    <div class="hero-counter-box glass-effect">
-        <span class="counter-title">عدد الطلاب الذين أنقذهم الأستاذ من الرسوب 🦸‍♂️</span>
-        <div id="heroCounter" class="counter-number">9,998,450</div>
+    <div class="hero-counter">
+        <span class="hero-label">عدد الطلاب الذين أنقذهم الأستاذ من الرسوب 🦸‍♂️</span>
+        <span id="savedStudents" class="hero-number">9,875,420</span>
     </div>
 
     <div id="modalQuiz" class="modal-overlay">
         <div class="secret-box quiz-style">
-            <h3 style="margin-top:0; color:#bdc3c7;">سؤال <span id="qNumber">1</span>/10</h3>
-            <div id="quizQuestion" class="quiz-question">...</div>
-            <div id="quizOptions" class="quiz-options">
-                </div>
-            <button class="close-btn" style="background: #c0392b; margin-top:15px;" onclick="closeModal('modalQuiz')">انسحاب 🏳️</button>
+            <span class="close-icon" onclick="closeModal('modalQuiz')">✖</span>
+            <h2 style="color: #f1c40f;">💀 الاختبار المستحيل</h2>
+            <div id="quizContainer">
+                <p id="qText" class="quiz-question">...</p>
+                <div id="qOptions" class="quiz-options">
+                    </div>
+            </div>
         </div>
     </div>
 
     <div id="modalHomework" class="modal-overlay">
         <div class="secret-box homework-style">
-            <h2>No Homework! 🎉</h2>
-            <p>أنت مو بس أستاذ، أنت أخ وسند النا ❤️</p>
+            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
+            <p style="font-size: 1.2rem; line-height: 1.6;">
+                بس حبيت أكولك يا أخي الغالي..<br>
+                أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
+                أنت أحسن أخ بالدنيا. <br>
+                <strong>الله يحفظك ويخليك إلنا سند.</strong>
+            </p>
             <div class="fact-box">
-                <span style="color:#e67e22; font-weight:bold;">💡 هل تعلم؟</span><br>
-                <span id="randomFactDisplay">...</span>
+                <span class="fact-title">💡 هل تعلم؟</span>
+                <span id="randomFactDisplay" class="fact-content">...</span>
             </div>
-            <button class="close-btn" style="background: #e74c3c;" onclick="closeModal('modalHomework')">إغلاق</button>
+            <button class="close-btn" style="background: #e74c3c;" onclick="closeModal('modalHomework')">إغلاق X</button>
         </div>
     </div>
 
     <div id="modalPredict" class="modal-overlay">
-        <div class="secret-box predict-style">
-            <h2 style="color:#8e44ad;">🔮 الحظ يكول:</h2>
-            <p id="predictionText" style="font-size:1.5rem; color:#2c3e50; font-weight:bold;"></p>
-            <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">مرة ثانية 🎲</button>
-            <button class="close-btn" style="background: #95a5a6;" onclick="closeModal('modalPredict')">إغلاق</button>
+        <div class="secret-box predict-style" style="position: relative;">
+            <span class="close-icon" onclick="closeModal('modalPredict')">✖</span>
+            <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
+            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; transition: all 0.2s;"></p>
+            <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">جرب مرة ثانية 🎲</button>
         </div>
     </div>
 
     <div id="modalPrank" class="modal-overlay">
-        <div class="secret-box prank-style">
-            <h3>جاري الاتصال بالوزارة...</h3>
-            <div style="background:#34495e; height:20px; border-radius:10px; overflow:hidden; margin:20px 0;">
-                <div id="progressBar" style="width:0%; height:100%; background:#2ecc71; transition:width 0.5s;"></div>
+        <div class="secret-box prank-style" style="position: relative;">
+            <span class="close-icon" onclick="closeModal('modalPrank')">✖</span>
+            <h2 style="font-family: 'Tajawal'; margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
+            <div id="statusText" class="status-text">جاري الاتصال بوزارة التربية...</div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
             </div>
-            <p id="failMessage" style="display:none; color:#e74c3c; font-weight:bold; font-size:1.2rem;">
-                🚫 فشل! الأستاذ ثائر كشفك.<br><span style="color:#f1c40f; font-size:0.9rem;">(روح اقرأ أحسنلك 😂)</span>
-            </p>
-            <button class="close-btn" style="background: #c0392b;" onclick="closeModal('modalPrank')">هروب 🏃‍♂️</button>
+            <div id="failMessage" class="fail-message">
+                🚫 فشل العملية! <br>
+                الأستاذ ثائر كشف المحاولة.<br>
+                <span style="color: #f1c40f; font-size: 1rem;">(روح اقرأ أحسنلك 😂📖)</span>
+            </div>
         </div>
     </div>
 
     <div class="news-container">
         <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
-            🔴 خبر عاجل: وزارة التربية تعتمد "ملزمة أستاذ ثائر" كدستور رسمي للغة الإنجليزية 
-            <span style="color:#f1c40f; margin:0 10px;">|</span>
-            🌍 عاجل: العلماء يكتشفون أن صوت أستاذ ثائر يزيد الذكاء بنسبة 200%
-            <span style="color:#f1c40f; margin:0 10px;">|</span>
-            🔥 الطلاب يطالبون بإلغاء العطل الرسمية لزيادة المحاضرات
+            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
+            <span class="sep">|</span>
+            🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
+            <span class="sep">|</span>
+            🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
+            <span class="sep">|</span>
+            📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
+            <span class="sep">|</span>
+            🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
+            <span class="sep">|</span>
+            ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
         </marquee>
     </div>
 
@@ -314,267 +392,184 @@
         var mySong = new Audio('song.mp3'); 
         mySong.loop = true; 
         
-        // *ملاحظة: ضيف ملفات الصوت هاي يمك بالمجلد*
-        // أو استخدم روابط خارجية إذا ما عندك ملفات
-        var soundCorrect = new Audio('correct.mp3'); // صوت اجابة صحيحة (مثل جرس)
-        var soundWrong = new Audio('wrong.mp3');     // صوت اجابة خطأ (مثل بازر)
-        var soundCam = new Audio('camera.mp3');      // صوت كاميرا
-        var soundBreak = new Audio('break.mp3');     // صوت تكسير
+        // روابط أصوات من الانترنت (تنبيه: تعتمد على وجود الانترنت)
+        var soundCorrect = new Audio('https://www.soundjay.com/human/applause-01.mp3');
+        var soundWrong = new Audio('https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3'); 
+        
+        var isPlaying = false;
 
         function toggleSong() {
             var img = document.getElementById('teacherImg');
-            if (mySong.paused) {
-                mySong.play().catch(e => alert("اضغط مرة ثانية!"));
-                img.classList.add('playing-animation'); 
-                confetti({ particleCount: 100 });
-            } else {
+            if (isPlaying) {
                 mySong.pause();
-                img.classList.remove('playing-animation');
+                isPlaying = false;
+                img.classList.remove('playing-animation'); 
+            } else {
+                mySong.play();
+                isPlaying = true;
+                img.classList.add('playing-animation'); 
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
             }
         }
 
-        // دالة تشغيل المؤثرات الصوتية البسيطة (للتأكد من عدم حدوث خطأ اذا الملف مفقود)
-        function playSfx(type) {
-            try {
-                if(type === 'correct') soundCorrect.play();
-                else if(type === 'wrong') soundWrong.play();
-                else if(type === 'cam') soundCam.play();
-                else if(type === 'break') soundBreak.play();
-            } catch(e) { console.log("Sound file not found"); }
-        }
-
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        
-        // حقائق عشوائية
-        var facts = ["الأستاذ ثائر ما يصحح الأوراق، هي تصلح نفسها.", "القاموس ياخذ إذن من أستاذ ثائر قبل الترجمة.", "الإنكليزي يخاف من أستاذ ثائر."];
-        function openSecret() { 
-            document.getElementById('modalHomework').style.display = 'flex'; confetti(); 
-            document.getElementById('randomFactDisplay').innerText = facts[Math.floor(Math.random()*facts.length)];
-        }
-
-        // المترجم
         function openGoogleTranslate() {
-            window.open("https://translate.google.com/?sl=ar&tl=en", "Trans", "width=500,height=600");
+            var width = 500; var height = 650;
+            var left = (screen.width / 2) - (width / 2);
+            var top = (screen.height / 2) - (height / 2);
+            window.open("https://translate.google.com/?sl=ar&tl=en&op=translate", "GoogleTranslate", 
+                "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + 
+                ",resizable=yes,scrollbars=yes,status=yes");
         }
 
-        // التوقع
+        var facts = [
+            "Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى قبل لا يترجم.",
+            "الأستاذ ثائر ما يصحح الأوراق، الأوراق هي تصلح أخطاءها من الخوف.",
+            "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.",
+            "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.",
+            "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.",
+            "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.",
+            "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."
+        ];
+
+        var factInterval; 
+        function openSecret() {
+            document.getElementById('modalHomework').style.display = 'flex';
+            confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+            updateFact();
+            clearInterval(factInterval);
+            factInterval = setInterval(animateFactChange, 4000); 
+        }
+
+        function animateFactChange() {
+            var textElement = document.getElementById('randomFactDisplay');
+            textElement.style.opacity = 0;
+            setTimeout(function() { updateFact(); textElement.style.opacity = 1; }, 500); 
+        }
+
+        function updateFact() {
+            var randomIndex = Math.floor(Math.random() * facts.length);
+            document.getElementById('randomFactDisplay').innerHTML = facts[randomIndex];
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'modalHomework') { clearInterval(factInterval); }
+        }
+
         function predictGrade() {
-            var msgs = ["100% (غصباً علي)", "إعفاء عام 🫡", "ناجح بامتياز 🌟", "الأول عالعراق 🥇", "يرادلك خرزة 🧿", "دكتور المستقبل 🩺", "ناجح بالقدرة 😂"];
-            var txt = document.getElementById('predictionText');
-            txt.innerHTML = "🎲 ...";
-            document.getElementById('modalPredict').style.display = 'flex';
-            setTimeout(() => {
-                txt.innerHTML = msgs[Math.floor(Math.random() * msgs.length)];
-                confetti({ spread: 50, origin: { y: 0.7 } });
-            }, 500);
+            var results = ["100% (غصباً علي)", "إعفاء عام (تستاهل) 🫡", "ناجح بامتياز (كفو) 🌟", "الأول عالعراق 🥇", "يرادلك خرزة وزيارة 🧿", "راجعني للإدارة فوراً 🏃‍♂️", "دكتور المستقبل 🩺", "صفر مكعب (لا تصدك) 🧊", "عبقري زمانك 🧠", "راح تجيب العيد 🎉", "ناجح بدعوات الوالدة 🤲", "بس تنجح نذبح طلي 🐑", "99 (باقيلك درجة) 🤏", "وزير التربية القادم 💼"];
+            var textElement = document.getElementById('predictionText');
+            var modal = document.getElementById('modalPredict');
+            textElement.style.opacity = 0; textElement.style.transform = "scale(0.8)";
+            setTimeout(function() {
+                var randomResult = results[Math.floor(Math.random() * results.length)];
+                textElement.innerHTML = randomResult; textElement.style.opacity = 1; textElement.style.transform = "scale(1)";
+                modal.style.display = 'flex';
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }, 200);
         }
 
-        // المقلب
         function openPrank() {
+            var modal = document.getElementById('modalPrank');
             var bar = document.getElementById('progressBar');
-            var msg = document.getElementById('failMessage');
-            document.getElementById('modalPrank').style.display = 'flex';
-            bar.style.width = "0%"; msg.style.display = "none";
-            setTimeout(() => bar.style.width = "40%", 500);
-            setTimeout(() => bar.style.width = "80%", 1500);
-            setTimeout(() => {
-                bar.style.width = "100%";
-                bar.style.background = "#e74c3c";
-                msg.style.display = "block";
-                playSfx('wrong'); // صوت خطأ عند الفشل
-            }, 2500);
+            var status = document.getElementById('statusText');
+            var failMsg = document.getElementById('failMessage');
+            modal.style.display = 'flex'; bar.style.width = '0%'; bar.style.backgroundColor = '#2ecc71';
+            status.innerHTML = "جاري الاتصال بوزارة التربية..."; status.style.display = 'block'; failMsg.style.display = 'none';
+            setTimeout(() => { bar.style.width = '30%'; }, 500);
+            setTimeout(() => { bar.style.width = '55%'; status.innerHTML = "جاري تهكير السيرفر..."; }, 1500);
+            setTimeout(() => { bar.style.width = '80%'; status.innerHTML = "جاري حذف الأسئلة..."; }, 3000);
+            setTimeout(() => { bar.style.width = '99%'; status.innerHTML = "لحظة واحدة..."; }, 4500);
+            setTimeout(() => { bar.style.backgroundColor = '#e74c3c'; status.style.display = 'none'; failMsg.style.display = 'block'; }, 5500);
         }
 
-        // عداد الإنقاذ
-        var savedStudents = 9998450;
-        setInterval(() => {
-            savedStudents++;
-            document.getElementById('heroCounter').innerText = savedStudents.toLocaleString();
-        }, 1500);
+        // === كود العداد ===
+        var savedCount = 9875420;
+        setInterval(function() {
+            savedCount += Math.floor(Math.random() * 5); // زيادة عشوائية
+            document.getElementById('savedStudents').innerText = savedCount.toLocaleString();
+        }, 2000);
 
-        // === الاختبار المستحيل (تحديث الحركات) ===
-        var currentQ = 0;
+        // === كود الاختبار المستحيل ===
         var questions = [
             {
-                q: "ليش الـ Past Simple نسميه (بسيط)؟",
-                answers: [
-                    { t: "لأن قاعدته سهلة", type: "break" }, // ينكسر
-                    { t: "لأن يعبر عن ماضي", type: "melt" }, // يذوب
-                    { t: "لأن صار (زلاطة) بيد أستاذ ثائر", correct: true }
-                ]
+                q: "شنو هو جمع كلمة Information؟",
+                a: ["Informations", "Info", "ما تنجمع يا ذكي", "بس أستاذ ثائر يجمعها"],
+                correct: 3,
+                wrongTypes: ["anim-break", "anim-melt", "anim-spin"]
             },
             {
-                q: "شنو أسرع شي بالدنيا؟",
-                answers: [
-                    { t: "سرعة الضوء", type: "ghost" }, // يصير شبح
-                    { t: "لسان أستاذ ثائر بالـ Irregular Verbs", correct: true },
-                    { t: "الإنترنت بالعراق", type: "zoom" } // يكبر بوجهك
-                ]
+                q: "كم درجة راح تجيب بالوزاري؟",
+                a: ["50", "100", "99", "صفر"],
+                correct: 1,
+                wrongTypes: ["anim-ghost", "anim-run", "anim-break"]
             },
             {
-                q: "ما هو مصير الطالب اللي ينسى الدفتر؟",
-                answers: [
-                    { t: "يصير عبرة لمن اعتبر", correct: true },
-                    { t: "ينطرد", type: "fall" }, // يوقع ليجوه
-                    { t: "يسامحه الأستاذ", type: "run" } // ينهزم
-                ]
-            },
-            {
-                q: "ترجم جملة: (I want to sleep)",
-                answers: [
-                    { t: "حسرة بقلبي", correct: true },
-                    { t: "أريد أن أنام", type: "shrink" }, // يصغر
-                    { t: "أنا نعسان", type: "spin" } // يفتر
-                ]
-            },
-            {
-                q: "منو ملك الغابة الحقيقي؟",
-                answers: [
-                    { t: "الأسد (Lion)", type: "run" },
-                    { t: "أستاذ ثائر بالقاعة", correct: true },
-                    { t: "النمر", type: "fall" }
-                ]
-            },
-            {
-                q: "شنو رأي ChatGPT بأستاذ ثائر؟",
-                answers: [
-                    { t: "هو اللي علمني إنكليزي", correct: true },
-                    { t: "مدرس جيد", type: "ghost" },
-                    { t: "ما أعرفه", type: "spin" }
-                ]
-            },
-            {
-                q: "شنو العلاقة بين الـ Grammar والباجة؟",
-                answers: [
-                    { t: "اثنينهم يرادلهم (تفتيت) وخبز", correct: true },
-                    { t: "ماكو علاقة", type: "break" },
-                    { t: "طيبين", type: "melt" }
-                ]
-            },
-            {
-                q: "لو عندك أمنية وحدة، شتختار؟",
-                answers: [
-                    { t: "مليون دولار", type: "run" },
-                    { t: "إعفاء عام بالإنكليزي", correct: true },
-                    { t: "آيفون 16", type: "zoom" }
-                ]
-            },
-            {
-                q: "شلون الأستاذ يعرف الما كاتب الواجب؟",
-                answers: [
-                    { t: "يشم ريحة الخوف", correct: true },
-                    { t: "يفتش الدفاتر", type: "ghost" },
-                    { t: "يسأل العريف", type: "cam" } // ياخذ صورة
-                ]
-            },
-            {
-                q: "جاهز للامتحان القادم؟",
-                answers: [
-                    { t: "لا (No)", type: "zoom" },
-                    { t: "نص ونص", type: "cam" },
-                    { t: "طبعاً، چا غير طالب ثائر!", correct: true }
-                ]
+                q: "شنو معنى Past Simple؟",
+                a: ["ماضي بسيط", "ماضي معقد", "ماضي مال أستاذ ثائر (سهل)", "مضارع"],
+                correct: 2,
+                wrongTypes: ["anim-melt", "anim-spin", "anim-ghost"]
             }
         ];
 
-        function startQuiz() {
-            currentQ = 0;
+        var currentQIndex = 0;
+
+        function openQuiz() {
             document.getElementById('modalQuiz').style.display = 'flex';
             loadQuestion();
         }
 
         function loadQuestion() {
-            if (currentQ >= questions.length) {
-                document.getElementById('quizQuestion').innerHTML = "مبروووك! أنت أسطورة 🏆";
-                document.getElementById('quizOptions').innerHTML = "<p>نجحت بالاختبار المستحيل!</p>";
-                confetti({ particleCount: 300, spread: 100 });
-                playSfx('correct');
+            if (currentQIndex >= questions.length) {
+                document.getElementById('quizContainer').innerHTML = "<h3 style='color:#2ecc71'>مبروووك! أنت طالب مثالي 🎓</h3>";
+                soundCorrect.play();
+                confetti({ particleCount: 300, spread: 180 });
                 return;
             }
 
-            var qData = questions[currentQ];
-            document.getElementById('qNumber').innerText = currentQ + 1;
-            document.getElementById('quizQuestion').innerText = qData.q;
-            
-            var optionsDiv = document.getElementById('quizOptions');
-            optionsDiv.innerHTML = "";
+            var q = questions[currentQIndex];
+            document.getElementById('qText').innerText = q.q;
+            var optsDiv = document.getElementById('qOptions');
+            optsDiv.innerHTML = "";
 
-            qData.answers.forEach(ans => {
+            q.a.forEach((opt, index) => {
                 var btn = document.createElement('button');
-                btn.className = 'quiz-option-btn';
-                btn.innerText = ans.t;
-                btn.onclick = function() { handleAnswer(this, ans); };
-                optionsDiv.appendChild(btn);
+                btn.className = 'quiz-btn-opt';
+                btn.innerText = opt;
+                btn.onclick = function() { checkAnswer(this, index, q); };
+                optsDiv.appendChild(btn);
             });
         }
 
-        function handleAnswer(btn, answer) {
-            if (answer.correct) {
+        function checkAnswer(btn, index, qData) {
+            if (index === qData.correct) {
                 btn.style.background = "#2ecc71";
-                btn.innerText = "صح! كفووو ✅";
-                playSfx('correct');
-                confetti({ particleCount: 50, spread: 40, origin: { y: 0.5 } });
+                btn.innerText = "صح! كفووو 😍";
+                soundCorrect.currentTime = 0; 
+                soundCorrect.play();
+                confetti({ particleCount: 50, spread: 50, origin: { y: 0.5 } });
                 setTimeout(() => {
-                    currentQ++;
+                    currentQIndex++;
                     loadQuestion();
-                }, 1000);
+                }, 1500);
             } else {
-                playSfx('wrong'); // تشغيل صوت الخطأ لجميع الاجابات الخاطئة
+                // حركة عشوائية للزر الغلط
+                var randomAnim = qData.wrongTypes[Math.floor(Math.random() * qData.wrongTypes.length)];
+                btn.classList.add(randomAnim);
                 
-                // === الحركات المتنوعة ===
-                if (answer.type === 'break') {
-                    btn.innerText = "انكسر الزر! 🔨";
-                    btn.style.transform = "rotate(15deg) translateY(10px)";
-                    btn.style.background = "#7f8c8d";
-                    playSfx('break');
-                } 
-                else if (answer.type === 'fall') {
-                    btn.innerText = "مع السلامة 👋";
-                    btn.classList.add('fall-btn');
-                }
-                else if (answer.type === 'ghost') {
-                    btn.classList.add('ghost-btn');
-                }
-                else if (answer.type === 'zoom') {
-                    btn.innerText = "خطأ كبير! 😡";
-                    btn.classList.add('zoom-btn');
-                }
-                else if (answer.type === 'run') {
-                    // حركة عشوائية (داير ما داير، مو بس جوة)
-                    var x = (Math.random() - 0.5) * 200; // -100 الى 100 يمين ويسار
-                    var y = (Math.random() - 0.5) * 100; // -50 الى 50 فوق وتحت
+                if(randomAnim === 'anim-run') {
+                    // حركة الهروب العشوائية
+                    var x = Math.random() * 200 - 100;
+                    var y = Math.random() * 200 - 100;
                     btn.style.transform = `translate(${x}px, ${y}px)`;
-                    btn.innerText = "ما تكدر تلزمني 🏃‍♂️";
                 }
-                else if (answer.type === 'shrink') {
-                    btn.classList.add('shrink-btn');
-                }
-                else if (answer.type === 'spin') {
-                    btn.classList.add('spin-btn');
-                    btn.innerText = "داخ الزر 😵";
-                }
-                else if (answer.type === 'cam') {
-                    btn.innerText = "📸 أخذتلك صورة ودزيتها للأستاذ";
-                    btn.style.background = "#e74c3c";
-                    btn.style.color = "white";
-                    playSfx('cam');
-                    // فلاش الشاشة
-                    var flash = document.getElementById('cameraFlash');
-                    flash.classList.add('flash-anim');
-                    setTimeout(() => flash.classList.remove('flash-anim'), 500);
-                }
-                else if (answer.type === 'melt') {
-                    btn.style.transition = "all 1s";
-                    btn.style.transform = "scaleY(0.2) translateY(50px)";
-                    btn.style.opacity = "0.5";
-                    btn.innerText = "ذبت من الفشلة 🫠";
-                }
-                else {
-                    btn.classList.add('shake-btn');
-                    btn.innerText = "خطأ! 😂";
-                }
+
+                btn.innerText = "غلط! 😂";
+                soundWrong.currentTime = 0; 
+                soundWrong.play();
             }
         }
+
     </script>
 </body>
-            </html>
+</html>
