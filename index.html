@@ -18,6 +18,14 @@
             user-select: none;
         }
 
+        /* فلاش الكاميرا */
+        .camera-flash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; opacity: 0; pointer-events: none; z-index: 9999;
+        }
+        .flash-active { animation: flashAnim 0.2s ease-out; }
+        @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
+
         /* خلفية الحروف الطائرة */
         .floating-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -188,12 +196,13 @@
         /* حركات الأزرار الغلط */
         .anim-melt { transition: 1s; transform: scaleY(0); opacity: 0; }
         .anim-spin { animation: spin 0.5s linear; background: #95a5a6 !important; }
-        .anim-ghost { opacity: 0; pointer-events: none; }
+        .anim-ghost { opacity: 0; pointer-events: none; transition: 0.5s; }
         .anim-break { animation: shake 0.5s; background: #e74c3c !important; color: white !important; transform: rotate(15deg); }
         .anim-run { position: absolute !important; width: auto !important; }
         .anim-fall { animation: fallDown 0.8s forwards; pointer-events: none; background: #e74c3c !important; }
         .anim-shrink { animation: shrinkEffect 0.5s forwards; pointer-events: none; }
         .anim-zoom { transform: scale(1.2); background: #e74c3c !important; color: white !important; z-index: 10; }
+        .anim-cam { background: #e74c3c !important; color: white !important; font-weight: 900; }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fallDown { 0% { transform: translateY(0) rotate(0); } 100% { transform: translateY(300px) rotate(45deg); opacity: 0; } }
@@ -228,6 +237,8 @@
     </style>
 </head>
 <body>
+
+    <div id="cameraFlash" class="camera-flash"></div>
 
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
@@ -264,7 +275,8 @@
         <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
 
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>التوقع</button>
-        <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br>المقلب</button>
+        
+        <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
     </div>
 
     <div class="hero-counter">
@@ -282,7 +294,7 @@
                 <div id="qOptions" class="quiz-options">
                     </div>
             </div>
-            <button class="close-btn" style="background: #c0392b; margin-top:15px;" onclick="closeModal('modalQuiz')">انسحاب (يا خواف) 🏳️</button>
+            <button id="withdrawBtn" class="close-btn" style="background: #c0392b; margin-top:15px;" onclick="closeModal('modalQuiz')">انسحاب (يا خواف) 🏳️</button>
         </div>
     </div>
 
@@ -496,13 +508,13 @@
                 q: "شلون الأستاذ يعرف الما كاتب الواجب؟",
                 a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل العريف"],
                 correct: 0,
-                wrongTypes: ["anim-ghost", "anim-zoom"]
+                wrongTypes: ["anim-cam", "anim-ghost"]
             },
             {
                 q: "جاهز للامتحان القادم؟",
                 a: ["لا (No)", "نص ونص", "طبعاً، چا غير طالب ثائر!"],
                 correct: 2,
-                wrongTypes: ["anim-zoom", "anim-break"]
+                wrongTypes: ["anim-cam", "anim-break"]
             }
         ];
 
@@ -510,14 +522,19 @@
 
         function startQuiz() {
             currentQIndex = 0;
+            // إظهار زر الانسحاب عند بدء اختبار جديد
+            document.getElementById('withdrawBtn').style.display = 'inline-block';
             document.getElementById('modalQuiz').style.display = 'flex';
             loadQuestion();
         }
 
         function loadQuestion() {
             if (currentQIndex >= questions.length) {
+                // عند انتهاء الاسئلة
                 document.getElementById('quizContainer').innerHTML = "<h3 style='color:#2ecc71'>مبروووك! أنت طالب مثالي 🎓</h3>";
                 confetti({ particleCount: 300, spread: 180 });
+                // اخفاء زر الانسحاب يا خواف
+                document.getElementById('withdrawBtn').style.display = 'none';
                 return;
             }
 
@@ -560,7 +577,12 @@
                 } else if(randomAnim === 'anim-break') {
                      btn.innerText = "انكسر الزر! 🔨";
                 } else if(randomAnim === 'anim-ghost') {
-                     // لا تغيير للنص، فقط يختفي
+                     // يختفي فقط
+                } else if(randomAnim === 'anim-cam') {
+                     btn.innerText = "📸 طكيتلك صورة!";
+                     var flash = document.getElementById('cameraFlash');
+                     flash.classList.add('flash-active');
+                     setTimeout(() => flash.classList.remove('flash-active'), 200);
                 } else {
                      btn.innerText = "غلط! 😂";
                 }
