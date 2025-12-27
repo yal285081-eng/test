@@ -7,14 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --highlight: #f1c40f;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
         body {
-            background-color: #2c3e50;
+            background-color: var(--primary);
             color: white;
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             text-align: center;
             overflow-x: hidden;
-            padding-bottom: 70px;
+            padding-bottom: 80px; /* مسافة للشريط الاخباري */
         }
 
         /* خلفية الحروف الطائرة */
@@ -35,9 +43,19 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
+        /* تأثير الزجاج (Glassmorphism) */
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+        }
+
         /* الهيدر */
         header {
-            background: #e74c3c; padding: 20px;
+            background: var(--accent); padding: 20px;
             box-shadow: 0 4px 0 #c0392b;
             transform: rotate(-1deg); margin-bottom: 30px;
             position: relative; z-index: 10;
@@ -57,8 +75,8 @@
 
         .playing-animation {
             animation: shake 0.3s infinite; 
-            border-color: #f1c40f !important;
-            box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
+            border-color: var(--highlight) !important;
+            box-shadow: 0 0 25px var(--highlight), 0 0 10px var(--highlight) inset !important;
         }
 
         @keyframes shake {
@@ -70,7 +88,7 @@
         }
 
         .profile-img {
-            width: 170px; height: 170px;
+            width: 160px; height: 160px;
             object-fit: cover; border-radius: 50%;
             border: 5px solid white;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
@@ -80,7 +98,7 @@
 
         .badge {
             position: absolute; bottom: 5px; right: -5px;
-            background: #f1c40f; color: #333;
+            background: var(--highlight); color: #333;
             padding: 5px 12px; border-radius: 15px;
             font-weight: bold; font-family: 'Permanent Marker', cursive;
             transform: rotate(-10deg); border: 2px solid white;
@@ -88,67 +106,69 @@
         }
 
         .click-hint {
-            display: block; font-size: 0.8rem; color: #f1c40f; 
+            display: block; font-size: 0.8rem; color: var(--highlight); 
             margin-bottom: 5px; font-weight: bold;
             animation: blink 2s infinite;
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 
-        /* النص المضحك */
+        /* النص المضحك (مع تأثير الزجاج) */
         .funny-text {
             font-size: 1.1rem; 
-            margin: 20px auto; 
+            margin: 25px auto; 
             max-width: 90%;
             line-height: 1.6; 
-            background: rgba(255,255,255,0.1);
-            padding: 15px; 
-            border-radius: 15px;
-            border: 2px dashed rgba(255,255,255,0.3);
+            padding: 20px; 
         }
 
         .en-word {
             font-family: 'Permanent Marker', cursive;
-            color: #f1c40f; font-size: 1.2em;
+            color: var(--highlight); font-size: 1.2em;
             display: inline-block; 
             margin: 0 2px;
         }
 
-        /* الأزرار */
+        /* === الأزرار (Grid System الجديد) === */
         .btn-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap; /* يسمح بالنزول لسطر جديد */
+            justify-content: center;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding: 0 10px;
+            max-width: 600px;
+            margin-left: auto; margin-right: auto;
         }
 
         .action-btn {
-            background: linear-gradient(to bottom, #3498db, #2980b9);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white; border: none;
-            padding: 15px 40px; font-size: 1.2rem;
-            border-radius: 50px; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
-            font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
-            width: 80%; max-width: 300px;
+            padding: 15px; 
+            border-radius: 20px; cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            font-family: 'Tajawal', sans-serif; 
+            transition: transform 0.2s, box-shadow 0.2s;
+            
+            /* خصائص الشبكة */
+            width: 44%; /* زرين في السطر */
+            min-width: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 110px; /* ارتفاع موحد */
         }
+        
         .action-btn:active { transform: scale(0.95); }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.3); }
 
-        /* زر المترجم جوجل */
-        .google-btn {
-            background: linear-gradient(to bottom, #4285F4, #34a853);
-            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4);
-        }
+        .btn-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .btn-text { font-size: 1rem; font-weight: bold; line-height: 1.2; }
 
-        .predict-btn {
-            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
-            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4);
-        }
-
-        .prank-btn {
-            background: linear-gradient(to bottom, #c0392b, #922b21);
-            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4);
-            border: 2px solid #e74c3c;
-        }
+        /* ألوان الأزرار الخاصة */
+        .google-btn { background: linear-gradient(135deg, #4285F4, #34a853); }
+        .predict-btn { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .prank-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); border: 2px solid rgba(255,255,255,0.2); }
 
         /* === النوافذ المنبثقة (Modals) === */
         .modal-overlay {
@@ -158,21 +178,22 @@
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
 
         .secret-box {
             background: white; color: #333;
             width: 85%; max-width: 400px;
-            padding: 30px; border-radius: 20px;
+            padding: 30px; border-radius: 25px;
             text-align: center;
             position: relative;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
-        .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
-        .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
-        .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
+        /* موديلات مختلفة مع ستايلات خاصة */
+        .homework-style { border-top: 10px solid var(--highlight); }
+        .predict-style { border-top: 10px solid #9b59b6; background: #fdf2f8; }
+        .prank-style { border-top: 10px solid #e74c3c; background: #2c3e50; color: white;}
 
         @keyframes popIn {
             from { transform: scale(0.5); opacity: 0; }
@@ -182,101 +203,58 @@
         .fact-box {
             background: #fdf2e9;
             border-left: 5px solid #e67e22;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 10px;
-            text-align: right;
-            direction: rtl;
+            padding: 15px; margin-top: 20px;
+            border-radius: 10px; text-align: right; direction: rtl;
             min-height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: flex; flex-direction: column; justify-content: center;
         }
-        .fact-title {
-            color: #e67e22;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            font-family: 'Tajawal';
-            font-size: 0.9rem;
-        }
-        .fact-content {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1rem;
-            transition: opacity 0.5s ease-in-out; 
-            opacity: 1;
-        }
+        .fact-title { color: #e67e22; font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9rem; }
+        .fact-content { font-weight: bold; color: #2c3e50; font-size: 1.1rem; transition: opacity 0.5s; }
 
+        /* شريط التقدم للمقلب */
         .progress-container {
-            width: 100%;
-            background-color: #34495e;
-            border-radius: 10px;
-            margin: 20px 0;
-            height: 25px;
-            overflow: hidden;
-            border: 1px solid #7f8c8d;
+            width: 100%; background-color: #34495e;
+            border-radius: 10px; margin: 20px 0;
+            height: 25px; overflow: hidden; border: 1px solid #7f8c8d;
         }
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #2ecc71;
-            transition: width 0.3s;
-        }
-        .status-text {
-            font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px;
-        }
-        .fail-message {
-            display: none;
-            color: #e74c3c;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: shake 0.5s;
-        }
+        .progress-bar { width: 0%; height: 100%; background-color: #2ecc71; transition: width 0.3s; }
+        .status-text { font-size: 1.1rem; margin-bottom: 10px; color: var(--highlight); min-height: 30px; }
+        .fail-message { display: none; color: #e74c3c; font-size: 1.3rem; font-weight: bold; margin-top: 20px; animation: shake 0.5s; }
 
-        .close-icon {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: #bdc3c7;
-            transition: color 0.3s;
-        }
+        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #bdc3c7; }
         .close-icon:hover { color: #e74c3c; }
 
         .close-btn {
-            color: white; border: none;
-            padding: 10px 20px; border-radius: 20px;
-            font-size: 1rem; cursor: pointer; margin-top: 20px;
-            font-weight: bold;
+            color: white; border: none; padding: 10px 25px; border-radius: 50px;
+            font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .news-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background: #c0392b;
-            border-top: 4px solid #f1c40f;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            direction: ltr; 
-        }
-        
-        .ticker-text {
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            width: 100%;
+        /* === شريط الأخبار الحديث (بدون Marquee) === */
+        .ticker-wrap {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 50px; background: #c0392b;
+            border-top: 4px solid var(--highlight);
+            z-index: 9999; overflow: hidden;
+            display: flex; align-items: center;
         }
 
-        .sep { color: #f1c40f; margin: 0 10px; }
+        .ticker-content {
+            display: inline-block; white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 35s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block; font-family: 'Tajawal', sans-serif;
+            font-weight: bold; font-size: 1.2rem; color: white;
+        }
+        .sep { color: var(--highlight); margin: 0 15px; }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
 
     </style>
 </head>
@@ -301,31 +279,44 @@
         <div class="badge">Top Teacher</div>
     </div>
 
-    <div class="funny-text">
-        <p>
+    <div class="funny-text glass-effect">
+        <p style="margin:0;">
             يا هلا بيكم في <span class="en-word">Thayer's Zone</span> 👋<br>
             هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
             والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
-            والـ <span class="en-word">Irregular Verbs</span>؟ راح تمشي عدل "غصباً عنها"! 😂<br>
-            ولا تشيل هم الـ <span class="en-word">Passive</span>، لأنك مع أستاذ ثائر دائماً <span class="en-word">Active</span> ومسيطر 💪<br>
-            <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
+            والـ <span class="en-word">Irregular Verbs</span>؟ تمشي عدل "غصباً عنها"! 😂<br>
+            مع أستاذ ثائر دائماً <span class="en-word">Active</span> ومسيطر 💪
         </p>
     </div>
 
     <div class="btn-container">
-        <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
         
-        <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍 مترجم Google الفوري</button>
+        <button class="action-btn" onclick="openSecret()">
+            <span class="btn-icon">📚</span>
+            <span class="btn-text">الواجب البيتي</span>
+        </button>
+        
+        <button class="action-btn google-btn" onclick="openGoogleTranslate()">
+            <span class="btn-icon">🌍</span>
+            <span class="btn-text">مترجم فوري</span>
+        </button>
 
-        <button class="action-btn predict-btn" onclick="predictGrade()">🔮 توقع درجتك بالامتحان</button>
+        <button class="action-btn predict-btn" onclick="predictGrade()">
+            <span class="btn-icon">🔮</span>
+            <span class="btn-text">توقع درجتك</span>
+        </button>
 
-        <button class="action-btn prank-btn" onclick="openPrank()">⚠️ اضغط هنا لإلغاء الامتحان القادم</button>
+        <button class="action-btn prank-btn" onclick="openPrank()">
+            <span class="btn-icon">⚠️</span>
+            <span class="btn-text">إلغاء الامتحان</span>
+        </button>
+
     </div>
 
     <div id="modalHomework" class="modal-overlay">
         <div class="secret-box homework-style">
-            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
-            <p style="font-size: 1.2rem; line-height: 1.6;">
+            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem; margin-top: 0;">No Homework! 🎉</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6;">
                 بس حبيت أكولك يا أخي الغالي..<br>
                 أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
                 أنت أحسن أخ بالدنيا. <br>
@@ -342,18 +333,18 @@
     </div>
 
     <div id="modalPredict" class="modal-overlay">
-        <div class="secret-box predict-style" style="position: relative;">
+        <div class="secret-box predict-style">
             <span class="close-icon" onclick="closeModal('modalPredict')">✖</span>
-            <h2 style="color: #8e44ad; font-family: 'Tajawal'; margin-bottom: 20px;">🔮 حظك يكول:</h2>
-            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; transition: all 0.2s;"></p>
+            <h2 style="color: #8e44ad; margin-bottom: 20px;">🔮 حظك يكول:</h2>
+            <p id="predictionText" style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; min-height: 60px; display: flex; align-items: center; justify-content: center;"></p>
             <button class="close-btn" style="background: #8e44ad;" onclick="predictGrade()">جرب مرة ثانية 🎲</button>
         </div>
     </div>
 
     <div id="modalPrank" class="modal-overlay">
-        <div class="secret-box prank-style" style="position: relative;">
+        <div class="secret-box prank-style">
             <span class="close-icon" onclick="closeModal('modalPrank')">✖</span>
-            <h2 style="font-family: 'Tajawal'; margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
+            <h2 style="margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
             <div id="statusText" class="status-text">جاري الاتصال بوزارة التربية...</div>
             <div class="progress-container">
                 <div id="progressBar" class="progress-bar"></div>
@@ -366,20 +357,22 @@
         </div>
     </div>
 
-    <div class="news-container">
-        <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
-            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
-            <span class="sep">|</span>
-            🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
-            <span class="sep">|</span>
-            🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
-            <span class="sep">|</span>
-            📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
-            <span class="sep">|</span>
-            🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
-            <span class="sep">|</span>
-            ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
-        </marquee>
+    <div class="ticker-wrap">
+        <div class="ticker-content">
+            <div class="ticker-item">
+                🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
+                <span class="sep">|</span>
+                🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم 
+                <span class="sep">|</span>
+                🚀 مستويات اللغة الإنجليزية ترتفع بسرعة الصاروخ في العراق 
+                <span class="sep">|</span>
+                📖 خبر هام: قاموس أكسفورد يعتمد اسم الأستاذ ثائر رسمياً كمرادف للروعة والإبداع 😎 
+                <span class="sep">|</span>
+                🔥 عاجل: الطلاب يرفضون العودة للمنزل ويطالبون بمزيد من دروس استاذ ثائر 📚
+                <span class="sep">|</span>
+                ✏️ خبر عاجل: ارتفاع أسعار قلم الرصاص بسبب استهلاك الأستاذ ثائر 🔥
+            </div>
+        </div>
     </div>
 
     <script>
@@ -395,14 +388,21 @@
                 isPlaying = false;
                 img.classList.remove('playing-animation'); 
             } else {
-                mySong.play();
-                isPlaying = true;
-                img.classList.add('playing-animation'); 
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
+                var playPromise = mySong.play();
+                // التعامل مع سياسات المتصفح اذا منع الصوت
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        isPlaying = true;
+                        img.classList.add('playing-animation'); 
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
+                    }).catch(error => {
+                        alert("يرجى التفاعل مع الصفحة أولاً لتشغيل الصوت!");
+                    });
+                }
             }
         }
 
-        // === دالة المترجم (تفتح في نافذة منبثقة مستقلة لضمان العمل) ===
+        // === دالة المترجم (نفس القديمة المضبوطة) ===
         function openGoogleTranslate() {
             var width = 500;
             var height = 650;
@@ -472,13 +472,12 @@
             var textElement = document.getElementById('predictionText');
             var modal = document.getElementById('modalPredict');
             textElement.style.opacity = 0;
-            textElement.style.transform = "scale(0.8)";
             
+            // إعادة ضبط المحتوى لتأثير التغيير
             setTimeout(function() {
                 var randomResult = results[Math.floor(Math.random() * results.length)];
                 textElement.innerHTML = randomResult;
                 textElement.style.opacity = 1;
-                textElement.style.transform = "scale(1)";
                 modal.style.display = 'flex';
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }, 200);
@@ -509,4 +508,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
