@@ -86,39 +86,50 @@
             display: inline-block; transform: rotate(-2deg);
         }
 
-        /* جدول الإحصائيات */
-        .grades-card {
-            background: white; color: #333;
-            width: 85%; max-width: 350px; margin: 20px auto;
-            border-radius: 10px; overflow: hidden;
-            box-shadow: 8px 8px 0 rgba(0,0,0,0.2); transform: rotate(1deg);
-        }
-        .card-header { background: #27ae60; color: white; padding: 10px; font-weight: bold; }
-        .grade-row {
-            display: flex; justify-content: space-between;
-            padding: 12px 15px; border-bottom: 2px solid #eee;
-            font-weight: bold; font-size: 0.95rem;
-        }
-        .grade { color: #c0392b; font-family: 'Permanent Marker', cursive; }
-
         /* الزر */
         .action-btn {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white; border: none;
-            padding: 12px 25px; font-size: 1.1rem;
+            padding: 15px 30px; font-size: 1.3rem;
             border-radius: 50px; cursor: pointer;
-            margin-top: 15px; margin-bottom: 20px;
+            margin-top: 30px; margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
             font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
         }
         .action-btn:active { transform: scale(0.95); }
 
-        .secret-msg {
-            display: none; margin: 20px auto; width: 90%;
-            padding: 20px; background: #fff; color: #333;
-            border-radius: 10px; animation: popUp 0.5s;
+        /* === الرسالة (نافذة منبثقة بنص الشاشة) === */
+        .modal-overlay {
+            display: none; /* مخفي بالبداية */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* خلفية معتمة */
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
-        @keyframes popUp { from {transform: scale(0.5); opacity:0;} to {transform: scale(1); opacity:1;} }
+
+        .secret-box {
+            background: white; color: #333;
+            width: 85%; max-width: 400px;
+            padding: 30px; border-radius: 20px;
+            text-align: center;
+            position: relative;
+            border: 5px solid #f1c40f;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            background: #e74c3c; color: white; border: none;
+            padding: 10px 20px; border-radius: 20px;
+            font-size: 1rem; cursor: pointer; margin-top: 20px;
+            font-weight: bold;
+        }
 
         /* === شريط الأخبار اليدوي === */
         .news-container {
@@ -149,8 +160,6 @@
 </head>
 <body>
 
-    <audio id="cheer-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
-
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
         <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
@@ -179,33 +188,20 @@
         </p>
     </div>
 
-    <div class="grades-card">
-        <div class="card-header">Teacher Stats (إحصائيات)</div>
-        <div class="grade-row">
-            <span>Grammar Skills</span>
-            <span class="grade">Level Max 🚀</span>
-        </div>
-        <div class="grade-row">
-            <span>Student Love</span>
-            <span class="grade">100% ❤️</span>
-        </div>
-        <div class="grade-row">
-            <span>Using Red Pen</span>
-            <span class="grade">Dangerous 🔥</span>
-        </div>
-    </div>
+    <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
 
-    <button class="action-btn" onclick="revealSecret()">Press for Homework 📚</button>
-
-    <div id="secret" class="secret-msg">
-        <h2 style="color: #2c3e50;">No Homework Today! 🎉</h2>
-        <p>
-            بس حبيت أكولك يا أخي الغالي..<br>
-            أنت مو بس <span class="en-word">Teacher</span> عظيم،<br>
-            أنت أحسن أخ بالدنيا. <br>
-            <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
-        </p>
-        <div style="font-size: 3rem; margin-top: 10px;">🍎📖❤️</div>
+    <div id="modal" class="modal-overlay">
+        <div class="secret-box">
+            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
+            <p style="font-size: 1.2rem; line-height: 1.6;">
+                بس حبيت أكولك يا أخي الغالي..<br>
+                أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
+                أنت أحسن أخ بالدنيا. <br>
+                <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
+            </p>
+            <div style="font-size: 4rem; margin: 15px 0;">🎁👑🍎</div>
+            <button class="close-btn" onclick="closeSecret()">إغلاق X</button>
+        </div>
     </div>
 
     <div class="news-container">
@@ -225,31 +221,21 @@
     </div>
 
     <script>
-        function revealSecret() {
-            var secretDiv = document.getElementById('secret');
-            var btn = document.querySelector('.action-btn');
-            var sound = document.getElementById('cheer-sound'); // تعريف الصوت
+        function openSecret() {
+            // إظهار النافذة
+            document.getElementById('modal').style.display = 'flex';
             
-            if (secretDiv.style.display === 'block') {
-                secretDiv.style.display = 'none';
-                btn.innerHTML = "Press for Homework 📚";
-                btn.style.background = "linear-gradient(to bottom, #3498db, #2980b9)";
-            } else {
-                secretDiv.style.display = 'block';
-                
-                // تشغيل الاحتفالات
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
+            // تشغيل الاحتفالات (بدون صوت)
+            confetti({
+                particleCount: 200,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+        }
 
-                // تشغيل الصوت
-                sound.play(); 
-                
-                btn.innerHTML = "Close / إغلاق";
-                btn.style.background = "#e74c3c";
-            }
+        function closeSecret() {
+            // إخفاء النافذة
+            document.getElementById('modal').style.display = 'none';
         }
     </script>
 
