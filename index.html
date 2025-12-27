@@ -55,16 +55,13 @@
             cursor: pointer;
         }
 
-        /* === كود الاهتزاز والرقص الجديد === */
+        /* حركة الاهتزاز والرقص */
         .playing-animation {
-            /* اهتزاز سريع جداً */
             animation: shake 0.3s infinite; 
             border-color: #f1c40f !important;
-            /* توهج ذهبي */
             box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
         }
 
-        /* تفاصيل الاهتزاز */
         @keyframes shake {
             0% { transform: rotate(0deg) scale(1); }
             25% { transform: rotate(-3deg) scale(1.05); }
@@ -113,17 +110,40 @@
             display: inline-block; transform: rotate(-2deg);
         }
 
-        /* الزر */
+        /* الأزرار */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
         .action-btn {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white; border: none;
-            padding: 15px 30px; font-size: 1.3rem;
+            padding: 15px 40px; font-size: 1.2rem;
             border-radius: 50px; cursor: pointer;
-            margin-top: 30px; margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
             font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
+            width: 80%; max-width: 300px;
         }
         .action-btn:active { transform: scale(0.95); }
+
+        /* زر التوقع الجديد */
+        .predict-btn {
+            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4);
+        }
+
+        /* مكان نتيجة التوقع */
+        #predictionResult {
+            font-size: 1.2rem; font-weight: bold;
+            color: #f1c40f; min-height: 30px;
+            margin-top: -10px; margin-bottom: 20px;
+            text-shadow: 1px 1px 2px black;
+            direction: rtl;
+        }
 
         /* === الرسالة === */
         .modal-overlay {
@@ -149,6 +169,15 @@
         @keyframes popIn {
             from { transform: scale(0.5); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
+        }
+
+        /* نبض القلب */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .close-btn {
@@ -216,18 +245,15 @@
         </p>
     </div>
 
-    <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
+    <div class="btn-container">
+        <button class="action-btn" onclick="openSecret()">اضغط هنا للواجب 📚</button>
+        
+        <button class="action-btn predict-btn" onclick="predictGrade()">🔮 توقع درجتك بالامتحان</button>
+        <div id="predictionResult"></div> </div>
 
     <div id="modal" class="modal-overlay">
         <div class="secret-box">
-            <h2 style="color: #2c3e50; font-family: 'Permanent Marker'; font-size: 2rem;">No Homework! 🎉</h2>
-            <p style="font-size: 1.2rem; line-height: 1.6;">
-                بس حبيت أكولك يا أخي الغالي..<br>
-                أنت مو بس <span class="en-word" style="color:#e67e22;">Teacher</span> عظيم،<br>
-                أنت أحسن أخ بالدنيا. <br>
-                <strong>الله يحفظك ويخليك إلنا سند. ❤️</strong>
-            </p>
-            <div style="font-size: 4rem; margin: 15px 0;">❤️</div>
+            <div style="font-size: 8rem; animation: heartbeat 1.5s infinite;">❤️</div>
             <button class="close-btn" onclick="closeSecret()">إغلاق X</button>
         </div>
     </div>
@@ -251,6 +277,10 @@
     <script>
         // تعريف الأغنية
         var mySong = new Audio('song.mp3'); 
+        
+        // تفعيل التكرار (Loop) - الأغنية ما توكف
+        mySong.loop = true;
+
         var isPlaying = false;
 
         function toggleSong() {
@@ -259,29 +289,57 @@
             if (isPlaying) {
                 mySong.pause();
                 isPlaying = false;
-                img.classList.remove('playing-animation'); // ايقاف الرقص
+                img.classList.remove('playing-animation'); 
             } else {
                 mySong.play();
                 isPlaying = true;
-                img.classList.add('playing-animation'); // تشغيل الرقص والاهتزاز
-                
-                // دفعة قوية من الأوراق الملونة عند تشغيل الأغنية
+                img.classList.add('playing-animation'); 
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
             }
         }
 
         function openSecret() {
             document.getElementById('modal').style.display = 'flex';
-            
-            confetti({
-                particleCount: 200,
-                spread: 90,
-                origin: { y: 0.6 }
-            });
+            confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
         }
 
         function closeSecret() {
             document.getElementById('modal').style.display = 'none';
+        }
+
+        // === كود لعبة التوقع (مجموعة ضخمة) ===
+        function predictGrade() {
+            var results = [
+                "100% (غصباً علي)",
+                "إعفاء عام (تستاهل) 🫡",
+                "ناجح حافة (دفرات) 🌚",
+                "الأول عالعراق 🥇",
+                "يرادلك خرزة وزيارة 🧿",
+                "راجعني للإدارة فوراً 🏃‍♂️",
+                "دكتور المستقبل 🩺",
+                "صفر مكعب (لا تصدك) 🧊",
+                "عبقري زمانك 🧠",
+                "راح تجيب العيد 🎉",
+                "ناجح بدعوات الوالدة 🤲",
+                "بس تنجح نذبح طلي 🐑",
+                "99 (باقيلك درجة) 🤏",
+                "وزير التربية القادم 💼",
+                "ناجح بس لا تسأل شلون 🤫",
+                "طالع دور ثاني (جذب الشقة) 😂",
+                "راح ترفع راسنا 🦁",
+                "الوضع Under Control 😎",
+                "ادرس زين معليك بالتوقعات 🤓",
+                "ناجح على حافة ",
+                "راسب (بقلوبنا) ❤️"
+            ];
+            
+            var randomResult = results[Math.floor(Math.random() * results.length)];
+            var resultDiv = document.getElementById('predictionResult');
+            
+            resultDiv.innerHTML = "✨ " + randomResult + " ✨";
+            
+            // احتفال صغير
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
         }
     </script>
 
