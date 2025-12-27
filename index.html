@@ -119,7 +119,7 @@
         }
         @keyframes popUp { from {transform: scale(0.5); opacity:0;} to {transform: scale(1); opacity:1;} }
 
-        /* شريط الأخبار المتصل */
+        /* === شريط الأخبار المتصل الاحترافي === */
         .news-ticker {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: #c0392b; color: white;
@@ -128,20 +128,25 @@
             z-index: 100;
             display: flex;
         }
-        
-        .news-content {
-            display: inline-block;
-            white-space: nowrap;
-            padding-left: 0;
-            animation: ticker 60s linear infinite; /* وقت أطول لحركة أنعم */
-            font-family: 'Tajawal', sans-serif; font-weight: bold;
-            font-size: 1.1rem;
+
+        /* الحاوية اللي تتحرك */
+        .ticker-content {
+            display: flex;
+            animation: scroll 60s linear infinite; /* سرعة 60 ثانية */
         }
 
-        /* حركة الشريط - تكرار لانهائي */
-        @keyframes ticker {
+        .ticker-item {
+            font-family: 'Tajawal', sans-serif; 
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-right: 50px; /* مسافة بين نهاية الخبر وبداية التكرار */
+            white-space: nowrap;
+        }
+
+        /* حركة الشريط: تحرك للنصف فقط لأننا كررنا النص مرتين */
+        @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); } /* تحريك النص بالكامل لليسار */
+            100% { transform: translateX(-50%); } 
         }
 
     </style>
@@ -206,9 +211,24 @@
     </div>
 
     <div class="news-ticker">
-        <div class="news-content">
-            &nbsp; &nbsp; 🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 --- 🔴 عاجل: الطلاب يحبون حصة الأستاذ ثائر أكثر من الفرصة! --- ⚠️ Warning: English level is rising fast! --- 🔴 خبر هام: الانكليزي صار أسهل مادة بالعراق! --- 🔥 Breaking: Thayer voted best brother and teacher in the world! &nbsp; &nbsp; 
-            🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 --- 🔴 عاجل: الطلاب يحبون حصة الأستاذ ثائر أكثر من الفرصة! --- ⚠️ Warning: English level is rising fast! --- 🔴 خبر هام: الانكليزي صار أسهل مادة بالعراق! --- 🔥 Breaking: Thayer voted best brother and teacher in the world! &nbsp; &nbsp;
+        <div class="ticker-content">
+            <span class="ticker-item">
+                🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 &nbsp;|&nbsp; 
+                🌍 عاجل: الأمم المتحدة تصنف "صف المستر ثائر" كأسعد مكان في العالم &nbsp;|&nbsp; 
+                ⚠️ Warning: English levels skyrocketing in Iraq! 🚀 &nbsp;|&nbsp; 
+                📖 خبر هام: قاموس أكسفورد يضيف كلمة "Thayer" كمرادف للروعة 😎 &nbsp;|&nbsp; 
+                🔥 Breaking: Students refuse to go home, demanding more grammar lessons! 📚 &nbsp;|&nbsp; 
+                🔴 ارتفاع أسعار القلم الأحمر في الأسواق بسبب استهلاك الأستاذ ثائر 🔥
+            </span>
+            
+            <span class="ticker-item">
+                🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 &nbsp;|&nbsp; 
+                🌍 عاجل: الأمم المتحدة تصنف "صف الاستاذ ثائر" كأسعد مكان في العالم &nbsp;|&nbsp; 
+                ⚠️ Warning: English levels skyrocketing in Iraq! 🚀 &nbsp;|&nbsp; 
+                📖 خبر هام: قاموس أكسفورد يضيف كلمة "Thayer" كمرادف للروعة 😎 &nbsp;|&nbsp; 
+                🔥 Breaking: Students refuse to go home, demanding more grammar lessons! 📚 &nbsp;|&nbsp; 
+                🔴 ارتفاع أسعار اقلام الرصاص في الأسواق بسبب استهلاك الأستاذ ثائر 🔥
+            </span>
         </div>
     </div>
 
