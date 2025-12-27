@@ -169,13 +169,34 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        /* نبض القلب */
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            40% { transform: scale(1); }
-            60% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        /* تنسيق فقرة هل تعلم داخل النافذة */
+        .fact-box {
+            background: #fdf2e9;
+            border-left: 5px solid #e67e22;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-align: right;
+            direction: rtl;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .fact-title {
+            color: #e67e22;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-family: 'Tajawal';
+            font-size: 0.9rem;
+        }
+        .fact-content {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            transition: opacity 0.5s ease-in-out; 
+            opacity: 1;
         }
 
         .close-btn {
@@ -260,7 +281,12 @@
                 أنت أحسن أخ بالدنيا. <br>
                 <strong>الله يحفظك ويخليك إلنا سند.</strong>
             </p>
-            <div style="font-size: 5rem; margin-top: 15px; animation: heartbeat 1.5s infinite;">❤️</div>
+            
+            <div class="fact-box">
+                <span class="fact-title">💡 هل تعلم؟</span>
+                <span id="randomFactDisplay" class="fact-content">...</span>
+            </div>
+
             <button class="close-btn" style="background: #e74c3c;" onclick="closeModal('modalHomework')">إغلاق X</button>
         </div>
     </div>
@@ -290,7 +316,7 @@
     </div>
 
     <script>
-        // === الموسيقى (مع تكرار) ===
+        // === الموسيقى ===
         var mySong = new Audio('song.mp3'); 
         mySong.loop = true; 
         var isPlaying = false;
@@ -309,17 +335,61 @@
             }
         }
 
+        // === حقائق هل تعلم ===
+        var facts = [
+            "Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى قبل لا يترجم.",
+            "الأستاذ ثائر ما يصحح الأوراق، الأوراق هي تصلح أخطاءها من الخوف.",
+            "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.",
+            "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.",
+            "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.",
+            "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.",
+            "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."
+        ];
+
+        var factInterval; 
+        var currentFactIndex = 0;
+
         // === النوافذ ===
         function openSecret() {
             document.getElementById('modalHomework').style.display = 'flex';
             confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+
+            // 1. عرض معلومة فوراً
+            updateFact();
+            
+            // 2. تشغيل العداد (كل 7 ثواني)
+            clearInterval(factInterval);
+            factInterval = setInterval(animateFactChange, 7000); 
+        }
+
+        function animateFactChange() {
+            var textElement = document.getElementById('randomFactDisplay');
+            
+            // اخفاء النص
+            textElement.style.opacity = 0;
+            
+            setTimeout(function() {
+                updateFact(); // تغيير النص
+                textElement.style.opacity = 1; // اعادة اظهار النص
+            }, 500); 
+        }
+
+        function updateFact() {
+            document.getElementById('randomFactDisplay').innerHTML = facts[currentFactIndex];
+            currentFactIndex++;
+            if (currentFactIndex >= facts.length) {
+                currentFactIndex = 0; 
+            }
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'modalHomework') {
+                clearInterval(factInterval);
+            }
         }
 
-        // === التوقعات (تم حذف "ناجح حافة" و "مطيح حظ المادة") ===
+        // === التوقعات ===
         function predictGrade() {
             var results = [
                 "100% (غصباً علي)",
@@ -347,11 +417,11 @@
             ];
             
             var randomResult = results[Math.floor(Math.random() * results.length)];
-            
             document.getElementById('predictionText').innerHTML = randomResult;
             document.getElementById('modalPredict').style.display = 'flex';
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
+
     </script>
 
 </body>
