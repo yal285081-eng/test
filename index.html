@@ -154,20 +154,21 @@
             animation: popIn 0.3s;
         }
 
-        /* === تأثيرات المبخرة (دخان واقعي من الأسفل) === */
+        /* === تأثيرات المبخرة (دخان واقعي مستمر) === */
         .smoke-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9000; display: none;
+            pointer-events: auto; /* يسمح بالضغط للإغلاق */
+            z-index: 9000; display: none;
+            cursor: pointer;
         }
-        /* تصميم الدخان بدون ايموجي */
         .smoke-particle {
             position: absolute;
-            bottom: -50px; /* يبدأ من تحت */
+            bottom: -60px; /* يبدأ من تحت الشاشة */
             background: radial-gradient(circle, rgba(220,220,220,0.8) 0%, rgba(255,255,255,0) 70%);
             border-radius: 50%;
-            width: 80px; height: 80px; /* حجم الدخان */
+            width: 100px; height: 100px;
             opacity: 0;
-            filter: blur(8px); /* تأثير ضبابي */
+            filter: blur(10px);
             animation: smokeRise 4s forwards;
         }
         .protection-msg {
@@ -176,13 +177,14 @@
             padding: 20px; border-radius: 15px; z-index: 9001;
             text-align: center; display: none;
             box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
+            pointer-events: none; /* يسمح بالضغط خلف الرسالة */
             animation: popIn 0.5s;
         }
 
         @keyframes smokeRise {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) scale(3); opacity: 0; }
+            100% { transform: translateY(-110vh) scale(4); opacity: 0; }
         }
         /* ========================================= */
 
@@ -365,7 +367,7 @@
 
     <div id="cameraFlash" class="camera-flash"></div>
 
-    <div id="smokeOverlay" class="smoke-overlay"></div>
+    <div id="smokeOverlay" class="smoke-overlay" onclick="stopIncense()"></div>
     <div id="protectionMsg" class="protection-msg">
         <h2 style="color:#f1c40f; margin:0;">🧿 تم التحصين</h2>
         <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل<br>عين الحاسود بيها عود</p>
@@ -524,10 +526,12 @@
         var isPlaying = false;
 
         // === أصوات الإضافات الجديدة ===
-        // التعديل: تم تغيير اسم الملف إلى 1.mp3
         var harmalSound = new Audio('1.mp3'); 
-        var ringtoneSound = new Audio('techno.mp3'); // نغمة التكنو
+        harmalSound.loop = true; // الصوت يستمر بالتكرار
+        var ringtoneSound = new Audio('techno.mp3');
         ringtoneSound.loop = true;
+
+        var incenseInterval; // متغير لحفظ حركة الدخان
 
         function toggleSong() {
             var img = document.getElementById('teacherImg');
@@ -546,36 +550,59 @@
         // === وظيفة المبخرة الالكترونية ===
         function startIncense(event) {
             event.stopPropagation();
-            try { harmalSound.play(); } catch(e){}
+            if (incenseInterval) return; // يمنع التكرار اذا كان شغال
+
+            try { 
+                harmalSound.currentTime = 0;
+                harmalSound.play(); 
+            } catch(e){}
 
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
             overlay.style.display = 'block';
             msg.style.display = 'block';
 
-            // إنشاء دخان واقعي بدون ايموجي
-            for(let i=0; i<25; i++) {
+            // تفعيل الإغلاق عند الضغط في أي مكان
+            document.addEventListener('click', stopIncense);
+
+            // توليد دخان مستمر
+            incenseInterval = setInterval(() => {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
-                // تم مسح الايموجي واستخدام الستايل فقط
                 p.style.left = Math.random() * 100 + '%';
                 p.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                p.style.animationDelay = Math.random() * 1 + 's';
                 overlay.appendChild(p);
-            }
+                
+                // حذف العنصر بعد انتهاء الانيميشن لتخفيف الحمل
+                setTimeout(() => { p.remove(); }, 5000);
+            }, 100);
+        }
 
-            // إخفاء التأثير بعد فترة
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                msg.style.display = 'none';
-                overlay.innerHTML = ''; 
-            }, 5000);
+        // === وظيفة إيقاف المبخرة ===
+        function stopIncense() {
+            var overlay = document.getElementById('smokeOverlay');
+            var msg = document.getElementById('protectionMsg');
+
+            if (overlay.style.display === 'none') return;
+
+            harmalSound.pause();
+            harmalSound.currentTime = 0;
+            
+            clearInterval(incenseInterval); // وقف توليد الدخان
+            incenseInterval = null;
+
+            overlay.style.display = 'none';
+            msg.style.display = 'none';
+            overlay.innerHTML = ''; // تنظيف الشاشة من الدخان الباقي
+            
+            // إلغاء استماع الضغط
+            document.removeEventListener('click', stopIncense);
         }
 
         // === وظيفة الاتصال ===
         function startCallPrank(event) {
             event.stopPropagation();
-            if(isPlaying) toggleSong(); // ايقاف الاغنية الاصلية
+            if(isPlaying) toggleSong();
 
             try { ringtoneSound.play(); } catch(e){}
             document.getElementById('incomingCallScreen').style.display = 'flex';
@@ -588,9 +615,8 @@
         }
 
         function answerCall() {
-            // عند الرد على الاتصال
-            endCallPrank(); // ايقاف الرنين
-            document.getElementById('callResponseBox').style.display = 'block'; // اظهار الرسالة
+            endCallPrank();
+            document.getElementById('callResponseBox').style.display = 'block';
         }
 
         function closeCallMsg() {
@@ -827,4 +853,4 @@
 
     </script>
 </body>
-    </html>
+        </html>
