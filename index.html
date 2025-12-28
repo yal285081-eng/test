@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -254,18 +254,21 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
         }
 
-        /* === زر اليوتيوب المعدل === */
+        /* === زر اليوتيوب المعدل (التعديل تم هنا) === */
         .youtube-container {
-            width: 90%; max-width: 400px; 
+            width: 90%; 
+            max-width: 250px; /* تم التصغير من 400 إلى 250 */
             margin: 0 auto 20px; 
             padding: 0 10px; 
             box-sizing: border-box;
-            transform: translateX(10px); 
+            /* تم حذف transform: translateX(10px); لتوسيط الزر بدقة */
         }
         .yt-btn {
             display: block; width: 100%; text-decoration: none;
             background: linear-gradient(45deg, #FF0000, #c4302b);
-            color: white; padding: 15px; border-radius: 15px;
+            color: white; 
+            padding: 10px; /* تم تقليل الحشوة لتصغير الزر */
+            border-radius: 15px;
             font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
             transition: transform 0.1s;
@@ -857,5 +860,4 @@
 
     </script>
 </body>
-    </html>
-
+         </html>
