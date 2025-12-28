@@ -274,7 +274,7 @@
         
         <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
 
-        <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>التوقع</button>
+        <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
         
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
     </div>
@@ -454,7 +454,7 @@
             document.getElementById('savedStudents').innerText = savedCount.toLocaleString();
         }, 2000);
 
-        // === كود الاختبار المستحيل (الـ 10 أسئلة الأصلية) ===
+        // === كود الاختبار المستحيل ===
         var questions = [
             {
                 q: "ليش الـ Past Simple نسميه (بسيط)؟",
@@ -506,7 +506,7 @@
             },
             {
                 q: "شلون الأستاذ يعرف الما كاتب الواجب؟",
-                a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل العريف"],
+                a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل المدير"],
                 correct: 0,
                 wrongTypes: ["anim-cam", "anim-ghost"]
             },
@@ -519,9 +519,11 @@
         ];
 
         var currentQIndex = 0;
+        var isProcessing = false; // متغير لمنع تكرار الضغط
 
         function startQuiz() {
             currentQIndex = 0;
+            isProcessing = false;
             // إظهار زر الانسحاب عند بدء اختبار جديد
             document.getElementById('withdrawBtn').style.display = 'inline-block';
             document.getElementById('modalQuiz').style.display = 'flex';
@@ -554,15 +556,28 @@
         }
 
         function checkAnswer(btn, index, qData) {
+            // اذا المعالجة جارية، لا تسوي شي (يمنع الضغط المتكرر)
+            if (isProcessing) return;
+
             if (index === qData.correct) {
+                isProcessing = true; // قفل الضغط
                 btn.style.background = "#2ecc71";
                 btn.innerText = "صح! كفووو 😍";
                 confetti({ particleCount: 50, spread: 50, origin: { y: 0.5 } });
                 setTimeout(() => {
                     currentQIndex++;
                     loadQuestion();
+                    isProcessing = false; // فتح القفل بعد تحميل السؤال الجديد
                 }, 1000);
             } else {
+                // تعديل خاص للسؤال العاشر (جاهز؟) اذا جاوب "لا"
+                if (currentQIndex === 9 && index === 0) {
+                     btn.innerText = "غصباً عليك جاهز 😊";
+                     btn.style.background = "#e74c3c";
+                     btn.style.color = "white";
+                     return; 
+                }
+
                 // حركة عشوائية للزر الغلط
                 var randomAnim = qData.wrongTypes[Math.floor(Math.random() * qData.wrongTypes.length)];
                 btn.classList.add(randomAnim);
@@ -591,4 +606,4 @@
 
     </script>
 </body>
-    </html>
+                </html>
