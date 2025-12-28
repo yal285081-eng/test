@@ -62,6 +62,8 @@
             position: relative; display: inline-block;
             margin-top: 10px; transition: transform 0.3s;
             cursor: pointer;
+            /* للتأكد من ان العناصر الجانبية لا تغطى */
+            z-index: 20; 
         }
         .playing-animation {
             animation: shake 0.3s infinite; 
@@ -89,6 +91,86 @@
             transform: rotate(-10deg); border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        /* === إضافات الأزرار الجانبية (المبخرة والهاتف) === */
+        .side-emoji {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 25;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+        }
+        .side-emoji:hover { transform: translateY(-50%) scale(1.3); }
+        .side-emoji:active { transform: translateY(-50%) scale(0.9); }
+        
+        /* الهاتف على اليسار */
+        .emoji-left {
+            left: -50px;
+            animation: floatEmojiLeft 3s ease-in-out infinite;
+        }
+        /* المبخرة على اليمين */
+        .emoji-right {
+            right: -50px;
+            animation: floatEmojiRight 3.5s ease-in-out infinite;
+        }
+
+        @keyframes floatEmojiLeft { 0%,100%{transform:translateY(-50%) rotate(-10deg);} 50%{transform:translateY(-60%) rotate(10deg);} }
+        @keyframes floatEmojiRight { 0%,100%{transform:translateY(-50%) rotate(10deg);} 50%{transform:translateY(-40%) rotate(-10deg);} }
+
+        /* === تأثيرات شاشة الاتصال === */
+        .call-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 10000;
+            flex-direction: column; align-items: center; justify-content: space-between;
+            padding: 60px 20px; box-sizing: border-box;
+            backdrop-filter: blur(10px);
+        }
+        .call-info { text-align: center; animation: pulseCall 2s infinite; }
+        .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
+        .caller-name { font-size: 2rem; margin: 0; font-weight: normal; }
+        .call-status { color: #bdc3c7; font-size: 1.2rem; margin-top: 10px; }
+        .call-actions { display: flex; width: 100%; justify-content: space-around; margin-bottom: 50px; }
+        .call-btn {
+            width: 75px; height: 75px; border-radius: 50%; border: none;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: white; cursor: pointer;
+        }
+        .btn-decline { background: #ff3b30; }
+        .btn-accept { background: #4cd964; animation: bounceCall 1.5s infinite; }
+
+        @keyframes pulseCall { 0%{opacity: 0.8;} 50%{opacity: 1;} 100%{opacity: 0.8;} }
+        @keyframes bounceCall { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
+
+        /* === تأثيرات المبخرة (الدخان) === */
+        .smoke-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; display: none;
+            justify-content: center; align-items: center;
+        }
+        .smoke-particle {
+            position: absolute; bottom: -100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%; opacity: 0;
+            animation: smokeRise 4s forwards;
+        }
+        .protection-msg {
+            position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(44, 62, 80, 0.9); border: 2px solid #f1c40f;
+            padding: 20px; border-radius: 15px; z-index: 9001;
+            text-align: center; display: none;
+            box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
+            animation: popIn 0.5s;
+        }
+
+        @keyframes smokeRise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(3); opacity: 0; }
+        }
+        /* ========================================= */
 
         .click-hint {
             display: block; font-size: 0.8rem; color: #f1c40f; 
@@ -156,10 +238,8 @@
         .youtube-container {
             width: 90%; max-width: 400px; 
             margin: 0 auto 20px; 
-            /* التعديل هنا: محاذاة دقيقة مع المربعات */
             padding: 0 10px; 
             box-sizing: border-box;
-            /* دنيته لليمين */
             transform: translateX(10px); 
         }
         .yt-btn {
@@ -271,6 +351,24 @@
 
     <div id="cameraFlash" class="camera-flash"></div>
 
+    <div id="smokeOverlay" class="smoke-overlay"></div>
+    <div id="protectionMsg" class="protection-msg">
+        <h2 style="color:#f1c40f; margin:0;">🧿 تم التحصين</h2>
+        <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل!<br>راحت عيون اللوكية 😂</p>
+    </div>
+
+    <div id="incomingCallScreen" class="call-overlay">
+        <div class="call-info">
+            <img src="img1.jpg" alt="Caller" class="caller-img">
+            <h1 class="caller-name">Mr. Thayer...</h1>
+            <div class="call-status">Mobile</div>
+        </div>
+        <div class="call-actions">
+            <button class="call-btn btn-decline" onclick="endCallPrank()">📞</button>
+            <button class="call-btn btn-accept" onclick="endCallPrank()">📞</button>
+        </div>
+    </div>
+
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
         <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
@@ -286,6 +384,10 @@
 
     <div class="profile-container" onclick="toggleSong()">
         <span class="click-hint">🎵 اضغط هنا لتشغيل الأغنية 🎵</span>
+        
+        <div class="side-emoji emoji-left" onclick="startCallPrank(event)">📞</div>
+        <div class="side-emoji emoji-right" onclick="startIncense(event)">🧿</div>
+        
         <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
@@ -399,6 +501,12 @@
         mySong.loop = true; 
         var isPlaying = false;
 
+        // === أصوات الإضافات الجديدة (تحتاج ملفات صوتية او سيتم تشغيل كود بدونها) ===
+        // يمكنك استبدال الروابط بملفات محلية مثل harmal.mp3 و ringtone.mp3
+        var harmalSound = new Audio('harmal.mp3'); // صوت طقطقة الحرمل
+        var ringtoneSound = new Audio('ringtone.mp3'); // نغمة الايفون
+        ringtoneSound.loop = true;
+
         function toggleSong() {
             var img = document.getElementById('teacherImg');
             if (isPlaying) {
@@ -411,6 +519,56 @@
                 img.classList.add('playing-animation'); 
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
             }
+        }
+
+        // === وظيفة المبخرة الالكترونية ===
+        function startIncense(event) {
+            event.stopPropagation(); // لمنع تشغيل الاغنية عند الضغط على المبخرة
+            
+            // تشغيل الصوت
+            try { harmalSound.play(); } catch(e){}
+
+            var overlay = document.getElementById('smokeOverlay');
+            var msg = document.getElementById('protectionMsg');
+            overlay.style.display = 'flex';
+            msg.style.display = 'block';
+
+            // إنشاء دخان
+            for(let i=0; i<20; i++) {
+                let p = document.createElement('div');
+                p.className = 'smoke-particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = (Math.random() * 100 + 50) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                p.style.animationDelay = Math.random() * 1 + 's';
+                overlay.appendChild(p);
+            }
+
+            // إخفاء التأثير بعد 4 ثواني
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                msg.style.display = 'none';
+                overlay.innerHTML = ''; // تنظيف الدخان
+            }, 5000);
+        }
+
+        // === وظيفة الاتصال المرعب ===
+        function startCallPrank(event) {
+            event.stopPropagation(); // لمنع تشغيل الاغنية
+            
+            // ايقاف اغنية الموقع اذا كانت تشتغل
+            if(isPlaying) toggleSong();
+
+            try { ringtoneSound.play(); } catch(e){}
+            document.getElementById('incomingCallScreen').style.display = 'flex';
+        }
+
+        function endCallPrank() {
+            ringtoneSound.pause();
+            ringtoneSound.currentTime = 0;
+            document.getElementById('incomingCallScreen').style.display = 'none';
+            alert("دا أشاقيك .. بس روح اقرأ لا يجيك الصدك! 😂📖");
         }
 
         function openGoogleTranslate() {
@@ -643,4 +801,4 @@
 
     </script>
 </body>
-</html>
+    </html>
