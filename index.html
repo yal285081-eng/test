@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        /* === (نفس الستايلات القديمة) === */
+        /* === نفس الستايلات القديمة مع إضافات بسيطة === */
         body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
         .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 9999; }
         .flash-active { animation: flashAnim 0.2s ease-out; }
@@ -101,7 +101,7 @@
         .ticker-text { font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 1.2rem; color: white; width: 100%; }
         .sep { color: #f1c40f; margin: 0 10px; }
 
-        /* === ستايلات الشات بوت الجديد === */
+        /* === ستايلات الشات بوت === */
         #chat-icon {
             position: fixed; bottom: 70px; right: 20px;
             width: 60px; height: 60px;
@@ -154,6 +154,7 @@
             background: #ecf0f1; color: #2c3e50; align-self: flex-start;
             border-bottom-right-radius: 2px; border: 1px solid #bdc3c7;
         }
+        .msg-angry { background: #e74c3c; color: white; border-color: #c0392b; }
         .bot-typing {
             font-style: italic; color: #7f8c8d; font-size: 0.8rem; margin-right: 10px; display: none;
         }
@@ -166,10 +167,10 @@
     <div id="chat-window">
         <div class="chat-header">
             <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">✖</span>
-            <span>Thaer Bot 🤖</span>
+            <span>Thaer Bot 2.0 🧠</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">هلا بيكم! آني المساعد الذكي للأستاذ ثائر.. بس ديربالكم ترة لساني طويل 😜.. اسألوني أي شي!</div>
+            <div class="msg msg-bot">هلا بيكم! آني المساعد الذكي المطور (2.0).. صرت أذكى وبهواية سوالف! جربوني 😉</div>
         </div>
         <div class="bot-typing" id="typingIndicator">Thaer Bot يكتب...</div>
         <div class="chat-input-area">
@@ -326,24 +327,17 @@
     </div>
 
     <script>
-        // === نفس أكواد Javascript القديمة ===
-        var mySong = new Audio('song.mp3'); 
-        mySong.loop = true; 
+        // === نفس أكواد الموقع الأساسية ===
+        var mySong = new Audio('song.mp3'); mySong.loop = true; 
         var isPlaying = false;
-        var harmalSound = new Audio('1.mp3'); 
-        harmalSound.loop = true; 
-        var ringtoneSound = new Audio('techno.mp3');
-        ringtoneSound.loop = true;
+        var harmalSound = new Audio('1.mp3'); harmalSound.loop = true; 
+        var ringtoneSound = new Audio('techno.mp3'); ringtoneSound.loop = true;
         var incenseInterval; 
 
         function toggleSong() {
             var img = document.getElementById('teacherImg');
-            if (isPlaying) {
-                mySong.pause(); isPlaying = false; img.classList.remove('playing-animation'); 
-            } else {
-                mySong.play(); isPlaying = true; img.classList.add('playing-animation'); 
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
-            }
+            if (isPlaying) { mySong.pause(); isPlaying = false; img.classList.remove('playing-animation'); } 
+            else { mySong.play(); isPlaying = true; img.classList.add('playing-animation'); confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } }); }
         }
 
         function startIncense(event) {
@@ -369,14 +363,12 @@
             if (overlay.style.display === 'none') return;
             harmalSound.pause(); harmalSound.currentTime = 0;
             clearInterval(incenseInterval); incenseInterval = null;
-            overlay.style.display = 'none'; msg.style.display = 'none';
-            overlay.innerHTML = ''; 
+            overlay.style.display = 'none'; msg.style.display = 'none'; overlay.innerHTML = ''; 
             document.removeEventListener('click', stopIncense);
         }
 
         function startCallPrank(event) {
-            event.stopPropagation();
-            if(isPlaying) toggleSong();
+            event.stopPropagation(); if(isPlaying) toggleSong();
             try { ringtoneSound.play(); } catch(e){}
             document.getElementById('incomingCallScreen').style.display = 'flex';
         }
@@ -386,20 +378,13 @@
             document.getElementById('incomingCallScreen').style.display = 'none';
         }
 
-        function answerCall() {
-            endCallPrank();
-            document.getElementById('callResponseBox').style.display = 'block';
-        }
-
-        function closeCallMsg() {
-            document.getElementById('callResponseBox').style.display = 'none';
-        }
+        function answerCall() { endCallPrank(); document.getElementById('callResponseBox').style.display = 'block'; }
+        function closeCallMsg() { document.getElementById('callResponseBox').style.display = 'none'; }
 
         function openGoogleTranslate() {
             var width = 500; var height = 650;
             var left = (screen.width / 2) - (width / 2); var top = (screen.height / 2) - (height / 2);
-            window.open("https://translate.google.com/?sl=ar&tl=en&op=translate", "GoogleTranslate", 
-                "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + ",resizable=yes,scrollbars=yes,status=yes");
+            window.open("https://translate.google.com/?sl=ar&tl=en&op=translate", "GoogleTranslate", "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + ",resizable=yes,scrollbars=yes,status=yes");
         }
 
         var facts = ["Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى.", "الأستاذ ثائر ما يصحح الأوراق، الأوراق تصلح نفسها.", "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.", "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.", "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.", "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.", "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."];
@@ -531,166 +516,224 @@
             }
         }
 
-        /* ========================================= */
-        /* ========== كود الشات بوت الذكي =========== */
-        /* ========================================= */
+        /* ======================================================= */
+        /* ========== 🧠 الذكاء الاصطناعي المطور (2.0) =========== */
+        /* ======================================================= */
 
-        // قاعدة البيانات الكبيرة (200+ رد)
+        // 1. حالة الذاكرة (Memory State)
+        var botMemory = {
+            userName: null,
+            mood: 'normal',
+            lastMsg: '',
+            spamCount: 0,
+            quizMode: false
+        };
+
         const botKnowledge = {
-            // التحية والسلام
             "hello": ["هلا بالغالي، طلع دفترك", "Hello there! ready for the exam?", "يا هلا.. بس لا جاي تسأل عن الدرجات؟"],
             "hi": ["Hi student! انتبه للسبورة", "Welcome.. Speak English please!"],
             "السلام عليكم": ["وعليكم السلام.. ها شكو؟", "وعليكم السلام.. حضر الواجب فوراً", "هلا بيك.. بس بسرعة ما عندي وقت"],
-            "صباح الخير": ["صباح الـ Homework", "يا صباح الامتحانات المفاجئة 😈", "صباح النور.. بس لا متأخر؟"],
-            "مساء الخير": ["مساء الورد.. روح اقرأ باجر عندك تحضير", "يا هلا.. شتسوي كاعد لسه؟ روح نام وراك دوام"],
-            "هلو": ["هلو بيك.. بس مو وقت سوالف", "Welcome.. how are you today?", "هلا.. شنو نسيت اسمك؟"],
             "شلونك": ["أني بخير ما دام أنتم تقرون", "I am fine thank you.. And you?", "تمام.. بس ضغطي يرتفع من أصلح أوراقكم 😂"],
-            "شخبارك": ["بخير.. أفكر بأسئلة صعبة للشهر الأول", "الحمدلله.. بس طلابي يشيبون الراس"],
-
-            // الغزل واللوگية (Flattery)
             "احبك": ["حبك برص.. وين الواجب؟ 😂", "أدري بيك تريد درجات.. ما تمشي علي", "Me too.. but study first!", "اللوگي وصل.. 😒"],
             "استاذ": ["نعم؟ كول بسرعة", "ها؟ شتريد؟ إعفاء ماكو", "Yes? Speak English!"],
             "بطل": ["أدري بنفسي بطل.. روح اقرأ أنت صير بطل", "شكراً شكراً.. بس هذا ما ينجحك", "You are the hero if you study"],
-            "ملك": ["الملك لله.. بس اني ملك الانكليزي طبعاً 😎", "كافي لواگة.. روح احفظ الافعال الشاذة"],
-            "احسن مدرس": ["طبعاً أحسن مدرس.. لعد شعبالك؟", "خجلتني.. بس هم راح تمتحن باجر", "شكراً يا ذوق.. بس الدرجات بالقلم الأحمر"],
-            "اني شاطر": ["نشوف بالامتحان.. الميدان يا حميدان", "شاطر بالحجي.. أريد فعل", "Good! Keep it up"],
-            "وردة": ["أنت الوردة.. بس لا تذبل بالامتحان", "شكراً.. بس ديربالك من الأشواك (الأسئلة الخارجية)"],
-
-            // الامتحانات والدراسة
             "امتحان": ["ها بلشت ترجف؟ 😂", "الامتحان سهل للي قاري", "Exam is coming.. prepare yourself", "لا تسأل عالامتحان.. اقرأ كلشي"],
             "اسئلة": ["الأسئلة من المريخ.. حضر نفسك", "الأسئلة سهلة بس يرادلها تركيز", "Questions will be tricky! 😈"],
-            "مرشحات": ["ماكو مرشحات.. اقرأ الكتاب كله", "المرشحات للضعفاء.. طلاب ثائر يقرون كلشي", "No shortcuts to success!"],
-            "تسريب": ["شنو تسريب؟ تريد تروح ورا الشمس؟ 😂", "عيب هالكلام.. احنا طلاب علم", "أمن الدولة يراقبك.. ديربالك"],
-            "ملخص": ["الملخص موجود بدمك.. اقرأ الكتاب", "سوي ملخص لنفسك يا بطل", "Summary? No, read everything"],
             "واجب": ["الواجب هواي.. حضر أصابعك للكتابة", "Homework is your best friend", "نسيت الواجب؟ صفر مقدماً"],
-            "نسيت": ["نسيت؟ لعد شلون ما نسيت تاكل؟", "Forgot? Then forget your grade!", "النسيان ممنوع في قاموسي"],
-            "صعبة": ["ماكو شي صعب.. بس أنت ما تقرأ", "It's not hard, you are lazy", "سهلة بس ركز.. Focus!"],
-            "ما افتهمت": ["ركز وياي بالشرح.. مو تلعب بالموبايل", "عيد الفيديو 10 مرات تفتهم", "Pay attention next time!"],
             "درجات": ["الدرجات تبجي.. حضروا مناديل", "Grades are loading...", "درجتك تعتمد على تعبك"],
-            "نجاح": ["النجاح يريد سهر مو نوم", "Success comes to those who work hard", "تريد تنجح؟ عوف الموبايل هسه"],
-            "رسوب": ["فال الله ولا فالك.. اقرأ تنجح", "Don't say that word!", "الرسوب مو النا.. احنا أبطال"],
-
-            // أعذار ومشاكل
             "مريض": ["سلامتك.. بس الامتحان ينتظرك", "Get well soon.. but study!", "أعذار قديمة.. شوف غيرها"],
-            "كهرباء": ["شغل شمعة واقرأ", "الكهرباء حجة الكسلان", "No electricity? No problem, use your brain light 💡"],
-            "نت": ["النت يضعف بس وقت الدرس سبحان الله", "النت مو عذر.. الكتاب موجود", "Bad internet? Read the book"],
-            "ازدحام": ["اطلع من وقت", "Traffic is not an excuse", "لو جايب طيارة جان وصلت"],
-            "نعسان": ["غسل وجهك وتعال", "Sleepy? Drink coffee and study", "النوم للضعفاء.. المستقبل للأقوياء"],
-            "تعبت": ["تعبت؟ لعد شلون من تكبر؟", "Tired? Take a break (5 minutes) and return", "المستقبل يستاهل التعب"],
-
-            // نكات وتحشيش
-            "شكو ماكو": ["صافية دافية.. بس الامتحانات نار", "كلشي اكو.. بس درجات ماكو", "Nothing much, just grammar"],
-            "ضايج": ["اقرأ قطعة خارجية تروح الضوجة 😂", "ضايج؟ كوم حل تمارين", "Don't be sad, be smart"],
             "نكتة": ["طالب سألني: أستاذ Past Tense يمتة يموت؟ كتله من تنجح أنت 😂", "مرة طالب نسي يكتب اسمه.. الورقة كتبت اسمه بداله من الخوف"],
             "جذب": ["عيب تكول جذب.. كول Just kidding", "أني ما أجذب.. أني أستاذ", "Don't lie!"],
-            "صدك": ["أي صدك لعد أشاقي وياك؟", "Really? Yes really!", "كل كلمة أقولها قانون"],
-            "اطلع": ["وين تطلع؟ اقعد مكانك", "Get out? No way!", "الباب مفتوح.. بس الدرجة تروح"],
-
-            // أسئلة شخصية
             "شسمك": ["اسمي موجود بالقلب.. مستر ثائر", "Mr. Thaer.. The Legend", "اسمي كابوس الكسالى"],
-            "عمرك": ["العمر مجرد رقم.. المهم الخبرة", "Age is just a number", "أكبر منك بيوم واعلم منك بسنة"],
-            "وين ساكن": ["ساكن بقلوب الطلاب (وبالمدرسة)", "I live in the classroom", "بالنجف.. أشرف مدينة"],
-            "سيارة": ["عندي سيارة بس ما أخذكم بيها", "Do you like cars? Study to buy one"],
-            "تزوجت": ["تزوجت الكتاب والسبورة 😂", "Personal question! Minus 5 marks"],
-            "غداكم": ["دولمة.. تغار؟ 😋", "تمن ومرق.. تفضل ويانا", "Lunch? Focus on the lesson!"],
         };
 
-        // الردود العشوائية (Fallback) - 100 رد للتحشيش والتصريف
         const randomReplies = [
             "روح اقرأ أحسن لك من هالحجي", "ما فهمت.. بس شكلك تريد صفر", "Speak English please, I don't understand Arabic now",
             "هاي السوالف خليها بالفرصة", "Don't waste my time!", "شنو يعني؟ وضح أكثر أو ارجع لمكانك",
             "لا تدوخني.. عندي تصحيح أوراق", "يا ابني مستقبل ضايع اذا تظل هيج", "Focus! Focus! Focus!",
-            "منو سمحلك تحجي؟", "راح أعتبر نفسي ما سمعت", "Go back to your seat", "Open your book page 50",
-            "ترا أنقصك درجات ديربالك", "أكو واحد يحجي هيج وي أستاذه؟", "Silence please!", "Do your homework!",
-            "لا تخليني أطلع الوجه الثاني 😈", "أنت مشروع طالب ناجح.. بس يرادلك فورمات", "ههههه ضحكتني (جذب ما ضحكت)",
-            "شكد تحجي؟ ما تتعب؟", "بطل لواكة وروح ادرس", "هذا الكلام ما يدخلك وزاري", "You are very talkative today",
-            "امتحنكم باجر؟ شو سكتوا؟", "السبورة تشتكي منكم", "القلم الاحمر بيدي.. والقرار الك", "لا تخليني أعصب 😡",
-            "شنو رأيك تعيد السادس؟", "أنت بطل.. بس باللعب مو بالدراسة", "I am watching you...", "Class dismissed? NO!",
-            "اقرأ القطعة الخارجية زين", "احفظ الافعال الشاذة وعوف السوالف", "شنو هالسؤال العبيط؟", "That's a silly question",
-            "ما عندك شغل وعمل؟", "كوم امسح السبورة", "وين الدفتر؟ طلعه بسرعة", "أهلك يدرون بيك كاعد تسولف؟",
-            "روح جيبلي ماي (شقة لا تروح)", "اليوم خميس.. بس هم لازم تقرون", "باجر الجمعة.. استغلوا الوقت",
-            "لا تؤجل عمل اليوم الى الغد", "Time is money, don't waste it", "Be smart, not lazy",
-            "أنت ذكي بس يرادلك قرصة إذن", "شوكت تصير دكتور وتفرحنا؟", "هاي اخر مرة أجاوبك", "Ask your friend, I am busy",
-            "Google it!", "Don't ask me, ask the book", "الجواب موجود بصفحة 20", "ركز زين تفتهم",
-            "لا تصير طنّاش", "خليك نبيه", "شغّل عقلك شوية", "Use your brain!", "Brain.exe not found?",
-            "لا تصفن.. انتبه", "الصافن يطبله صفر", "شبيك تباوع هيج؟", "عيونك بالسبورة مو بالموبايل",
-            "ذب الموبايل وافتح الكتاب", "الموبايل دمر مستقبلكم", "التيك توك ما يفيدك", "الانستقرام ما ينجحك",
-            "ببجي ما توكلك خبز", "الطريق الى النجاح يبدأ من هنا", "Start now!", "Never give up",
-            "You can do it!", "Believe in yourself", "Trust the process", "Mr. Thaer loves you (sometimes)",
-            "أنت ابني وأريد مصلحتك", "رزالتي محبة", "قسوتي عليكم لمصلحتكم", "يوم النتائج تذكر كلامي",
-            "من جد وجد", "English is fun!", "Grammar is easy!", "Vocabulary is power!",
-            "صوتك لا يعلى", "هدوء تام", "Quite please!", "Listen to me!", "Look at the board!",
-            "Write this down", "Take notes", "Don't sleep!", "Wake up!", "صباح الخير (متأخر)",
-            "صح النوم", "وين جنت صافن؟", "شلون بيك؟", "الله يساعد أهلك عليك", "تحملوني مثل ما أتحملكم",
-            "أني نعمة من الله الكم 😎", "قدروا النعمة", "الحمدلله على كل حال", "يلا كافي حجي", "باي (مؤقتاً)"
+            "منو سمحلك تحجي؟", "راح أعتبر نفسي ما سمعت", "Go back to your seat"
+        ];
+
+        // مصفوفة أسئلة الميني كويز
+        const miniQuiz = [
+            {q: "What is the past of 'Go'?", a: "went"},
+            {q: "What is the past of 'See'?", a: "saw"},
+            {q: "What is the past of 'Buy'?", a: "bought"}
         ];
 
         function toggleChat() {
             var win = document.getElementById('chat-window');
-            if (win.style.display === 'flex') {
-                win.style.display = 'none';
-            } else {
-                win.style.display = 'flex';
-                // رسالة ترحيب عشوائية كل مرة يفتح الشات
-                var chatBody = document.getElementById('chatBody');
-                if(chatBody.children.length < 2) { // اذا فارغ بس الرسالة الاولى
-                     // ممكن نضيف شي هنا مستقبلاً
-                }
-            }
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
+        function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
 
         function sendMessage() {
             var input = document.getElementById('chatInput');
             var msg = input.value.trim();
             if (!msg) return;
 
-            // اضافة رسالة المستخدم
             addMsg(msg, 'user');
             input.value = '';
 
-            // محاكاة الكتابة
             var typing = document.getElementById('typingIndicator');
             typing.style.display = 'block';
             var chatBody = document.getElementById('chatBody');
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // تأخير بسيط للرد
             setTimeout(() => {
                 typing.style.display = 'none';
-                var reply = getBotReply(msg);
-                addMsg(reply, 'bot');
-            }, 1000 + Math.random() * 500);
+                // هنا العقل المدبر الجديد
+                processSmartReply(msg);
+            }, 800 + Math.random() * 500);
         }
 
-        function addMsg(text, sender) {
+        function addMsg(text, type) {
             var div = document.createElement('div');
-            div.className = 'msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
+            div.className = 'msg ' + (type === 'user' ? 'msg-user' : (type === 'angry' ? 'msg-bot msg-angry' : 'msg-bot'));
             div.innerText = text;
             var chatBody = document.getElementById('chatBody');
             chatBody.appendChild(div);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        function getBotReply(msg) {
-            msg = msg.toLowerCase();
-            
-            // 1. البحث عن الكلمات المفتاحية
-            for (var key in botKnowledge) {
-                // فحص اذا الرسالة تحتوي الكلمة المفتاحية
-                if (msg.includes(key)) {
-                    var responses = botKnowledge[key];
-                    return responses[Math.floor(Math.random() * responses.length)];
+        // ==========================================
+        // 🔥 المحرك الذكي (The Smart Engine) 🔥
+        // ==========================================
+        function processSmartReply(msg) {
+            // 6. Fuzzy Matching: توحيد النص (حذف التكرار، تحويل لـ Lowercase)
+            let cleanMsg = msg.toLowerCase().replace(/(.)\1+/g, '$1'); 
+
+            // 5. Anti-Spam (مكافحة التكرار)
+            if (cleanMsg === botMemory.lastMsg) {
+                botMemory.spamCount++;
+                if (botMemory.spamCount >= 3) {
+                    addMsg("كافي تعيد الكلام! راح أطردك من الجروب 😡", 'angry');
+                    return;
+                }
+            } else {
+                botMemory.spamCount = 0;
+            }
+            botMemory.lastMsg = cleanMsg;
+
+            // 7. Mini-Quiz Mode (مود المسابقات)
+            if (botMemory.quizMode) {
+                if (cleanMsg.includes(botMemory.currentAnswer)) {
+                    addMsg("عفية بطل! الجواب صح ✅", 'bot');
+                    confetti({ particleCount: 50, spread: 40, origin: { y: 0.8 } });
+                    botMemory.quizMode = false;
+                } else if (cleanMsg === "استسلم" || cleanMsg === "كافي") {
+                    addMsg("يلة ميخالف، الجواب هو: " + botMemory.currentAnswer, 'bot');
+                    botMemory.quizMode = false;
+                } else {
+                    addMsg("خطأ! حاول مرة ثانية (أو اكتب 'استسلم')", 'angry');
+                }
+                return;
+            }
+
+            // 1. Memory: حفظ الاسم
+            if (cleanMsg.includes("اني") || cleanMsg.includes("اسمي")) {
+                let name = msg.replace(/(اني|اسمي)\s*/g, "");
+                botMemory.userName = name;
+                addMsg(`هلا بيك يا "${name}".. سجلت اسمك بدفتر المتميزين (مؤقتاً) 📝`, 'bot');
+                return;
+            }
+
+            // 10. Context: سؤال البوت عن الاسم
+            if (cleanMsg.includes("شنو اسمي") || cleanMsg.includes("تتذكرني")) {
+                if (botMemory.userName) {
+                    addMsg(`طبعاً أتذكرك، أنت "${botMemory.userName}" المشاغب 😉`, 'bot');
+                } else {
+                    addMsg("لا والله، أنت ما كتلي اسمك. كول 'اني فلان'", 'bot');
+                }
+                return;
+            }
+
+            // 4. Math Solver (حل الرياضيات)
+            // Regex يكتشف الارقام والعمليات الحسابية البسيطة
+            let mathRegex = /^(\d+)\s*([\+\-\*\/])\s*(\d+)$/;
+            let mathMatch = cleanMsg.match(mathRegex);
+            if (mathMatch) {
+                try {
+                    let result = eval(cleanMsg); // آمن هنا لأن الـ Regex يسمح فقط بأرقام
+                    addMsg(`بسيطة! الناتج ${result}.. هاي مال ابتدائية مو مال سادس 😂`, 'bot');
+                    return;
+                } catch(e){}
+            }
+
+            // 8. Grade Analysis (تحليل الدرجات)
+            // اذا المستخدم كتب بس رقم (مثلاً "45")
+            if (/^\d{1,3}$/.test(cleanMsg)) {
+                let grade = parseInt(cleanMsg);
+                if (grade >= 100) addMsg("ماشاء الله! أنت عبقري لو غشاش؟ 🤨", 'bot');
+                else if (grade >= 90) addMsg("ممتاز! استمر يا بطل 🌟", 'bot');
+                else if (grade >= 50) addMsg("ناجح بس يرادلك شدة حيل 😐", 'bot');
+                else addMsg("راسب؟! تعال للإدارة فوراً 😡", 'angry');
+                return;
+            }
+
+            // 9. Actions (أوامر تفاعلية)
+            if (cleanMsg.includes("نظف") || cleanMsg.includes("clear")) {
+                document.getElementById('chatBody').innerHTML = '';
+                addMsg("تم تنظيف السبورة (الشات) ✨", 'bot');
+                return;
+            }
+            if (cleanMsg.includes("احتفال") || cleanMsg.includes("نجحت")) {
+                confetti({ particleCount: 150, spread: 100 });
+                addMsg("مبروووووك! 🥳💃", 'bot');
+                return;
+            }
+            if (cleanMsg.includes("اختبرني") || cleanMsg.includes("سؤال")) {
+                let qData = miniQuiz[Math.floor(Math.random() * miniQuiz.length)];
+                botMemory.quizMode = true;
+                botMemory.currentAnswer = qData.a;
+                addMsg("يلا يا بطل، جاوب هذا السؤال: " + qData.q, 'bot');
+                return;
+            }
+
+            // 2. Time Awareness (إدراك الوقت)
+            let hour = new Date().getHours();
+            if (cleanMsg.includes("صباح الخير")) {
+                if (hour >= 12) {
+                    addMsg("يا صباح؟ الدنيا ظهر/ليل! شكلك لسه نايم 😴", 'bot');
+                    return;
+                }
+            }
+            if (cleanMsg.includes("مساء الخير")) {
+                if (hour < 12) {
+                    addMsg("يا مساء؟ بعدها الدنيا صبح! ركز ☕", 'bot');
+                    return;
                 }
             }
 
-            // 2. الرد العشوائي (Fallback)
-            return randomReplies[Math.floor(Math.random() * randomReplies.length)];
-        }
+            // 3. Day Awareness (إدراك اليوم)
+            if (cleanMsg.includes("امتحان شوكت") || cleanMsg.includes("متى الامتحان")) {
+                let day = new Date().getDay(); // 0 = Sunday, 5 = Friday
+                if (day === 5) {
+                    addMsg("اليوم جمعة ارتاح.. الامتحان باجر", 'bot');
+                } else {
+                    addMsg("الامتحان قريب جداً.. اقرأ بدل ما تسأل", 'bot');
+                }
+                return;
+            }
 
+            // البحث في قاعدة البيانات (Keyword Search)
+            for (var key in botKnowledge) {
+                if (cleanMsg.includes(key)) {
+                    var responses = botKnowledge[key];
+                    // استخدام الاسم اذا موجود
+                    var reply = responses[Math.floor(Math.random() * responses.length)];
+                    if (botMemory.userName && Math.random() > 0.5) {
+                        reply = botMemory.userName + ", " + reply;
+                    }
+                    addMsg(reply, 'bot');
+                    return;
+                }
+            }
+
+            // الرد العشوائي (Fallback)
+            addMsg(randomReplies[Math.floor(Math.random() * randomReplies.length)], 'bot');
+        }
     </script>
 </body>
         </html>
