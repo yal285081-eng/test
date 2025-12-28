@@ -62,7 +62,6 @@
             position: relative; display: inline-block;
             margin-top: 10px; transition: transform 0.3s;
             cursor: pointer;
-            /* للتأكد من ان العناصر الجانبية لا تغطى */
             z-index: 20; 
         }
         .playing-animation {
@@ -106,12 +105,10 @@
         .side-emoji:hover { transform: translateY(-50%) scale(1.3); }
         .side-emoji:active { transform: translateY(-50%) scale(0.9); }
         
-        /* الهاتف على اليسار */
         .emoji-left {
             left: -50px;
             animation: floatEmojiLeft 3s ease-in-out infinite;
         }
-        /* المبخرة على اليمين */
         .emoji-right {
             right: -50px;
             animation: floatEmojiRight 3.5s ease-in-out infinite;
@@ -144,21 +141,34 @@
         @keyframes pulseCall { 0%{opacity: 0.8;} 50%{opacity: 1;} 100%{opacity: 0.8;} }
         @keyframes bounceCall { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
 
-        /* === تأثيرات المبخرة (الدخان) === */
+        /* مربع رسالة بعد الاتصال */
+        .call-msg-box {
+            display: none;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #fff; color: #333;
+            width: 80%; max-width: 350px;
+            padding: 25px; border-radius: 20px;
+            text-align: center; z-index: 10001;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            border: 4px solid #4cd964;
+            animation: popIn 0.3s;
+        }
+
+        /* === تأثيرات المبخرة (دخان وايموجيات) === */
         .smoke-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9000; display: none;
             justify-content: center; align-items: center;
         }
         .smoke-particle {
-            position: absolute; bottom: -100px;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%; opacity: 0;
-            animation: smokeRise 4s forwards;
+            position: absolute; bottom: -50px;
+            font-size: 3rem; /* حجم ايموجي الدخان */
+            opacity: 0;
+            animation: smokeRise 3s forwards;
         }
         .protection-msg {
             position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(44, 62, 80, 0.9); border: 2px solid #f1c40f;
+            background: rgba(44, 62, 80, 0.95); border: 2px solid #f1c40f;
             padding: 20px; border-radius: 15px; z-index: 9001;
             text-align: center; display: none;
             box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
@@ -166,9 +176,9 @@
         }
 
         @keyframes smokeRise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) scale(3); opacity: 0; }
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-80vh) scale(2) rotate(20deg); opacity: 0; }
         }
         /* ========================================= */
 
@@ -354,7 +364,7 @@
     <div id="smokeOverlay" class="smoke-overlay"></div>
     <div id="protectionMsg" class="protection-msg">
         <h2 style="color:#f1c40f; margin:0;">🧿 تم التحصين</h2>
-        <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل!<br>راحت عيون اللوكية 😂</p>
+        <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل<br>عين الحاسود بيها عود 💨</p>
     </div>
 
     <div id="incomingCallScreen" class="call-overlay">
@@ -364,9 +374,17 @@
             <div class="call-status">Mobile</div>
         </div>
         <div class="call-actions">
-            <button class="call-btn btn-decline" onclick="endCallPrank()">📞</button>
-            <button class="call-btn btn-accept" onclick="endCallPrank()">📞</button>
+            <button class="call-btn btn-decline" onclick="endCallPrank(false)">📞</button>
+            <button class="call-btn btn-accept" onclick="answerCall()">📞</button>
         </div>
+    </div>
+
+    <div id="callResponseBox" class="call-msg-box">
+        <h3 style="color:#27ae60; margin-top:0;">تم الرد 📞</h3>
+        <p style="font-size:1.2rem; line-height:1.5; font-weight:bold;">
+            جاي اشاقة وياك بس روح اقرا لا اتصل عليك من صدك 😂
+        </p>
+        <button class="close-btn" style="background:#2ecc71; margin-top:10px;" onclick="closeCallMsg()">صار أستاذ 🏃‍♂️</button>
     </div>
 
     <div class="floating-bg">
@@ -501,10 +519,9 @@
         mySong.loop = true; 
         var isPlaying = false;
 
-        // === أصوات الإضافات الجديدة (تحتاج ملفات صوتية او سيتم تشغيل كود بدونها) ===
-        // يمكنك استبدال الروابط بملفات محلية مثل harmal.mp3 و ringtone.mp3
+        // === أصوات الإضافات الجديدة ===
         var harmalSound = new Audio('harmal.mp3'); // صوت طقطقة الحرمل
-        var ringtoneSound = new Audio('ringtone.mp3'); // نغمة الايفون
+        var ringtoneSound = new Audio('techno.mp3'); // نغمة التكنو
         ringtoneSound.loop = true;
 
         function toggleSong() {
@@ -523,9 +540,7 @@
 
         // === وظيفة المبخرة الالكترونية ===
         function startIncense(event) {
-            event.stopPropagation(); // لمنع تشغيل الاغنية عند الضغط على المبخرة
-            
-            // تشغيل الصوت
+            event.stopPropagation();
             try { harmalSound.play(); } catch(e){}
 
             var overlay = document.getElementById('smokeOverlay');
@@ -533,42 +548,49 @@
             overlay.style.display = 'flex';
             msg.style.display = 'block';
 
-            // إنشاء دخان
-            for(let i=0; i<20; i++) {
+            // إنشاء دخان ايموجيات
+            for(let i=0; i<25; i++) {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
+                p.innerText = '💨'; // ايموجي الدخان
                 p.style.left = Math.random() * 100 + '%';
-                p.style.width = (Math.random() * 100 + 50) + 'px';
-                p.style.height = p.style.width;
                 p.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                p.style.animationDelay = Math.random() * 1 + 's';
+                p.style.animationDelay = Math.random() * 0.5 + 's';
+                p.style.fontSize = (Math.random() * 2 + 2) + 'rem'; // حجم عشوائي
                 overlay.appendChild(p);
             }
 
-            // إخفاء التأثير بعد 4 ثواني
+            // إخفاء التأثير بعد فترة
             setTimeout(() => {
                 overlay.style.display = 'none';
                 msg.style.display = 'none';
-                overlay.innerHTML = ''; // تنظيف الدخان
+                overlay.innerHTML = ''; 
             }, 5000);
         }
 
-        // === وظيفة الاتصال المرعب ===
+        // === وظيفة الاتصال ===
         function startCallPrank(event) {
-            event.stopPropagation(); // لمنع تشغيل الاغنية
-            
-            // ايقاف اغنية الموقع اذا كانت تشتغل
-            if(isPlaying) toggleSong();
+            event.stopPropagation();
+            if(isPlaying) toggleSong(); // ايقاف الاغنية الاصلية
 
             try { ringtoneSound.play(); } catch(e){}
             document.getElementById('incomingCallScreen').style.display = 'flex';
         }
 
-        function endCallPrank() {
+        function endCallPrank(showMsg) {
             ringtoneSound.pause();
             ringtoneSound.currentTime = 0;
             document.getElementById('incomingCallScreen').style.display = 'none';
-            alert("دا أشاقيك .. بس روح اقرأ لا يجيك الصدك! 😂📖");
+        }
+
+        function answerCall() {
+            // عند الرد على الاتصال
+            endCallPrank(); // ايقاف الرنين
+            document.getElementById('callResponseBox').style.display = 'block'; // اظهار الرسالة
+        }
+
+        function closeCallMsg() {
+            document.getElementById('callResponseBox').style.display = 'none';
         }
 
         function openGoogleTranslate() {
@@ -801,4 +823,4 @@
 
     </script>
 </body>
-    </html>
+                </html>
