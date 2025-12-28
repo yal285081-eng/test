@@ -7,327 +7,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body {
-            background-color: #2c3e50;
-            color: white;
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            text-align: center;
-            overflow-x: hidden;
-            padding-bottom: 90px;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند اللمس */
-        }
-
-        /* فلاش الكاميرا */
-        .camera-flash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; opacity: 0; pointer-events: none; z-index: 9999;
-        }
+        /* === (نفس الستايلات القديمة) === */
+        body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 9999; }
         .flash-active { animation: flashAnim 0.2s ease-out; }
         @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
-
-        /* خلفية الحروف الطائرة */
-        .floating-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; overflow: hidden;
-        }
-        .float-letter {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.05);
-            font-family: 'Permanent Marker', cursive;
-            font-size: 4rem;
-            animation: floatUp 10s linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* الهيدر */
-        header {
-            background: #e74c3c; padding: 20px;
-            box-shadow: 0 4px 0 #c0392b;
-            transform: rotate(-1deg); margin-bottom: 30px;
-            position: relative; z-index: 10;
-        }
-        header h1 {
-            margin: 0; font-family: 'Permanent Marker', cursive;
-            font-size: 2.2rem; letter-spacing: 1px;
-        }
+        .floating-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .float-letter { position: absolute; color: rgba(255, 255, 255, 0.05); font-family: 'Permanent Marker', cursive; font-size: 4rem; animation: floatUp 10s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+        header { background: #e74c3c; padding: 20px; box-shadow: 0 4px 0 #c0392b; transform: rotate(-1deg); margin-bottom: 30px; position: relative; z-index: 10; }
+        header h1 { margin: 0; font-family: 'Permanent Marker', cursive; font-size: 2.2rem; letter-spacing: 1px; }
         header p { margin: 5px 0 0; font-weight: bold; }
-
-        /* الصورة الشخصية */
-        .profile-container {
-            position: relative; display: inline-block;
-            margin-top: 10px; transition: transform 0.3s;
-            cursor: pointer;
-            z-index: 20; 
-        }
-        .playing-animation {
-            animation: shake 0.3s infinite; 
-            border-color: #f1c40f !important;
-            box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important;
-        }
-        @keyframes shake {
-            0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); }
-            100% { transform: rotate(0deg); }
-        }
-        .profile-img {
-            width: 170px; height: 170px;
-            object-fit: cover; border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background: #fff;
-            transition: all 0.2s;
-        }
-        .badge {
-            position: absolute; bottom: 5px; right: -5px;
-            background: #f1c40f; color: #333;
-            padding: 5px 12px; border-radius: 15px;
-            font-weight: bold; font-family: 'Permanent Marker', cursive;
-            transform: rotate(-10deg); border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* === إضافات الأزرار الجانبية (المبخرة والهاتف) === */
-        .side-emoji {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2.5rem;
-            cursor: pointer;
-            z-index: 25;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
-        }
+        .profile-container { position: relative; display: inline-block; margin-top: 10px; transition: transform 0.3s; cursor: pointer; z-index: 20; }
+        .playing-animation { animation: shake 0.3s infinite; border-color: #f1c40f !important; box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important; }
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); } 100% { transform: rotate(0deg); } }
+        .profile-img { width: 170px; height: 170px; object-fit: cover; border-radius: 50%; border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3); background: #fff; transition: all 0.2s; }
+        .badge { position: absolute; bottom: 5px; right: -5px; background: #f1c40f; color: #333; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-family: 'Permanent Marker', cursive; transform: rotate(-10deg); border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .side-emoji { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; cursor: pointer; z-index: 25; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
         .side-emoji:hover { transform: translateY(-50%) scale(1.3); }
         .side-emoji:active { transform: translateY(-50%) scale(0.9); }
-        
-        .emoji-left {
-            left: -50px;
-            animation: floatEmojiLeft 3s ease-in-out infinite;
-        }
-        .emoji-right {
-            right: -50px;
-            animation: floatEmojiRight 3.5s ease-in-out infinite;
-        }
-
+        .emoji-left { left: -50px; animation: floatEmojiLeft 3s ease-in-out infinite; }
+        .emoji-right { right: -50px; animation: floatEmojiRight 3.5s ease-in-out infinite; }
         @keyframes floatEmojiLeft { 0%,100%{transform:translateY(-50%) rotate(-10deg);} 50%{transform:translateY(-60%) rotate(10deg);} }
         @keyframes floatEmojiRight { 0%,100%{transform:translateY(-50%) rotate(10deg);} 50%{transform:translateY(-40%) rotate(-10deg);} }
-
-        /* === تأثيرات شاشة الاتصال === */
-        .call-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 10000;
-            flex-direction: column; align-items: center; justify-content: space-between;
-            padding: 60px 20px; box-sizing: border-box;
-            backdrop-filter: blur(5px); /* تم تقليل الضباب */
-        }
+        .call-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column; align-items: center; justify-content: space-between; padding: 60px 20px; box-sizing: border-box; backdrop-filter: blur(5px); }
         .call-info { text-align: center; animation: pulseCall 2s infinite; }
         .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
         .caller-name { font-size: 2rem; margin: 0; font-weight: normal; }
         .call-status { color: #bdc3c7; font-size: 1.2rem; margin-top: 10px; }
         .call-actions { display: flex; width: 100%; justify-content: space-around; margin-bottom: 50px; }
-        .call-btn {
-            width: 75px; height: 75px; border-radius: 50%; border: none;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; color: white; cursor: pointer;
-        }
+        .call-btn { width: 75px; height: 75px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer; }
         .btn-decline { background: #ff3b30; }
         .btn-accept { background: #4cd964; animation: bounceCall 1.5s infinite; }
-
         @keyframes pulseCall { 0%{opacity: 0.8;} 50%{opacity: 1;} 100%{opacity: 0.8;} }
         @keyframes bounceCall { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
-
-        /* مربع رسالة بعد الاتصال */
-        .call-msg-box {
-            display: none;
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #333;
-            width: 80%; max-width: 350px;
-            padding: 25px; border-radius: 20px;
-            text-align: center; z-index: 10001;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            border: 4px solid #4cd964;
-            animation: popIn 0.3s;
-        }
-
-        /* === تأثيرات المبخرة (محسنة للأداء) === */
-        .smoke-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: auto; 
-            z-index: 9000; display: none;
-            cursor: pointer;
-            /* إزالة الخلفية لتقليل الحمل */
-        }
-        .smoke-particle {
-            position: absolute;
-            bottom: -60px;
-            background: radial-gradient(circle, rgba(220,220,220,0.6) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            width: 100px; height: 100px;
-            opacity: 0;
-            /* تخفيف الـ Blur وتحسين الأداء */
-            filter: blur(3px); 
-            will-change: transform, opacity; /* أمر للمتصفح باستخدام كارت الشاشة */
-            animation: smokeRise 4s forwards;
-        }
-        .protection-msg {
-            position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(44, 62, 80, 0.95); border: 2px solid #f1c40f;
-            padding: 20px; border-radius: 15px; z-index: 9001;
-            text-align: center; display: none;
-            box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
-            pointer-events: none;
-            animation: popIn 0.5s;
-        }
-
-        @keyframes smokeRise {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-110vh) scale(3); opacity: 0; }
-        }
-        /* ========================================= */
-
-        .click-hint {
-            display: block; font-size: 0.8rem; color: #f1c40f; 
-            margin-bottom: 5px; font-weight: bold;
-            animation: blink 2s infinite;
-        }
+        .call-msg-box { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #333; width: 80%; max-width: 350px; padding: 25px; border-radius: 20px; text-align: center; z-index: 10001; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 4px solid #4cd964; animation: popIn 0.3s; }
+        .smoke-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto; z-index: 9000; display: none; cursor: pointer; }
+        .smoke-particle { position: absolute; bottom: -60px; background: radial-gradient(circle, rgba(220,220,220,0.6) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; width: 100px; height: 100px; opacity: 0; filter: blur(3px); will-change: transform, opacity; animation: smokeRise 4s forwards; }
+        .protection-msg { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); background: rgba(44, 62, 80, 0.95); border: 2px solid #f1c40f; padding: 20px; border-radius: 15px; z-index: 9001; text-align: center; display: none; box-shadow: 0 0 50px rgba(241, 196, 15, 0.3); pointer-events: none; animation: popIn 0.5s; }
+        @keyframes smokeRise { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translateY(-110vh) scale(3); opacity: 0; } }
+        .click-hint { display: block; font-size: 0.8rem; color: #f1c40f; margin-bottom: 5px; font-weight: bold; animation: blink 2s infinite; }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-
-        /* النص المضحك */
-        .funny-text {
-            font-size: 1.1rem; margin: 20px auto; max-width: 90%;
-            line-height: 1.6; background: rgba(255,255,255,0.1);
-            padding: 15px; border-radius: 15px;
-            border: 2px dashed rgba(255,255,255,0.3);
-        }
-        .en-word {
-            font-family: 'Permanent Marker', cursive; color: #f1c40f;
-            font-size: 1.2em; display: inline-block; margin: 0 2px;
-        }
-
-        /* === ترتيب الأزرار (Grid Layout) === */
-        .btn-wrapper {
-            position: relative; width: 90%; max-width: 400px;
-            margin: 30px auto 15px;
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 15px; padding: 10px;
-        }
-        .action-btn {
-            background: linear-gradient(to bottom, #3498db, #2980b9);
-            color: white; border: none; padding: 20px 10px; font-size: 1rem;
-            border-radius: 15px; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
-            font-family: 'Tajawal', sans-serif; transition: transform 0.1s;
-            width: 100%; height: 100px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .funny-text { font-size: 1.1rem; margin: 20px auto; max-width: 90%; line-height: 1.6; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; border: 2px dashed rgba(255,255,255,0.3); }
+        .en-word { font-family: 'Permanent Marker', cursive; color: #f1c40f; font-size: 1.2em; display: inline-block; margin: 0 2px; }
+        .btn-wrapper { position: relative; width: 90%; max-width: 400px; margin: 30px auto 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
+        .action-btn { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; border: none; padding: 20px 10px; font-size: 1rem; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4); font-family: 'Tajawal', sans-serif; transition: transform 0.1s; width: 100%; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .action-btn:active { transform: scale(0.95); }
-
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
-
-        /* الزر الدائري في المنتصف */
-        .quiz-center-btn {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90px; height: 90px; border-radius: 50%;
-            background: radial-gradient(circle, #f1c40f, #f39c12);
-            border: 5px solid #2c3e50; color: #2c3e50;
-            font-weight: 800; font-size: 0.9rem;
-            line-height: 1.2;
-            cursor: pointer; z-index: 10;
-            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; font-family: 'Tajawal', sans-serif;
-            animation: pulseBtn 2s infinite;
-        }
-        @keyframes pulseBtn {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
-            70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
-        }
-
-        /* === زر اليوتيوب المعدل === */
-        .youtube-container {
-            width: 90%; 
-            max-width: 320px; /* تم التكبير قليلاً */
-            margin: 0 auto 20px; 
-            padding: 0 10px; 
-            box-sizing: border-box;
-            transform: translateX(20px); /* تم تحريكه لليمين قليلاً */
-        }
-        .yt-btn {
-            display: block; width: 100%; text-decoration: none;
-            background: linear-gradient(45deg, #FF0000, #c4302b);
-            color: white; 
-            padding: 15px; /* زيادة الحشوة ليكون أكبر */
-            border-radius: 15px;
-            font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-            transition: transform 0.1s;
-            animation: pulseRed 2s infinite;
-            border: 2px solid rgba(255,255,255,0.2);
-            text-align: center;
-        }
+        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 0.9rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
+        @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
+        .youtube-container { width: 90%; max-width: 320px; margin: 0 auto 20px; padding: 0 10px; box-sizing: border-box; transform: translateX(20px); }
+        .yt-btn { display: block; width: 100%; text-decoration: none; background: linear-gradient(45deg, #FF0000, #c4302b); color: white; padding: 15px; border-radius: 15px; font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4); transition: transform 0.1s; animation: pulseRed 2s infinite; border: 2px solid rgba(255,255,255,0.2); text-align: center; }
         .yt-btn:active { transform: scale(0.95); }
-        @keyframes pulseRed {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-        }
-
-        /* === عداد الإنقاذ === */
-        .hero-counter {
-            margin: 10px auto 10px; padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; width: 85%; max-width: 400px;
-        }
+        @keyframes pulseRed { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); } }
+        .hero-counter { margin: 10px auto 10px; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; width: 85%; max-width: 400px; }
         .hero-label { font-size: 0.9rem; color: #bdc3c7; display: block; margin-bottom: 5px; }
-        .hero-number {
-            font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71;
-            text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
-        }
-
-        /* === النوافذ المنبثقة === */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 2000;
-            justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .secret-box {
-            background: white; color: #333; width: 85%; max-width: 400px;
-            padding: 30px; border-radius: 20px; text-align: center; position: relative;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
+        .hero-number { font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .secret-box { background: white; color: #333; width: 85%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
         .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
         .quiz-style { border: 5px solid #e67e22; background: #34495e; color: white; box-shadow: 0 0 30px rgba(230, 126, 34, 0.5); }
-
         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        /* ستايلات الاختبار المستحيل */
         .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
         .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; min-height: 220px; justify-content: center; }
-        
-        .quiz-btn-opt {
-            background: white; color: #2c3e50; border: none;
-            padding: 12px; border-radius: 10px; font-size: 1rem;
-            cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold;
-            transition: all 0.3s; width: 100%; position: relative; z-index: 2;
-        }
-
-        /* حركات الأزرار الغلط */
+        .quiz-btn-opt { background: white; color: #2c3e50; border: none; padding: 12px; border-radius: 10px; font-size: 1rem; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold; transition: all 0.3s; width: 100%; position: relative; z-index: 2; }
         .anim-melt { transition: 1s; transform: scaleY(0); opacity: 0; }
         .anim-spin { animation: spin 0.5s linear; background: #95a5a6 !important; }
         .anim-ghost { opacity: 0; pointer-events: none; transition: 0.5s; }
@@ -337,43 +84,101 @@
         .anim-shrink { animation: shrinkEffect 0.5s forwards; pointer-events: none; }
         .anim-zoom { transform: scale(1.2); background: #e74c3c !important; color: white !important; z-index: 10; }
         .anim-cam { background: #e74c3c !important; color: white !important; font-weight: 900; }
-
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fallDown { 0% { transform: translateY(0) rotate(0); } 100% { transform: translateY(300px) rotate(45deg); opacity: 0; } }
         @keyframes shrinkEffect { to { transform: scale(0); opacity: 0; } }
-
-        /* بقية العناصر */
-        .fact-box {
-            background: #fdf2e9; border-left: 5px solid #e67e22; padding: 15px; margin-top: 20px;
-            border-radius: 10px; text-align: right; direction: rtl; min-height: 60px;
-            display: flex; flex-direction: column; justify-content: center;
-        }
+        .fact-box { background: #fdf2e9; border-left: 5px solid #e67e22; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: right; direction: rtl; min-height: 60px; display: flex; flex-direction: column; justify-content: center; }
         .fact-title { color: #e67e22; font-weight: bold; display: block; margin-bottom: 5px; font-family: 'Tajawal'; font-size: 0.9rem; }
         .fact-content { font-weight: bold; color: #2c3e50; font-size: 1.1rem; transition: opacity 0.5s ease-in-out; opacity: 1; }
-
         .progress-container { width: 100%; background-color: #34495e; border-radius: 10px; margin: 20px 0; height: 25px; overflow: hidden; border: 1px solid #7f8c8d; }
         .progress-bar { width: 0%; height: 100%; background-color: #2ecc71; transition: width 0.3s; }
         .status-text { font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px; }
         .fail-message { display: none; color: #e74c3c; font-size: 1.3rem; font-weight: bold; margin-top: 20px; animation: shake 0.5s; }
-
         .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; z-index: 10; }
         .close-icon:hover { color: #e74c3c; }
         .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
-
-        .news-container {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
-            background: #c0392b; border-top: 4px solid #f1c40f;
-            z-index: 9999; display: flex; align-items: center; direction: ltr; 
-        }
+        .news-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; background: #c0392b; border-top: 4px solid #f1c40f; z-index: 9999; display: flex; align-items: center; direction: ltr; }
         .ticker-text { font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 1.2rem; color: white; width: 100%; }
         .sep { color: #f1c40f; margin: 0 10px; }
 
+        /* === ستايلات الشات بوت الجديد === */
+        #chat-icon {
+            position: fixed; bottom: 70px; right: 20px;
+            width: 60px; height: 60px;
+            background: #3498db; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer; z-index: 10002;
+            font-size: 30px; animation: bounceIn 1s infinite alternate;
+        }
+        @keyframes bounceIn { from{transform:translateY(0);} to{transform:translateY(-10px);} }
+        
+        #chat-window {
+            display: none; position: fixed; bottom: 140px; right: 20px;
+            width: 320px; height: 450px;
+            background: #fff; border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.4);
+            z-index: 10003; flex-direction: column; overflow: hidden;
+            border: 3px solid #3498db;
+        }
+        .chat-header {
+            background: #3498db; color: white; padding: 15px;
+            text-align: right; font-weight: bold; font-family: 'Tajawal';
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .chat-body {
+            flex: 1; padding: 15px; overflow-y: auto;
+            background: #f1f2f6; display: flex; flex-direction: column; gap: 10px;
+        }
+        .chat-input-area {
+            padding: 10px; background: white; border-top: 1px solid #ddd;
+            display: flex; gap: 5px;
+        }
+        #chatInput {
+            flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd;
+            text-align: right; outline: none; font-family: 'Tajawal';
+        }
+        #sendBtn {
+            background: #3498db; color: white; border: none; padding: 0 15px;
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
+        }
+        .msg {
+            max-width: 80%; padding: 10px 15px; border-radius: 15px;
+            font-size: 0.9rem; line-height: 1.4; font-family: 'Tajawal'; position: relative;
+        }
+        .msg-user {
+            background: #3498db; color: white; align-self: flex-end;
+            border-bottom-left-radius: 2px;
+        }
+        .msg-bot {
+            background: #ecf0f1; color: #2c3e50; align-self: flex-start;
+            border-bottom-right-radius: 2px; border: 1px solid #bdc3c7;
+        }
+        .bot-typing {
+            font-style: italic; color: #7f8c8d; font-size: 0.8rem; margin-right: 10px; display: none;
+        }
     </style>
 </head>
 <body>
 
-    <div id="cameraFlash" class="camera-flash"></div>
+    <div id="chat-icon" onclick="toggleChat()">💬</div>
 
+    <div id="chat-window">
+        <div class="chat-header">
+            <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">✖</span>
+            <span>Thaer Bot 🤖</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg msg-bot">هلا بيكم! آني المساعد الذكي للأستاذ ثائر.. بس ديربالكم ترة لساني طويل 😜.. اسألوني أي شي!</div>
+        </div>
+        <div class="bot-typing" id="typingIndicator">Thaer Bot يكتب...</div>
+        <div class="chat-input-area">
+            <button id="sendBtn" onclick="sendMessage()">➤</button>
+            <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleEnter(event)">
+        </div>
+    </div>
+
+    <div id="cameraFlash" class="camera-flash"></div>
     <div id="smokeOverlay" class="smoke-overlay" onclick="stopIncense()"></div>
     <div id="protectionMsg" class="protection-msg">
         <h2 style="color:#f1c40f; margin:0;">🧿 تم التحصين</h2>
@@ -415,10 +220,8 @@
 
     <div class="profile-container" onclick="toggleSong()">
         <span class="click-hint">🎵 اضغط هنا لتشغيل الأغنية 🎵</span>
-        
         <div class="side-emoji emoji-left" onclick="startCallPrank(event)">📞</div>
         <div class="side-emoji emoji-right" onclick="startIncense(event)">🧿</div>
-        
         <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
@@ -435,11 +238,8 @@
     <div class="btn-wrapper">
         <button class="action-btn" onclick="openSecret()">📚<br>الواجب</button>
         <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍<br>المترجم</button>
-        
         <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
-
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
-        
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
     </div>
 
@@ -461,8 +261,7 @@
             <h2 style="color: #f1c40f; margin-top:0;">💀 الاختبار المستحيل</h2>
             <div id="quizContainer">
                 <p id="qText" class="quiz-question">...</p>
-                <div id="qOptions" class="quiz-options">
-                    </div>
+                <div id="qOptions" class="quiz-options"></div>
             </div>
             <button id="withdrawBtn" class="close-btn" style="background: #c0392b; margin-top:15px;" onclick="closeModal('modalQuiz')">انسحاب (يا خواف) 🏳️</button>
         </div>
@@ -527,97 +326,63 @@
     </div>
 
     <script>
-        // === الموسيقى (صوت الاغنية فقط) ===
+        // === نفس أكواد Javascript القديمة ===
         var mySong = new Audio('song.mp3'); 
         mySong.loop = true; 
         var isPlaying = false;
-
-        // === أصوات الإضافات الجديدة ===
         var harmalSound = new Audio('1.mp3'); 
-        harmalSound.loop = true; // الصوت يستمر بالتكرار
+        harmalSound.loop = true; 
         var ringtoneSound = new Audio('techno.mp3');
         ringtoneSound.loop = true;
-
-        var incenseInterval; // متغير لحفظ حركة الدخان
+        var incenseInterval; 
 
         function toggleSong() {
             var img = document.getElementById('teacherImg');
             if (isPlaying) {
-                mySong.pause();
-                isPlaying = false;
-                img.classList.remove('playing-animation'); 
+                mySong.pause(); isPlaying = false; img.classList.remove('playing-animation'); 
             } else {
-                mySong.play();
-                isPlaying = true;
-                img.classList.add('playing-animation'); 
+                mySong.play(); isPlaying = true; img.classList.add('playing-animation'); 
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
             }
         }
 
-        // === وظيفة المبخرة الالكترونية (محسنة) ===
         function startIncense(event) {
-            event.stopPropagation();
-            if (incenseInterval) return; // يمنع التكرار اذا كان شغال
-
-            try { 
-                harmalSound.currentTime = 0;
-                harmalSound.play(); 
-            } catch(e){}
-
+            event.stopPropagation(); if (incenseInterval) return;
+            try { harmalSound.currentTime = 0; harmalSound.play(); } catch(e){}
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
-            overlay.style.display = 'block';
-            msg.style.display = 'block';
-
-            // تفعيل الإغلاق عند الضغط في أي مكان
+            overlay.style.display = 'block'; msg.style.display = 'block';
             document.addEventListener('click', stopIncense);
-
-            // توليد دخان مستمر (تم تقليل السرعة لتحسين الأداء)
             incenseInterval = setInterval(() => {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
                 p.style.left = Math.random() * 100 + '%';
                 p.style.animationDuration = (Math.random() * 2 + 3) + 's';
                 overlay.appendChild(p);
-                
-                // حذف العنصر بعد انتهاء الانيميشن
                 setTimeout(() => { p.remove(); }, 5000);
-            }, 350); // تم رفع الوقت من 100 الى 350 لتقليل الحمل على الجهاز
+            }, 350); 
         }
 
-        // === وظيفة إيقاف المبخرة ===
         function stopIncense() {
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
-
             if (overlay.style.display === 'none') return;
-
-            harmalSound.pause();
-            harmalSound.currentTime = 0;
-            
-            clearInterval(incenseInterval); // وقف توليد الدخان
-            incenseInterval = null;
-
-            overlay.style.display = 'none';
-            msg.style.display = 'none';
-            overlay.innerHTML = ''; // تنظيف الشاشة من الدخان الباقي
-            
-            // إلغاء استماع الضغط
+            harmalSound.pause(); harmalSound.currentTime = 0;
+            clearInterval(incenseInterval); incenseInterval = null;
+            overlay.style.display = 'none'; msg.style.display = 'none';
+            overlay.innerHTML = ''; 
             document.removeEventListener('click', stopIncense);
         }
 
-        // === وظيفة الاتصال ===
         function startCallPrank(event) {
             event.stopPropagation();
             if(isPlaying) toggleSong();
-
             try { ringtoneSound.play(); } catch(e){}
             document.getElementById('incomingCallScreen').style.display = 'flex';
         }
 
         function endCallPrank(showMsg) {
-            ringtoneSound.pause();
-            ringtoneSound.currentTime = 0;
+            ringtoneSound.pause(); ringtoneSound.currentTime = 0;
             document.getElementById('incomingCallScreen').style.display = 'none';
         }
 
@@ -632,29 +397,18 @@
 
         function openGoogleTranslate() {
             var width = 500; var height = 650;
-            var left = (screen.width / 2) - (width / 2);
-            var top = (screen.height / 2) - (height / 2);
+            var left = (screen.width / 2) - (width / 2); var top = (screen.height / 2) - (height / 2);
             window.open("https://translate.google.com/?sl=ar&tl=en&op=translate", "GoogleTranslate", 
-                "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + 
-                ",resizable=yes,scrollbars=yes,status=yes");
+                "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + ",resizable=yes,scrollbars=yes,status=yes");
         }
 
-        var facts = [
-            "Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى قبل لا يترجم.",
-            "الأستاذ ثائر ما يصحح الأوراق، الأوراق هي تصلح أخطاءها من الخوف.",
-            "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.",
-            "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.",
-            "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.",
-            "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.",
-            "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."
-        ];
-
+        var facts = ["Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى.", "الأستاذ ثائر ما يصحح الأوراق، الأوراق تصلح نفسها.", "اذا كتبت اسم ثائر بالامتحان الورقة تصلح نفسها بنفسها.", "أن الإنكليزي يخاف من الأستاذ ثائر مو العكس.", "القاموس يتحدث تلقائياً بس يشوف أستاذ ثائر.", "الأستاذ ثائر هو الوحيد اللي يكدر يجمع كلمة Information.", "العطلة الرسمية تخجل تجي بيوم بي درس لأستاذ ثائر."];
         var factInterval; 
+
         function openSecret() {
             document.getElementById('modalHomework').style.display = 'flex';
             confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
-            updateFact();
-            clearInterval(factInterval);
+            updateFact(); clearInterval(factInterval);
             factInterval = setInterval(animateFactChange, 4000); 
         }
 
@@ -701,84 +455,30 @@
             setTimeout(() => { bar.style.backgroundColor = '#e74c3c'; status.style.display = 'none'; failMsg.style.display = 'block'; }, 5500);
         }
 
-        // === كود العداد ===
         var savedCount = 9875420;
         setInterval(function() {
-            savedCount += Math.floor(Math.random() * 5); // زيادة عشوائية
+            savedCount += Math.floor(Math.random() * 5); 
             document.getElementById('savedStudents').innerText = savedCount.toLocaleString();
         }, 2000);
 
-        // === كود الاختبار المستحيل ===
         var questions = [
-            {
-                q: "ليش الـ Past Simple نسميه (بسيط)؟",
-                a: ["لأن قاعدته سهلة", "لأن يعبر عن ماضي", "لأن صار (زلاطة) بيد أستاذ ثائر"],
-                correct: 2,
-                wrongTypes: ["anim-break", "anim-melt"]
-            },
-            {
-                q: "شنو أسرع شي بالدنيا؟",
-                a: ["سرعة الضوء", "لسان أستاذ ثائر بالـ Irregular Verbs", "الإنترنت بالعراق"],
-                correct: 1,
-                wrongTypes: ["anim-ghost", "anim-zoom"]
-            },
-            {
-                q: "ما هو مصير الطالب اللي ينسى الدفتر؟",
-                a: ["يصير عبرة لمن اعتبر", "ينطرد", "يسامحه الأستاذ"],
-                correct: 0,
-                wrongTypes: ["anim-break", "anim-melt"]
-            },
-            {
-                q: "ترجم جملة: (I want to sleep)",
-                a: ["حسرة بقلبي", "أريد أن أنام", "أنا نعسان"],
-                correct: 0,
-                wrongTypes: ["anim-shrink", "anim-spin"]
-            },
-            {
-                q: "منو ملك الغابة الحقيقي؟",
-                a: ["الأسد (Lion)", "أستاذ ثائر بالقاعة", "النمر"],
-                correct: 1,
-                wrongTypes: ["anim-run", "anim-fall"]
-            },
-            {
-                q: "شنو رأي ChatGPT بأستاذ ثائر؟",
-                a: ["هو اللي علمني إنكليزي", "مدرس جيد", "ما أعرفه"],
-                correct: 0,
-                wrongTypes: ["anim-ghost", "anim-spin"]
-            },
-            {
-                q: "شنو العلاقة بين الـ Grammar والباجة؟",
-                a: ["اثنينهم يرادلهم (تفتيت) وخبز", "ماكو علاقة", "طيبين"],
-                correct: 0,
-                wrongTypes: ["anim-break", "anim-melt"]
-            },
-            {
-                q: "لو عندك أمنية وحدة، شتختار؟",
-                a: ["مليون دولار", "إعفاء عام بالإنكليزي", "آيفون 16"],
-                correct: 1,
-                wrongTypes: ["anim-run", "anim-zoom"]
-            },
-            {
-                q: "شلون الأستاذ يعرف الما كاتب الواجب؟",
-                a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل المدير"],
-                correct: 0,
-                wrongTypes: ["anim-cam", "anim-ghost"]
-            },
-            {
-                q: "جاهز للامتحان القادم؟",
-                a: ["لا (No)", "نص ونص", "طبعاً، چا غير طالب ثائر!"],
-                correct: 2,
-                wrongTypes: ["anim-cam", "anim-break"]
-            }
+            { q: "ليش الـ Past Simple نسميه (بسيط)؟", a: ["لأن قاعدته سهلة", "لأن يعبر عن ماضي", "لأن صار (زلاطة) بيد أستاذ ثائر"], correct: 2, wrongTypes: ["anim-break", "anim-melt"] },
+            { q: "شنو أسرع شي بالدنيا؟", a: ["سرعة الضوء", "لسان أستاذ ثائر بالـ Irregular Verbs", "الإنترنت بالعراق"], correct: 1, wrongTypes: ["anim-ghost", "anim-zoom"] },
+            { q: "ما هو مصير الطالب اللي ينسى الدفتر؟", a: ["يصير عبرة لمن اعتبر", "ينطرد", "يسامحه الأستاذ"], correct: 0, wrongTypes: ["anim-break", "anim-melt"] },
+            { q: "ترجم جملة: (I want to sleep)", a: ["حسرة بقلبي", "أريد أن أنام", "أنا نعسان"], correct: 0, wrongTypes: ["anim-shrink", "anim-spin"] },
+            { q: "منو ملك الغابة الحقيقي؟", a: ["الأسد (Lion)", "أستاذ ثائر بالقاعة", "النمر"], correct: 1, wrongTypes: ["anim-run", "anim-fall"] },
+            { q: "شنو رأي ChatGPT بأستاذ ثائر؟", a: ["هو اللي علمني إنكليزي", "مدرس جيد", "ما أعرفه"], correct: 0, wrongTypes: ["anim-ghost", "anim-spin"] },
+            { q: "شنو العلاقة بين الـ Grammar والباجة؟", a: ["اثنينهم يرادلهم (تفتيت) وخبز", "ماكو علاقة", "طيبين"], correct: 0, wrongTypes: ["anim-break", "anim-melt"] },
+            { q: "لو عندك أمنية وحدة، شتختار؟", a: ["مليون دولار", "إعفاء عام بالإنكليزي", "آيفون 16"], correct: 1, wrongTypes: ["anim-run", "anim-zoom"] },
+            { q: "شلون الأستاذ يعرف الما كاتب الواجب؟", a: ["يشم ريحة الخوف", "يفتش الدفاتر", "يسأل المدير"], correct: 0, wrongTypes: ["anim-cam", "anim-ghost"] },
+            { q: "جاهز للامتحان القادم؟", a: ["لا (No)", "نص ونص", "طبعاً، چا غير طالب ثائر!"], correct: 2, wrongTypes: ["anim-cam", "anim-break"] }
         ];
 
         var currentQIndex = 0;
-        var isProcessing = false; // متغير لمنع تكرار الضغط
+        var isProcessing = false;
 
         function startQuiz() {
-            currentQIndex = 0;
-            isProcessing = false;
-            // إظهار زر الانسحاب عند بدء اختبار جديد
+            currentQIndex = 0; isProcessing = false;
             document.getElementById('withdrawBtn').style.display = 'inline-block';
             document.getElementById('modalQuiz').style.display = 'flex';
             loadQuestion();
@@ -786,20 +486,16 @@
 
         function loadQuestion() {
             if (currentQIndex >= questions.length) {
-                // عند انتهاء الاسئلة
                 document.getElementById('quizContainer').innerHTML = "<h3 style='color:#2ecc71'>مبروووك! أنت طالب مثالي 🎓</h3>";
                 confetti({ particleCount: 300, spread: 180 });
-                // اخفاء زر الانسحاب يا خواف
                 document.getElementById('withdrawBtn').style.display = 'none';
                 return;
             }
-
             var q = questions[currentQIndex];
             document.getElementById('qNumber').innerText = currentQIndex + 1;
             document.getElementById('qText').innerText = q.q;
             var optsDiv = document.getElementById('qOptions');
             optsDiv.innerHTML = "";
-
             q.a.forEach((opt, index) => {
                 var btn = document.createElement('button');
                 btn.className = 'quiz-btn-opt';
@@ -810,54 +506,191 @@
         }
 
         function checkAnswer(btn, index, qData) {
-            // اذا المعالجة جارية، لا تسوي شي (يمنع الضغط المتكرر)
             if (isProcessing) return;
-
             if (index === qData.correct) {
-                isProcessing = true; // قفل الضغط
+                isProcessing = true;
                 btn.style.background = "#2ecc71";
                 btn.innerText = "صح! كفووو 😍";
                 confetti({ particleCount: 50, spread: 50, origin: { y: 0.5 } });
-                setTimeout(() => {
-                    currentQIndex++;
-                    loadQuestion();
-                    isProcessing = false; // فتح القفل بعد تحميل السؤال الجديد
-                }, 1000);
+                setTimeout(() => { currentQIndex++; loadQuestion(); isProcessing = false; }, 1000);
             } else {
-                // تعديل خاص للسؤال العاشر (جاهز؟) اذا جاوب "لا"
                 if (currentQIndex === 9 && index === 0) {
-                     btn.innerText = "غصباً عليك جاهز 😊";
-                     btn.style.background = "#e74c3c";
-                     btn.style.color = "white";
-                     return; 
+                     btn.innerText = "غصباً عليك جاهز 😊"; btn.style.background = "#e74c3c"; btn.style.color = "white"; return; 
                 }
-
-                // حركة عشوائية للزر الغلط
                 var randomAnim = qData.wrongTypes[Math.floor(Math.random() * qData.wrongTypes.length)];
                 btn.classList.add(randomAnim);
-                
-                if(randomAnim === 'anim-run') {
-                    var x = Math.random() * 200 - 100;
-                    var y = Math.random() * 200 - 100;
-                    btn.style.transform = `translate(${x}px, ${y}px)`;
-                    btn.innerText = "ما تكدر تلزمني 🏃‍♂️";
-                } else if(randomAnim === 'anim-melt') {
-                     btn.innerText = "ذبت من الفشلة 🫠";
-                } else if(randomAnim === 'anim-break') {
-                     btn.innerText = "انكسر الزر! 🔨";
-                } else if(randomAnim === 'anim-ghost') {
-                     // يختفي فقط
-                } else if(randomAnim === 'anim-cam') {
+                if(randomAnim === 'anim-run') { btn.innerText = "ما تكدر تلزمني 🏃‍♂️"; }
+                else if(randomAnim === 'anim-melt') { btn.innerText = "ذبت من الفشلة 🫠"; }
+                else if(randomAnim === 'anim-break') { btn.innerText = "انكسر الزر! 🔨"; }
+                else if(randomAnim === 'anim-cam') {
                      btn.innerText = "📸 طكيتلك صورة!";
                      var flash = document.getElementById('cameraFlash');
                      flash.classList.add('flash-active');
                      setTimeout(() => flash.classList.remove('flash-active'), 200);
-                } else {
-                     btn.innerText = "غلط! 😂";
+                } else { btn.innerText = "غلط! 😂"; }
+            }
+        }
+
+        /* ========================================= */
+        /* ========== كود الشات بوت الذكي =========== */
+        /* ========================================= */
+
+        // قاعدة البيانات الكبيرة (200+ رد)
+        const botKnowledge = {
+            // التحية والسلام
+            "hello": ["هلا بالغالي، طلع دفترك", "Hello there! ready for the exam?", "يا هلا.. بس لا جاي تسأل عن الدرجات؟"],
+            "hi": ["Hi student! انتبه للسبورة", "Welcome.. Speak English please!"],
+            "السلام عليكم": ["وعليكم السلام.. ها شكو؟", "وعليكم السلام.. حضر الواجب فوراً", "هلا بيك.. بس بسرعة ما عندي وقت"],
+            "صباح الخير": ["صباح الـ Homework", "يا صباح الامتحانات المفاجئة 😈", "صباح النور.. بس لا متأخر؟"],
+            "مساء الخير": ["مساء الورد.. روح اقرأ باجر عندك تحضير", "يا هلا.. شتسوي كاعد لسه؟ روح نام وراك دوام"],
+            "هلو": ["هلو بيك.. بس مو وقت سوالف", "Welcome.. how are you today?", "هلا.. شنو نسيت اسمك؟"],
+            "شلونك": ["أني بخير ما دام أنتم تقرون", "I am fine thank you.. And you?", "تمام.. بس ضغطي يرتفع من أصلح أوراقكم 😂"],
+            "شخبارك": ["بخير.. أفكر بأسئلة صعبة للشهر الأول", "الحمدلله.. بس طلابي يشيبون الراس"],
+
+            // الغزل واللوگية (Flattery)
+            "احبك": ["حبك برص.. وين الواجب؟ 😂", "أدري بيك تريد درجات.. ما تمشي علي", "Me too.. but study first!", "اللوگي وصل.. 😒"],
+            "استاذ": ["نعم؟ كول بسرعة", "ها؟ شتريد؟ إعفاء ماكو", "Yes? Speak English!"],
+            "بطل": ["أدري بنفسي بطل.. روح اقرأ أنت صير بطل", "شكراً شكراً.. بس هذا ما ينجحك", "You are the hero if you study"],
+            "ملك": ["الملك لله.. بس اني ملك الانكليزي طبعاً 😎", "كافي لواگة.. روح احفظ الافعال الشاذة"],
+            "احسن مدرس": ["طبعاً أحسن مدرس.. لعد شعبالك؟", "خجلتني.. بس هم راح تمتحن باجر", "شكراً يا ذوق.. بس الدرجات بالقلم الأحمر"],
+            "اني شاطر": ["نشوف بالامتحان.. الميدان يا حميدان", "شاطر بالحجي.. أريد فعل", "Good! Keep it up"],
+            "وردة": ["أنت الوردة.. بس لا تذبل بالامتحان", "شكراً.. بس ديربالك من الأشواك (الأسئلة الخارجية)"],
+
+            // الامتحانات والدراسة
+            "امتحان": ["ها بلشت ترجف؟ 😂", "الامتحان سهل للي قاري", "Exam is coming.. prepare yourself", "لا تسأل عالامتحان.. اقرأ كلشي"],
+            "اسئلة": ["الأسئلة من المريخ.. حضر نفسك", "الأسئلة سهلة بس يرادلها تركيز", "Questions will be tricky! 😈"],
+            "مرشحات": ["ماكو مرشحات.. اقرأ الكتاب كله", "المرشحات للضعفاء.. طلاب ثائر يقرون كلشي", "No shortcuts to success!"],
+            "تسريب": ["شنو تسريب؟ تريد تروح ورا الشمس؟ 😂", "عيب هالكلام.. احنا طلاب علم", "أمن الدولة يراقبك.. ديربالك"],
+            "ملخص": ["الملخص موجود بدمك.. اقرأ الكتاب", "سوي ملخص لنفسك يا بطل", "Summary? No, read everything"],
+            "واجب": ["الواجب هواي.. حضر أصابعك للكتابة", "Homework is your best friend", "نسيت الواجب؟ صفر مقدماً"],
+            "نسيت": ["نسيت؟ لعد شلون ما نسيت تاكل؟", "Forgot? Then forget your grade!", "النسيان ممنوع في قاموسي"],
+            "صعبة": ["ماكو شي صعب.. بس أنت ما تقرأ", "It's not hard, you are lazy", "سهلة بس ركز.. Focus!"],
+            "ما افتهمت": ["ركز وياي بالشرح.. مو تلعب بالموبايل", "عيد الفيديو 10 مرات تفتهم", "Pay attention next time!"],
+            "درجات": ["الدرجات تبجي.. حضروا مناديل", "Grades are loading...", "درجتك تعتمد على تعبك"],
+            "نجاح": ["النجاح يريد سهر مو نوم", "Success comes to those who work hard", "تريد تنجح؟ عوف الموبايل هسه"],
+            "رسوب": ["فال الله ولا فالك.. اقرأ تنجح", "Don't say that word!", "الرسوب مو النا.. احنا أبطال"],
+
+            // أعذار ومشاكل
+            "مريض": ["سلامتك.. بس الامتحان ينتظرك", "Get well soon.. but study!", "أعذار قديمة.. شوف غيرها"],
+            "كهرباء": ["شغل شمعة واقرأ", "الكهرباء حجة الكسلان", "No electricity? No problem, use your brain light 💡"],
+            "نت": ["النت يضعف بس وقت الدرس سبحان الله", "النت مو عذر.. الكتاب موجود", "Bad internet? Read the book"],
+            "ازدحام": ["اطلع من وقت", "Traffic is not an excuse", "لو جايب طيارة جان وصلت"],
+            "نعسان": ["غسل وجهك وتعال", "Sleepy? Drink coffee and study", "النوم للضعفاء.. المستقبل للأقوياء"],
+            "تعبت": ["تعبت؟ لعد شلون من تكبر؟", "Tired? Take a break (5 minutes) and return", "المستقبل يستاهل التعب"],
+
+            // نكات وتحشيش
+            "شكو ماكو": ["صافية دافية.. بس الامتحانات نار", "كلشي اكو.. بس درجات ماكو", "Nothing much, just grammar"],
+            "ضايج": ["اقرأ قطعة خارجية تروح الضوجة 😂", "ضايج؟ كوم حل تمارين", "Don't be sad, be smart"],
+            "نكتة": ["طالب سألني: أستاذ Past Tense يمتة يموت؟ كتله من تنجح أنت 😂", "مرة طالب نسي يكتب اسمه.. الورقة كتبت اسمه بداله من الخوف"],
+            "جذب": ["عيب تكول جذب.. كول Just kidding", "أني ما أجذب.. أني أستاذ", "Don't lie!"],
+            "صدك": ["أي صدك لعد أشاقي وياك؟", "Really? Yes really!", "كل كلمة أقولها قانون"],
+            "اطلع": ["وين تطلع؟ اقعد مكانك", "Get out? No way!", "الباب مفتوح.. بس الدرجة تروح"],
+
+            // أسئلة شخصية
+            "شسمك": ["اسمي موجود بالقلب.. مستر ثائر", "Mr. Thaer.. The Legend", "اسمي كابوس الكسالى"],
+            "عمرك": ["العمر مجرد رقم.. المهم الخبرة", "Age is just a number", "أكبر منك بيوم واعلم منك بسنة"],
+            "وين ساكن": ["ساكن بقلوب الطلاب (وبالمدرسة)", "I live in the classroom", "بالنجف.. أشرف مدينة"],
+            "سيارة": ["عندي سيارة بس ما أخذكم بيها", "Do you like cars? Study to buy one"],
+            "تزوجت": ["تزوجت الكتاب والسبورة 😂", "Personal question! Minus 5 marks"],
+            "غداكم": ["دولمة.. تغار؟ 😋", "تمن ومرق.. تفضل ويانا", "Lunch? Focus on the lesson!"],
+        };
+
+        // الردود العشوائية (Fallback) - 100 رد للتحشيش والتصريف
+        const randomReplies = [
+            "روح اقرأ أحسن لك من هالحجي", "ما فهمت.. بس شكلك تريد صفر", "Speak English please, I don't understand Arabic now",
+            "هاي السوالف خليها بالفرصة", "Don't waste my time!", "شنو يعني؟ وضح أكثر أو ارجع لمكانك",
+            "لا تدوخني.. عندي تصحيح أوراق", "يا ابني مستقبل ضايع اذا تظل هيج", "Focus! Focus! Focus!",
+            "منو سمحلك تحجي؟", "راح أعتبر نفسي ما سمعت", "Go back to your seat", "Open your book page 50",
+            "ترا أنقصك درجات ديربالك", "أكو واحد يحجي هيج وي أستاذه؟", "Silence please!", "Do your homework!",
+            "لا تخليني أطلع الوجه الثاني 😈", "أنت مشروع طالب ناجح.. بس يرادلك فورمات", "ههههه ضحكتني (جذب ما ضحكت)",
+            "شكد تحجي؟ ما تتعب؟", "بطل لواكة وروح ادرس", "هذا الكلام ما يدخلك وزاري", "You are very talkative today",
+            "امتحنكم باجر؟ شو سكتوا؟", "السبورة تشتكي منكم", "القلم الاحمر بيدي.. والقرار الك", "لا تخليني أعصب 😡",
+            "شنو رأيك تعيد السادس؟", "أنت بطل.. بس باللعب مو بالدراسة", "I am watching you...", "Class dismissed? NO!",
+            "اقرأ القطعة الخارجية زين", "احفظ الافعال الشاذة وعوف السوالف", "شنو هالسؤال العبيط؟", "That's a silly question",
+            "ما عندك شغل وعمل؟", "كوم امسح السبورة", "وين الدفتر؟ طلعه بسرعة", "أهلك يدرون بيك كاعد تسولف؟",
+            "روح جيبلي ماي (شقة لا تروح)", "اليوم خميس.. بس هم لازم تقرون", "باجر الجمعة.. استغلوا الوقت",
+            "لا تؤجل عمل اليوم الى الغد", "Time is money, don't waste it", "Be smart, not lazy",
+            "أنت ذكي بس يرادلك قرصة إذن", "شوكت تصير دكتور وتفرحنا؟", "هاي اخر مرة أجاوبك", "Ask your friend, I am busy",
+            "Google it!", "Don't ask me, ask the book", "الجواب موجود بصفحة 20", "ركز زين تفتهم",
+            "لا تصير طنّاش", "خليك نبيه", "شغّل عقلك شوية", "Use your brain!", "Brain.exe not found?",
+            "لا تصفن.. انتبه", "الصافن يطبله صفر", "شبيك تباوع هيج؟", "عيونك بالسبورة مو بالموبايل",
+            "ذب الموبايل وافتح الكتاب", "الموبايل دمر مستقبلكم", "التيك توك ما يفيدك", "الانستقرام ما ينجحك",
+            "ببجي ما توكلك خبز", "الطريق الى النجاح يبدأ من هنا", "Start now!", "Never give up",
+            "You can do it!", "Believe in yourself", "Trust the process", "Mr. Thaer loves you (sometimes)",
+            "أنت ابني وأريد مصلحتك", "رزالتي محبة", "قسوتي عليكم لمصلحتكم", "يوم النتائج تذكر كلامي",
+            "من جد وجد", "English is fun!", "Grammar is easy!", "Vocabulary is power!",
+            "صوتك لا يعلى", "هدوء تام", "Quite please!", "Listen to me!", "Look at the board!",
+            "Write this down", "Take notes", "Don't sleep!", "Wake up!", "صباح الخير (متأخر)",
+            "صح النوم", "وين جنت صافن؟", "شلون بيك؟", "الله يساعد أهلك عليك", "تحملوني مثل ما أتحملكم",
+            "أني نعمة من الله الكم 😎", "قدروا النعمة", "الحمدلله على كل حال", "يلا كافي حجي", "باي (مؤقتاً)"
+        ];
+
+        function toggleChat() {
+            var win = document.getElementById('chat-window');
+            if (win.style.display === 'flex') {
+                win.style.display = 'none';
+            } else {
+                win.style.display = 'flex';
+                // رسالة ترحيب عشوائية كل مرة يفتح الشات
+                var chatBody = document.getElementById('chatBody');
+                if(chatBody.children.length < 2) { // اذا فارغ بس الرسالة الاولى
+                     // ممكن نضيف شي هنا مستقبلاً
                 }
             }
         }
 
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            var input = document.getElementById('chatInput');
+            var msg = input.value.trim();
+            if (!msg) return;
+
+            // اضافة رسالة المستخدم
+            addMsg(msg, 'user');
+            input.value = '';
+
+            // محاكاة الكتابة
+            var typing = document.getElementById('typingIndicator');
+            typing.style.display = 'block';
+            var chatBody = document.getElementById('chatBody');
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // تأخير بسيط للرد
+            setTimeout(() => {
+                typing.style.display = 'none';
+                var reply = getBotReply(msg);
+                addMsg(reply, 'bot');
+            }, 1000 + Math.random() * 500);
+        }
+
+        function addMsg(text, sender) {
+            var div = document.createElement('div');
+            div.className = 'msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
+            div.innerText = text;
+            var chatBody = document.getElementById('chatBody');
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getBotReply(msg) {
+            msg = msg.toLowerCase();
+            
+            // 1. البحث عن الكلمات المفتاحية
+            for (var key in botKnowledge) {
+                // فحص اذا الرسالة تحتوي الكلمة المفتاحية
+                if (msg.includes(key)) {
+                    var responses = botKnowledge[key];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+
+            // 2. الرد العشوائي (Fallback)
+            return randomReplies[Math.floor(Math.random() * randomReplies.length)];
+        }
+
     </script>
 </body>
-    </html>
+                </html>
