@@ -16,41 +16,7 @@
             overflow-x: hidden;
             padding-bottom: 90px;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* === كانفاس المساحة (طبقة المسح) === */
-        #eraserCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9998; display: none; cursor: crosshair;
-            touch-action: none; /* مهم للموبايل */
-        }
-        
-        /* === وصاخة المساحة === */
-        .eraser-dust-container {
-            position: fixed; bottom: 50px; left: 0; width: 100%; height: 20px;
-            z-index: 9999; pointer-events: none;
-            display: flex; justify-content: center; align-items: flex-end;
-            flex-wrap: wrap-reverse; overflow: visible;
-        }
-        .dust-particle {
-            width: 4px; height: 4px; background-color: #bdc3c7;
-            border-radius: 50%; position: absolute;
-            animation: dropDust 0.5s ease-in forwards;
-        }
-        @keyframes dropDust {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(0) rotate(180deg); }
-        }
-
-        /* زر الخروج من وضع المساحة */
-        .exit-eraser-btn {
-            position: fixed; top: 20px; left: 20px; 
-            background: #e74c3c; color: white; padding: 10px 15px;
-            border-radius: 50px; border: 2px solid white;
-            font-weight: bold; cursor: pointer; z-index: 10000;
-            display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند اللمس */
         }
 
         /* فلاش الكاميرا */
@@ -126,7 +92,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* === إضافات الأزرار الجانبية === */
+        /* === إضافات الأزرار الجانبية (المبخرة والهاتف) === */
         .side-emoji {
             position: absolute;
             top: 50%;
@@ -140,8 +106,14 @@
         .side-emoji:hover { transform: translateY(-50%) scale(1.3); }
         .side-emoji:active { transform: translateY(-50%) scale(0.9); }
         
-        .emoji-left { left: -50px; animation: floatEmojiLeft 3s ease-in-out infinite; }
-        .emoji-right { right: -50px; animation: floatEmojiRight 3.5s ease-in-out infinite; }
+        .emoji-left {
+            left: -50px;
+            animation: floatEmojiLeft 3s ease-in-out infinite;
+        }
+        .emoji-right {
+            right: -50px;
+            animation: floatEmojiRight 3.5s ease-in-out infinite;
+        }
 
         @keyframes floatEmojiLeft { 0%,100%{transform:translateY(-50%) rotate(-10deg);} 50%{transform:translateY(-60%) rotate(10deg);} }
         @keyframes floatEmojiRight { 0%,100%{transform:translateY(-50%) rotate(10deg);} 50%{transform:translateY(-40%) rotate(-10deg);} }
@@ -152,7 +124,7 @@
             background: rgba(0,0,0,0.95); z-index: 10000;
             flex-direction: column; align-items: center; justify-content: space-between;
             padding: 60px 20px; box-sizing: border-box;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); /* تم تقليل الضباب */
         }
         .call-info { text-align: center; animation: pulseCall 2s infinite; }
         .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
@@ -170,44 +142,64 @@
         @keyframes pulseCall { 0%{opacity: 0.8;} 50%{opacity: 1;} 100%{opacity: 0.8;} }
         @keyframes bounceCall { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
 
+        /* مربع رسالة بعد الاتصال */
         .call-msg-box {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #333; width: 80%; max-width: 350px;
-            padding: 25px; border-radius: 20px; text-align: center; z-index: 10001;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 4px solid #4cd964;
+            display: none;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #fff; color: #333;
+            width: 80%; max-width: 350px;
+            padding: 25px; border-radius: 20px;
+            text-align: center; z-index: 10001;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            border: 4px solid #4cd964;
             animation: popIn 0.3s;
         }
 
-        /* === تأثيرات المبخرة === */
+        /* === تأثيرات المبخرة (محسنة للأداء) === */
         .smoke-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto; 
-            z-index: 9000; display: none; cursor: pointer;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: auto; 
+            z-index: 9000; display: none;
+            cursor: pointer;
+            /* إزالة الخلفية لتقليل الحمل */
         }
         .smoke-particle {
-            position: absolute; bottom: -60px;
+            position: absolute;
+            bottom: -60px;
             background: radial-gradient(circle, rgba(220,220,220,0.6) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%; width: 100px; height: 100px; opacity: 0;
-            filter: blur(3px); will-change: transform, opacity; animation: smokeRise 4s forwards;
+            border-radius: 50%;
+            width: 100px; height: 100px;
+            opacity: 0;
+            /* تخفيف الـ Blur وتحسين الأداء */
+            filter: blur(3px); 
+            will-change: transform, opacity; /* أمر للمتصفح باستخدام كارت الشاشة */
+            animation: smokeRise 4s forwards;
         }
         .protection-msg {
             position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
             background: rgba(44, 62, 80, 0.95); border: 2px solid #f1c40f;
             padding: 20px; border-radius: 15px; z-index: 9001;
             text-align: center; display: none;
-            box-shadow: 0 0 50px rgba(241, 196, 15, 0.3); pointer-events: none; animation: popIn 0.5s;
+            box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
+            pointer-events: none;
+            animation: popIn 0.5s;
         }
+
         @keyframes smokeRise {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 0.6; }
             100% { transform: translateY(-110vh) scale(3); opacity: 0; }
         }
+        /* ========================================= */
 
         .click-hint {
             display: block; font-size: 0.8rem; color: #f1c40f; 
-            margin-bottom: 5px; font-weight: bold; animation: blink 2s infinite;
+            margin-bottom: 5px; font-weight: bold;
+            animation: blink 2s infinite;
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 
+        /* النص المضحك */
         .funny-text {
             font-size: 1.1rem; margin: 20px auto; max-width: 90%;
             line-height: 1.6; background: rgba(255,255,255,0.1);
@@ -239,8 +231,7 @@
 
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
-        /* زر المساحة الجديد */
-        .eraser-btn { background: linear-gradient(to bottom, #95a5a6, #7f8c8d); box-shadow: 0 4px 10px rgba(127, 140, 141, 0.4); border: 2px solid #bdc3c7; }
+        .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
 
         /* الزر الدائري في المنتصف */
         .quiz-center-btn {
@@ -263,21 +254,27 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
         }
 
-        /* === زر اليوتيوب === */
+        /* === زر اليوتيوب المعدل === */
         .youtube-container {
-            width: 90%; max-width: 320px;
-            margin: 0 auto 20px; padding: 0 10px; box-sizing: border-box;
-            transform: translateX(20px); 
+            width: 90%; 
+            max-width: 320px; /* تم التكبير قليلاً */
+            margin: 0 auto 20px; 
+            padding: 0 10px; 
+            box-sizing: border-box;
+            transform: translateX(20px); /* تم تحريكه لليمين قليلاً */
         }
         .yt-btn {
             display: block; width: 100%; text-decoration: none;
             background: linear-gradient(45deg, #FF0000, #c4302b);
-            color: white; padding: 15px; border-radius: 15px;
+            color: white; 
+            padding: 15px; /* زيادة الحشوة ليكون أكبر */
+            border-radius: 15px;
             font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
             transition: transform 0.1s;
             animation: pulseRed 2s infinite;
-            border: 2px solid rgba(255,255,255,0.2); text-align: center;
+            border: 2px solid rgba(255,255,255,0.2);
+            text-align: center;
         }
         .yt-btn:active { transform: scale(0.95); }
         @keyframes pulseRed {
@@ -314,6 +311,7 @@
         
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
+        .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
         .quiz-style { border: 5px solid #e67e22; background: #34495e; color: white; box-shadow: 0 0 30px rgba(230, 126, 34, 0.5); }
 
         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -382,10 +380,6 @@
         <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل<br>عين الحاسود بيها عود</p>
     </div>
 
-    <canvas id="eraserCanvas"></canvas>
-    <button id="exitEraser" class="exit-eraser-btn" onclick="stopEraserMode()">خروج من وضع المسح ✖</button>
-    <div id="eraserDust" class="eraser-dust-container"></div>
-
     <div id="incomingCallScreen" class="call-overlay">
         <div class="call-info">
             <img src="img1.jpg" alt="Caller" class="caller-img">
@@ -446,7 +440,7 @@
 
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
         
-        <button class="action-btn eraser-btn" onclick="startEraserMode()">🧹<br>مساح<br>السبورة</button>
+        <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
     </div>
 
     <div class="youtube-container">
@@ -500,6 +494,22 @@
         </div>
     </div>
 
+    <div id="modalPrank" class="modal-overlay">
+        <div class="secret-box prank-style" style="position: relative;">
+            <span class="close-icon" onclick="closeModal('modalPrank')">✖</span>
+            <h2 style="font-family: 'Tajawal'; margin-bottom: 10px;">جاري المعالجة... ⚙️</h2>
+            <div id="statusText" class="status-text">جاري الاتصال بوزارة التربية...</div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div id="failMessage" class="fail-message">
+                🚫 فشل العملية! <br>
+                الأستاذ ثائر كشف المحاولة.<br>
+                <span style="color: #f1c40f; font-size: 1rem;">(روح اقرأ أحسنلك 😂📖)</span>
+            </div>
+        </div>
+    </div>
+
     <div class="news-container">
         <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="12">
             🔴 خبر عاجل: وزارة التربية توجه بتعطيل الدوام اليوم وذلك بمناسبة الذكرى السنوية لعيد ميلاد استاذ ثائر 🎉 
@@ -517,63 +527,97 @@
     </div>
 
     <script>
+        // === الموسيقى (صوت الاغنية فقط) ===
         var mySong = new Audio('song.mp3'); 
         mySong.loop = true; 
         var isPlaying = false;
 
+        // === أصوات الإضافات الجديدة ===
         var harmalSound = new Audio('1.mp3'); 
-        harmalSound.loop = true;
+        harmalSound.loop = true; // الصوت يستمر بالتكرار
         var ringtoneSound = new Audio('techno.mp3');
         ringtoneSound.loop = true;
-        var incenseInterval;
+
+        var incenseInterval; // متغير لحفظ حركة الدخان
 
         function toggleSong() {
             var img = document.getElementById('teacherImg');
             if (isPlaying) {
-                mySong.pause(); isPlaying = false; img.classList.remove('playing-animation'); 
+                mySong.pause();
+                isPlaying = false;
+                img.classList.remove('playing-animation'); 
             } else {
-                mySong.play(); isPlaying = true; img.classList.add('playing-animation'); 
+                mySong.play();
+                isPlaying = true;
+                img.classList.add('playing-animation'); 
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.4 } });
             }
         }
 
+        // === وظيفة المبخرة الالكترونية (محسنة) ===
         function startIncense(event) {
             event.stopPropagation();
-            if (incenseInterval) return;
-            try { harmalSound.currentTime = 0; harmalSound.play(); } catch(e){}
+            if (incenseInterval) return; // يمنع التكرار اذا كان شغال
+
+            try { 
+                harmalSound.currentTime = 0;
+                harmalSound.play(); 
+            } catch(e){}
+
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
-            overlay.style.display = 'block'; msg.style.display = 'block';
+            overlay.style.display = 'block';
+            msg.style.display = 'block';
+
+            // تفعيل الإغلاق عند الضغط في أي مكان
             document.addEventListener('click', stopIncense);
+
+            // توليد دخان مستمر (تم تقليل السرعة لتحسين الأداء)
             incenseInterval = setInterval(() => {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
                 p.style.left = Math.random() * 100 + '%';
                 p.style.animationDuration = (Math.random() * 2 + 3) + 's';
                 overlay.appendChild(p);
+                
+                // حذف العنصر بعد انتهاء الانيميشن
                 setTimeout(() => { p.remove(); }, 5000);
-            }, 350);
+            }, 350); // تم رفع الوقت من 100 الى 350 لتقليل الحمل على الجهاز
         }
 
+        // === وظيفة إيقاف المبخرة ===
         function stopIncense() {
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
+
             if (overlay.style.display === 'none') return;
-            harmalSound.pause(); harmalSound.currentTime = 0;
-            clearInterval(incenseInterval); incenseInterval = null;
-            overlay.style.display = 'none'; msg.style.display = 'none'; overlay.innerHTML = '';
+
+            harmalSound.pause();
+            harmalSound.currentTime = 0;
+            
+            clearInterval(incenseInterval); // وقف توليد الدخان
+            incenseInterval = null;
+
+            overlay.style.display = 'none';
+            msg.style.display = 'none';
+            overlay.innerHTML = ''; // تنظيف الشاشة من الدخان الباقي
+            
+            // إلغاء استماع الضغط
             document.removeEventListener('click', stopIncense);
         }
 
+        // === وظيفة الاتصال ===
         function startCallPrank(event) {
             event.stopPropagation();
             if(isPlaying) toggleSong();
+
             try { ringtoneSound.play(); } catch(e){}
             document.getElementById('incomingCallScreen').style.display = 'flex';
         }
 
         function endCallPrank(showMsg) {
-            ringtoneSound.pause(); ringtoneSound.currentTime = 0;
+            ringtoneSound.pause();
+            ringtoneSound.currentTime = 0;
             document.getElementById('incomingCallScreen').style.display = 'none';
         }
 
@@ -594,96 +638,6 @@
                 "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left + 
                 ",resizable=yes,scrollbars=yes,status=yes");
         }
-
-        // === كود المساحة الجديد ===
-        var eraserCanvas = document.getElementById('eraserCanvas');
-        var ctx = eraserCanvas.getContext('2d');
-        var isErasing = false;
-        var dustContainer = document.getElementById('eraserDust');
-        var dustCounter = 0;
-
-        function startEraserMode() {
-            eraserCanvas.width = window.innerWidth;
-            eraserCanvas.height = window.innerHeight;
-            eraserCanvas.style.display = 'block';
-            document.getElementById('exitEraser').style.display = 'block';
-            
-            // تهيئة الرسم
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.lineWidth = 40;
-            // اللون هو نفس لون الخلفية عشان يبين كأنه مسح
-            ctx.strokeStyle = '#2c3e50'; 
-            
-            // أحداث الماوس واللمس
-            eraserCanvas.addEventListener('mousedown', startDraw);
-            eraserCanvas.addEventListener('mousemove', draw);
-            eraserCanvas.addEventListener('mouseup', stopDraw);
-            eraserCanvas.addEventListener('mouseout', stopDraw);
-            
-            eraserCanvas.addEventListener('touchstart', startDraw, {passive: false});
-            eraserCanvas.addEventListener('touchmove', draw, {passive: false});
-            eraserCanvas.addEventListener('touchend', stopDraw);
-            
-            alert("يلا امسح الشاشة باصبعك! 🧼");
-        }
-
-        function stopEraserMode() {
-            eraserCanvas.style.display = 'none';
-            document.getElementById('exitEraser').style.display = 'none';
-            // تنظيف الكانفاس والوصاخة
-            ctx.clearRect(0, 0, eraserCanvas.width, eraserCanvas.height);
-            dustContainer.innerHTML = '';
-        }
-
-        function startDraw(e) {
-            isErasing = true;
-            ctx.beginPath();
-            let pos = getPos(e);
-            ctx.moveTo(pos.x, pos.y);
-            e.preventDefault(); // منع السكرول بالموبايل
-        }
-
-        function draw(e) {
-            if (!isErasing) return;
-            let pos = getPos(e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            
-            // توليد الوصاخة (كل 5 حركات للماوس)
-            dustCounter++;
-            if(dustCounter % 5 === 0) {
-                createDust(pos.x);
-            }
-            e.preventDefault();
-        }
-
-        function stopDraw() {
-            isErasing = false;
-        }
-
-        function getPos(e) {
-            if(e.touches) {
-                return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }
-            return { x: e.offsetX, y: e.offsetY };
-        }
-
-        function createDust(xPos) {
-            let dust = document.createElement('div');
-            dust.className = 'dust-particle';
-            // مكان عشوائي قريب من حركة اليد بس ينزل ليجوه
-            let randomX = xPos + (Math.random() * 40 - 20); 
-            dust.style.left = randomX + 'px';
-            dust.style.bottom = (Math.random() * 10) + 'px'; // يتكوم بأسفل الشاشة
-            dustContainer.appendChild(dust);
-            
-            // مسح الوصاخة القديمة عشان الأداء
-            if(dustContainer.children.length > 100) {
-                dustContainer.removeChild(dustContainer.firstChild);
-            }
-        }
-        // ============================
 
         var facts = [
             "Google Translate يدز رسالة لأستاذ ثائر يتأكد من المعنى قبل لا يترجم.",
@@ -733,12 +687,28 @@
             }, 200);
         }
 
+        function openPrank() {
+            var modal = document.getElementById('modalPrank');
+            var bar = document.getElementById('progressBar');
+            var status = document.getElementById('statusText');
+            var failMsg = document.getElementById('failMessage');
+            modal.style.display = 'flex'; bar.style.width = '0%'; bar.style.backgroundColor = '#2ecc71';
+            status.innerHTML = "جاري الاتصال بوزارة التربية..."; status.style.display = 'block'; failMsg.style.display = 'none';
+            setTimeout(() => { bar.style.width = '30%'; }, 500);
+            setTimeout(() => { bar.style.width = '55%'; status.innerHTML = "جاري تهكير السيرفر..."; }, 1500);
+            setTimeout(() => { bar.style.width = '80%'; status.innerHTML = "جاري حذف الأسئلة..."; }, 3000);
+            setTimeout(() => { bar.style.width = '99%'; status.innerHTML = "لحظة واحدة..."; }, 4500);
+            setTimeout(() => { bar.style.backgroundColor = '#e74c3c'; status.style.display = 'none'; failMsg.style.display = 'block'; }, 5500);
+        }
+
+        // === كود العداد ===
         var savedCount = 9875420;
         setInterval(function() {
-            savedCount += Math.floor(Math.random() * 5); 
+            savedCount += Math.floor(Math.random() * 5); // زيادة عشوائية
             document.getElementById('savedStudents').innerText = savedCount.toLocaleString();
         }, 2000);
 
+        // === كود الاختبار المستحيل ===
         var questions = [
             {
                 q: "ليش الـ Past Simple نسميه (بسيط)؟",
@@ -803,11 +773,12 @@
         ];
 
         var currentQIndex = 0;
-        var isProcessing = false; 
+        var isProcessing = false; // متغير لمنع تكرار الضغط
 
         function startQuiz() {
             currentQIndex = 0;
             isProcessing = false;
+            // إظهار زر الانسحاب عند بدء اختبار جديد
             document.getElementById('withdrawBtn').style.display = 'inline-block';
             document.getElementById('modalQuiz').style.display = 'flex';
             loadQuestion();
@@ -815,16 +786,20 @@
 
         function loadQuestion() {
             if (currentQIndex >= questions.length) {
+                // عند انتهاء الاسئلة
                 document.getElementById('quizContainer').innerHTML = "<h3 style='color:#2ecc71'>مبروووك! أنت طالب مثالي 🎓</h3>";
                 confetti({ particleCount: 300, spread: 180 });
+                // اخفاء زر الانسحاب يا خواف
                 document.getElementById('withdrawBtn').style.display = 'none';
                 return;
             }
+
             var q = questions[currentQIndex];
             document.getElementById('qNumber').innerText = currentQIndex + 1;
             document.getElementById('qText').innerText = q.q;
             var optsDiv = document.getElementById('qOptions');
             optsDiv.innerHTML = "";
+
             q.a.forEach((opt, index) => {
                 var btn = document.createElement('button');
                 btn.className = 'quiz-btn-opt';
@@ -835,26 +810,32 @@
         }
 
         function checkAnswer(btn, index, qData) {
+            // اذا المعالجة جارية، لا تسوي شي (يمنع الضغط المتكرر)
             if (isProcessing) return;
+
             if (index === qData.correct) {
-                isProcessing = true; 
+                isProcessing = true; // قفل الضغط
                 btn.style.background = "#2ecc71";
                 btn.innerText = "صح! كفووو 😍";
                 confetti({ particleCount: 50, spread: 50, origin: { y: 0.5 } });
                 setTimeout(() => {
                     currentQIndex++;
                     loadQuestion();
-                    isProcessing = false; 
+                    isProcessing = false; // فتح القفل بعد تحميل السؤال الجديد
                 }, 1000);
             } else {
+                // تعديل خاص للسؤال العاشر (جاهز؟) اذا جاوب "لا"
                 if (currentQIndex === 9 && index === 0) {
                      btn.innerText = "غصباً عليك جاهز 😊";
                      btn.style.background = "#e74c3c";
                      btn.style.color = "white";
                      return; 
                 }
+
+                // حركة عشوائية للزر الغلط
                 var randomAnim = qData.wrongTypes[Math.floor(Math.random() * qData.wrongTypes.length)];
                 btn.classList.add(randomAnim);
+                
                 if(randomAnim === 'anim-run') {
                     var x = Math.random() * 200 - 100;
                     var y = Math.random() * 200 - 100;
@@ -865,6 +846,7 @@
                 } else if(randomAnim === 'anim-break') {
                      btn.innerText = "انكسر الزر! 🔨";
                 } else if(randomAnim === 'anim-ghost') {
+                     // يختفي فقط
                 } else if(randomAnim === 'anim-cam') {
                      btn.innerText = "📸 طكيتلك صورة!";
                      var flash = document.getElementById('cameraFlash');
@@ -875,6 +857,7 @@
                 }
             }
         }
+
     </script>
 </body>
-                                   </html>
+    </html>
