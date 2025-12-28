@@ -154,17 +154,21 @@
             animation: popIn 0.3s;
         }
 
-        /* === تأثيرات المبخرة (دخان وايموجيات) === */
+        /* === تأثيرات المبخرة (دخان واقعي من الأسفل) === */
         .smoke-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9000; display: none;
-            justify-content: center; align-items: center;
         }
+        /* تصميم الدخان بدون ايموجي */
         .smoke-particle {
-            position: absolute; bottom: -50px;
-            font-size: 3rem; /* حجم ايموجي الدخان */
+            position: absolute;
+            bottom: -50px; /* يبدأ من تحت */
+            background: radial-gradient(circle, rgba(220,220,220,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            width: 80px; height: 80px; /* حجم الدخان */
             opacity: 0;
-            animation: smokeRise 3s forwards;
+            filter: blur(8px); /* تأثير ضبابي */
+            animation: smokeRise 4s forwards;
         }
         .protection-msg {
             position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
@@ -176,9 +180,9 @@
         }
 
         @keyframes smokeRise {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(-80vh) scale(2) rotate(20deg); opacity: 0; }
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(3); opacity: 0; }
         }
         /* ========================================= */
 
@@ -364,7 +368,7 @@
     <div id="smokeOverlay" class="smoke-overlay"></div>
     <div id="protectionMsg" class="protection-msg">
         <h2 style="color:#f1c40f; margin:0;">🧿 تم التحصين</h2>
-        <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل<br>عين الحاسود بيها عود 💨</p>
+        <p style="color:white; font-size:1.2rem;">عين الباردة عليك يا بطل<br>عين الحاسود بيها عود</p>
     </div>
 
     <div id="incomingCallScreen" class="call-overlay">
@@ -545,18 +549,17 @@
 
             var overlay = document.getElementById('smokeOverlay');
             var msg = document.getElementById('protectionMsg');
-            overlay.style.display = 'flex';
+            overlay.style.display = 'block';
             msg.style.display = 'block';
 
-            // إنشاء دخان ايموجيات
+            // إنشاء دخان واقعي بدون ايموجي
             for(let i=0; i<25; i++) {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
-                p.innerText = '💨'; // ايموجي الدخان
+                // تم مسح الايموجي واستخدام الستايل فقط
                 p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                p.style.animationDelay = Math.random() * 0.5 + 's';
-                p.style.fontSize = (Math.random() * 2 + 2) + 'rem'; // حجم عشوائي
+                p.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                p.style.animationDelay = Math.random() * 1 + 's';
                 overlay.appendChild(p);
             }
 
@@ -823,4 +826,4 @@
 
     </script>
 </body>
-                </html>
+</html>
