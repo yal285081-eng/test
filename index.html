@@ -112,7 +112,8 @@
         /* === ترتيب الأزرار (Grid Layout) === */
         .btn-wrapper {
             position: relative; width: 90%; max-width: 400px;
-            margin: 30px auto; display: grid; grid-template-columns: 1fr 1fr;
+            margin: 30px auto 15px; /* قللت المارجن الجواني */
+            display: grid; grid-template-columns: 1fr 1fr;
             gap: 15px; padding: 10px;
         }
         .action-btn {
@@ -130,14 +131,16 @@
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
 
-        /* الزر الدائري في المنتصف */
+        /* الزر الدائري في المنتصف - تم تصغير الخط هنا */
         .quiz-center-btn {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 90px; height: 90px; border-radius: 50%;
             background: radial-gradient(circle, #f1c40f, #f39c12);
             border: 5px solid #2c3e50; color: #2c3e50;
-            font-weight: 800; font-size: 1.1rem; cursor: pointer; z-index: 10;
+            font-weight: 800; font-size: 0.9rem; /* تم التغيير من 1.1 الى 0.9 */
+            line-height: 1.2; /* ضبط المسافات بين الاسطر */
+            cursor: pointer; z-index: 10;
             box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
             display: flex; align-items: center; justify-content: center;
             text-align: center; font-family: 'Tajawal', sans-serif;
@@ -149,9 +152,31 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
         }
 
+        /* === زر اليوتيوب الجديد === */
+        .youtube-container {
+            width: 90%; max-width: 400px; margin: 0 auto 20px; padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .yt-btn {
+            display: block; width: 100%; text-decoration: none;
+            background: linear-gradient(45deg, #FF0000, #c4302b);
+            color: white; padding: 15px; border-radius: 15px;
+            font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            transition: transform 0.1s;
+            animation: pulseRed 2s infinite;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .yt-btn:active { transform: scale(0.95); }
+        @keyframes pulseRed {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+
         /* === عداد الإنقاذ === */
         .hero-counter {
-            margin: 30px auto 10px; padding: 15px;
+            margin: 10px auto 10px; padding: 15px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px; width: 85%; max-width: 400px;
@@ -277,6 +302,12 @@
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
         
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
+    </div>
+
+    <div class="youtube-container">
+        <a href="https://youtube.com/@mrthaer-yo9zn" target="_blank" class="yt-btn">
+            📺 ادخل واستفاد (الشرح يخبل) 🔥
+        </a>
     </div>
 
     <div class="hero-counter">
@@ -606,4 +637,4 @@
 
     </script>
 </body>
-                </html>
+</html>
