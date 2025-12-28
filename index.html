@@ -16,6 +16,7 @@
             overflow-x: hidden;
             padding-bottom: 90px;
             user-select: none;
+            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند اللمس */
         }
 
         /* فلاش الكاميرا */
@@ -123,7 +124,7 @@
             background: rgba(0,0,0,0.95); z-index: 10000;
             flex-direction: column; align-items: center; justify-content: space-between;
             padding: 60px 20px; box-sizing: border-box;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px); /* تم تقليل الضباب */
         }
         .call-info { text-align: center; animation: pulseCall 2s infinite; }
         .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
@@ -154,21 +155,24 @@
             animation: popIn 0.3s;
         }
 
-        /* === تأثيرات المبخرة (دخان واقعي مستمر) === */
+        /* === تأثيرات المبخرة (محسنة للأداء) === */
         .smoke-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: auto; /* يسمح بالضغط للإغلاق */
+            pointer-events: auto; 
             z-index: 9000; display: none;
             cursor: pointer;
+            /* إزالة الخلفية لتقليل الحمل */
         }
         .smoke-particle {
             position: absolute;
-            bottom: -60px; /* يبدأ من تحت الشاشة */
-            background: radial-gradient(circle, rgba(220,220,220,0.8) 0%, rgba(255,255,255,0) 70%);
+            bottom: -60px;
+            background: radial-gradient(circle, rgba(220,220,220,0.6) 0%, rgba(255,255,255,0) 70%);
             border-radius: 50%;
             width: 100px; height: 100px;
             opacity: 0;
-            filter: blur(10px);
+            /* تخفيف الـ Blur وتحسين الأداء */
+            filter: blur(3px); 
+            will-change: transform, opacity; /* أمر للمتصفح باستخدام كارت الشاشة */
             animation: smokeRise 4s forwards;
         }
         .protection-msg {
@@ -177,14 +181,14 @@
             padding: 20px; border-radius: 15px; z-index: 9001;
             text-align: center; display: none;
             box-shadow: 0 0 50px rgba(241, 196, 15, 0.3);
-            pointer-events: none; /* يسمح بالضغط خلف الرسالة */
+            pointer-events: none;
             animation: popIn 0.5s;
         }
 
         @keyframes smokeRise {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 0.6; }
-            100% { transform: translateY(-110vh) scale(4); opacity: 0; }
+            100% { transform: translateY(-110vh) scale(3); opacity: 0; }
         }
         /* ========================================= */
 
@@ -547,7 +551,7 @@
             }
         }
 
-        // === وظيفة المبخرة الالكترونية ===
+        // === وظيفة المبخرة الالكترونية (محسنة) ===
         function startIncense(event) {
             event.stopPropagation();
             if (incenseInterval) return; // يمنع التكرار اذا كان شغال
@@ -565,7 +569,7 @@
             // تفعيل الإغلاق عند الضغط في أي مكان
             document.addEventListener('click', stopIncense);
 
-            // توليد دخان مستمر
+            // توليد دخان مستمر (تم تقليل السرعة لتحسين الأداء)
             incenseInterval = setInterval(() => {
                 let p = document.createElement('div');
                 p.className = 'smoke-particle';
@@ -573,9 +577,9 @@
                 p.style.animationDuration = (Math.random() * 2 + 3) + 's';
                 overlay.appendChild(p);
                 
-                // حذف العنصر بعد انتهاء الانيميشن لتخفيف الحمل
+                // حذف العنصر بعد انتهاء الانيميشن
                 setTimeout(() => { p.remove(); }, 5000);
-            }, 100);
+            }, 350); // تم رفع الوقت من 100 الى 350 لتقليل الحمل على الجهاز
         }
 
         // === وظيفة إيقاف المبخرة ===
@@ -853,4 +857,4 @@
 
     </script>
 </body>
-        </html>
+    </html>
