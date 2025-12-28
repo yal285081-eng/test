@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        /* نفس الستايلات تماماً */
+        /* === (نفس الستايلات السابقة بدون تغيير) === */
         body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
         .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 9999; }
         .flash-active { animation: flashAnim 0.2s ease-out; }
@@ -167,12 +167,12 @@
     <div id="chat-window">
         <div class="chat-header">
             <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">✖</span>
-            <span>Thaer Bot 3.0 (Genius) 🧠</span>
+            <span>Thaer Bot AI 🧠</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">هلا! آني المساعد الذكي الجديد (نسخة العباقرة). اسألني وراح تفاجئك دقتي 😉</div>
+            <div class="msg msg-bot">هلا! آني المساعد الذكي للأستاذ ثائر.. مدعوم بذكاء Gemini. اسألني أي شي (قواعد، سوالف، نكات)! 😎</div>
         </div>
-        <div class="bot-typing" id="typingIndicator">Thaer Bot يكتب...</div>
+        <div class="bot-typing" id="typingIndicator">Thaer Bot يفكر...</div>
         <div class="chat-input-area">
             <button id="sendBtn" onclick="sendMessage()">➤</button>
             <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleEnter(event)">
@@ -327,7 +327,12 @@
     </div>
 
     <script>
-        // === نفس أكواد Javascript القديمة للموقع ===
+        // ============================================
+        // 🔑 مفتاح الذكاء الاصطناعي (تمت إضافته)
+        // ============================================
+        const GEMINI_API_KEY = 'AIzaSyByFkhJJqYhqxoWHYvxLysp2D4XvdzzAeA'; 
+
+        // === باقي الكود القديم للموقع ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
         var isPlaying = false;
         var harmalSound = new Audio('1.mp3'); harmalSound.loop = true; 
@@ -517,43 +522,8 @@
         }
 
         /* ======================================================= */
-        /* ========== 🧠 الذكاء الحقيقي (الخوارزميات) =========== */
+        /* ========== 🧠 العقل المدبر (AI ONLY) =========== */
         /* ======================================================= */
-
-        // قاعدة البيانات مصنفة حسب "النية" (Intent) مو الكلمات الجامدة
-        const intents = {
-            "greeting": {
-                patterns: ["هلو", "هلا", "مرحبا", "السلام", "سلام", "شلونك", "شخبارك", "صباح", "مساء", "ها استاذ", "تحية"],
-                responses: ["يا هلا بطلاب المستقبل 🎓", "هلا بيك.. بس طلع دفترك بسرعة", "وعليكم السلام.. انتبه للشرح", "شلونك انت؟ ان شاء الله قاري؟"]
-            },
-            "love": {
-                patterns: ["احبك", "اعشقك", "بطل", "افضل", "احسن", "ورده", "ملك"],
-                responses: ["حبك برص (أشاقة) 😂.. روح اقرأ", "شكراً عالمشاعر.. بس هذا ما يزيد درجاتك", "واني احبكم من تنجحون", "خجلتني.. بس هم راح اسويلكم امتحان فجائي 😈"]
-            },
-            "exam": {
-                patterns: ["امتحان", "اسئلة", "شهر", "صعبة", "سهلة", "مرشحات", "وزاري", "اختبار", "دور"],
-                responses: ["الاسئلة من المريخ.. حضر نفسك", "لا تدور مرشحات.. اقرأ الكتاب من الجلاد للجلاد", "الامتحان سهل للشاطر وصعب للكسلان", "تذكر: من غش ليس منا 🤨"]
-            },
-            "homework": {
-                patterns: ["واجب", "تحضير", "نسيت", "دفتر", "قلم", "كتابة"],
-                responses: ["الواجب مقدس.. اذا ما كاتبه اطلع برة", "نسيت الواجب؟ لعد شلون ما نسيت تاكل؟", "عفية بالشاطر اللي كاتب واجبه", "الدفتر هو سلاح الطالب"]
-            },
-            "complaint": {
-                patterns: ["تعبت", "مليت", "ضايج", "نعسان", "مريض", "بطلت", "صعب"],
-                responses: ["تعبت؟ لعد شلون من تصير دكتور؟", "المستقبل يريد تعب.. شد حيلك", "غسل وجهك وتعال اقرأ", "لا تتدلع.. احنا بزمن السرعة"]
-            },
-            "identity": {
-                patterns: ["اسمك", "منو انت", "عرف نفسك", "عمرك", "وين"],
-                responses: ["اني المساعد الشخصي للأستاذ ثائر.. ومهمتي مراقبتكم", "اني كابوس الطلاب الكسالى 😎", "اسمي موجود بقلوب الشطار"]
-            }
-        };
-
-        // الذاكرة المؤقتة (Session Memory)
-        var botMemory = {
-            userName: null,
-            lastTopic: null, // يتذكر عن شنو جنا نسولف
-            consecutiveFails: 0
-        };
 
         function toggleChat() {
             var win = document.getElementById('chat-window');
@@ -575,10 +545,8 @@
             var chatBody = document.getElementById('chatBody');
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            setTimeout(() => {
-                typing.style.display = 'none';
-                processSmartReply(msg);
-            }, 800);
+            // استخدام الذكاء الاصطناعي فقط
+            callGeminiAI(msg);
         }
 
         function addMsg(text, type) {
@@ -590,113 +558,49 @@
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // ==========================================
-        // 🔥 خوارزمية ليفنشتاين (Levenshtein Distance) 🔥
-        // ==========================================
-        // وظيفتها: حساب نسبة الاختلاف بين كلمتين (تصلح الأخطاء الإملائية)
-        function similarity(s1, s2) {
-            var longer = s1;
-            var shorter = s2;
-            if (s1.length < s2.length) { longer = s2; shorter = s1; }
-            var longerLength = longer.length;
-            if (longerLength == 0) { return 1.0; }
-            return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-        }
-
-        function editDistance(s1, s2) {
-            s1 = s1.toLowerCase(); s2 = s2.toLowerCase();
-            var costs = new Array();
-            for (var i = 0; i <= s1.length; i++) {
-                var lastValue = i;
-                for (var j = 0; j <= s2.length; j++) {
-                    if (i == 0) costs[j] = j;
-                    else {
-                        if (j > 0) {
-                            var newValue = costs[j - 1];
-                            if (s1.charAt(i - 1) != s2.charAt(j - 1)) newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                            costs[j - 1] = lastValue;
-                            lastValue = newValue;
-                        }
-                    }
-                }
-                if (i > 0) costs[s2.length] = lastValue;
-            }
-            return costs[s2.length];
-        }
-
-        // ==========================================
-        // 🔥 العقل المدبر (The Brain) 🔥
-        // ==========================================
-        function processSmartReply(msg) {
-            // تنظيف النص (إزالة التكرار مثل: هلوووو -> هلو)
-            let cleanMsg = msg.replace(/(.)\1+/g, '$1').trim();
+        // دالة الاتصال بجوجل Gemini
+        async function callGeminiAI(userMsg) {
+            const typing = document.getElementById('typingIndicator');
             
-            // 1. التعامل مع الرياضيات (Math)
-            let mathMatch = cleanMsg.match(/^(\d+)\s*([\+\-\*\/])\s*(\d+)$/);
-            if (mathMatch) {
-                try { addMsg("الجواب هو: " + eval(cleanMsg) + " (سهلة 😉)", 'bot'); return; } catch(e){}
-            }
+            // التعليمات الخاصة بشخصية الأستاذ ثائر
+            const systemPrompt = `
+                تصرف كأنك "أستاذ ثائر"، مدرس لغة إنجليزية عراقي مشهور.
+                صفاتك: دمه خفيف، يحب النكات، يحكي بلهجة عراقية قوية، يحرص على مصلحة الطلاب بس بأسلوب فكاهي (رزالة محبة).
+                ممنوع تحجي سياسة او دين.
+                اذا الطالب سأل سؤال قواعدي، جاوبه وشجعه.
+                اذا الطالب دز شي تافه، رزله بشقة (مثل: روح اقرأ، حبك برص، طلع دفترك).
+                جاوب باختصار (لا تكتب جرائد).
+                السؤال هو: ${userMsg}
+            `;
 
-            // 2. حفظ الاسم واستخدامه
-            if (cleanMsg.includes("اني") && cleanMsg.length > 4) {
-                botMemory.userName = cleanMsg.replace("اني", "").trim();
-                addMsg("هلا بيك يا " + botMemory.userName + "، نورت الصف! 🌟", 'bot');
-                return;
-            }
-
-            // 3. البحث الذكي (Fuzzy Search)
-            // يقسم جملة المستخدم إلى كلمات، ويقارن كل كلمة مع قاعدة البيانات
-            let bestIntent = null;
-            let maxScore = 0;
-
-            let words = cleanMsg.split(" ");
-            
-            // نفحص كل كلمة كتبها المستخدم
-            for (let word of words) {
-                for (let intentKey in intents) {
-                    let patterns = intents[intentKey].patterns;
-                    for (let pattern of patterns) {
-                        // نقيس نسبة التشابه
-                        let score = similarity(word, pattern);
-                        if (score > 0.65 && score > maxScore) { // اذا التشابه اكثر من 65%
-                            maxScore = score;
-                            bestIntent = intentKey;
-                        }
-                    }
-                }
-            }
-
-            // 4. الرد بناءً على النية (Intent) والسياق (Context)
-            if (bestIntent) {
-                botMemory.lastTopic = bestIntent; // تحديث سياق الحديث
-                let responses = intents[bestIntent].responses;
-                let reply = responses[Math.floor(Math.random() * responses.length)];
+            try {
+                // رابط الـ API
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
                 
-                // إضافة الاسم للرد اذا موجود
-                if (botMemory.userName && Math.random() > 0.6) {
-                    reply = botMemory.userName + ".. " + reply;
-                }
-                addMsg(reply, 'bot');
-                return;
-            }
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: systemPrompt }] }]
+                    })
+                });
 
-            // 5. الذكاء السياقي (اذا ما فهم الكلمة، يشوف احنا بيا موضوع كنا نحكي)
-            if (botMemory.lastTopic === 'exam' && (cleanMsg.includes("نعم") || cleanMsg.includes("اي"))) {
-                addMsg("عفية، اقرأ زين ولا تخاف من الأسئلة", 'bot');
-                botMemory.lastTopic = null;
-                return;
-            }
+                if (!response.ok) throw new Error("API Error");
 
-            // 6. الردود العشوائية الذكية (اذا قفل كلش)
-            const fallbacks = [
-                "ما فهمت بالضبط، بس شكلك دتحجي عن الدراسة؟ 🤔",
-                "اكتب عدل ترة اني بوت مبرمج على اللغة العربية الفصحى (والعراقية)",
-                "سؤالك صعب، روح اسأل المدير 😂",
-                "اي صحيح.. كمل دراستك",
-                "ركز بالدرس وعوف السوالف الجانبية"
-            ];
-            addMsg(fallbacks[Math.floor(Math.random() * fallbacks.length)], 'bot');
+                const data = await response.json();
+                const aiReply = data.candidates[0].content.parts[0].text;
+                
+                typing.style.display = 'none';
+                addMsg(aiReply, 'bot');
+
+            } catch (error) {
+                // في حالة وجود خطأ في الاتصال أو السيرفر
+                console.error("AI Error:", error);
+                typing.style.display = 'none';
+                addMsg("عذراً، النت ضعيف أو السيرفر مشغول (فصلت فيوزاتي 🔌). حاول مرة ثانية!", 'bot');
+            }
         }
+
     </script>
 </body>
     </html>
