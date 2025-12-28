@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Thayer's Class 🎓</title>
+    <title>Mr. Thaer's Class 🎓</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -16,7 +16,7 @@
             overflow-x: hidden;
             padding-bottom: 90px;
             user-select: none;
-            -webkit-tap-highlight-color: transparent; /* إزالة الوميض عند اللمس */
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* فلاش الكاميرا */
@@ -124,7 +124,7 @@
             background: rgba(0,0,0,0.95); z-index: 10000;
             flex-direction: column; align-items: center; justify-content: space-between;
             padding: 60px 20px; box-sizing: border-box;
-            backdrop-filter: blur(5px); /* تم تقليل الضباب */
+            backdrop-filter: blur(5px);
         }
         .call-info { text-align: center; animation: pulseCall 2s infinite; }
         .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
@@ -161,7 +161,6 @@
             pointer-events: auto; 
             z-index: 9000; display: none;
             cursor: pointer;
-            /* إزالة الخلفية لتقليل الحمل */
         }
         .smoke-particle {
             position: absolute;
@@ -170,9 +169,8 @@
             border-radius: 50%;
             width: 100px; height: 100px;
             opacity: 0;
-            /* تخفيف الـ Blur وتحسين الأداء */
             filter: blur(3px); 
-            will-change: transform, opacity; /* أمر للمتصفح باستخدام كارت الشاشة */
+            will-change: transform, opacity;
             animation: smokeRise 4s forwards;
         }
         .protection-msg {
@@ -254,24 +252,24 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
         }
 
-        /* === زر اليوتيوب المعدل === */
+        /* === زر اليوتيوب المعدل (تم تصغيره وتوسطه) === */
         .youtube-container {
-            width: 90%; max-width: 400px; 
-            margin: 0 auto 20px; 
-            padding: 0 10px; 
-            box-sizing: border-box;
-            transform: translateX(10px); 
+            width: 90%; max-width: 350px; /* تصغير العرض الأقصى */
+            margin: 0 auto 20px; /* توسيط تلقائي */
+            padding: 0;
         }
         .yt-btn {
             display: block; width: 100%; text-decoration: none;
             background: linear-gradient(45deg, #FF0000, #c4302b);
-            color: white; padding: 15px; border-radius: 15px;
-            font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold;
+            color: white; padding: 10px 15px; /* تقليل الـ padding لتصغير الزر */
+            font-family: 'Tajawal', sans-serif; font-size: 1rem; /* تصغير الخط قليلاً */
+            font-weight: bold;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
             transition: transform 0.1s;
             animation: pulseRed 2s infinite;
             border: 2px solid rgba(255,255,255,0.2);
             text-align: center;
+            border-radius: 15px;
         }
         .yt-btn:active { transform: scale(0.95); }
         @keyframes pulseRed {
@@ -380,7 +378,7 @@
     <div id="incomingCallScreen" class="call-overlay">
         <div class="call-info">
             <img src="img1.jpg" alt="Caller" class="caller-img">
-            <h1 class="caller-name">Mr. Thayer...</h1>
+            <h1 class="caller-name">Mr. Thaer...</h1>
             <div class="call-status">Mobile</div>
         </div>
         <div class="call-actions">
@@ -406,7 +404,7 @@
     </div>
 
     <header>
-        <h1>Mr. Thayer 🇮🇶</h1>
+        <h1>Mr. Thaer 🇮🇶</h1>
         <p>The King of English / ملك اللغة</p>
     </header>
 
@@ -416,13 +414,13 @@
         <div class="side-emoji emoji-left" onclick="startCallPrank(event)">📞</div>
         <div class="side-emoji emoji-right" onclick="startIncense(event)">🧿</div>
         
-        <img src="img1.jpg" id="teacherImg" alt="Mr. Thayer" class="profile-img">
+        <img src="img1.jpg" id="teacherImg" alt="Mr. Thaer" class="profile-img">
         <div class="badge">Top Teacher</div>
     </div>
 
     <div class="funny-text">
         <p>
-            يا هلا بيكم في <span class="en-word">Thayer's Zone</span> 👋<br>
+            يا هلا بيكم في <span class="en-word">Thaer's Zone</span> 👋<br>
             هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
             والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
             <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
@@ -857,4 +855,4 @@
 
     </script>
 </body>
-    </html>
+</html>
