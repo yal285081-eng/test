@@ -154,7 +154,6 @@
             background: #ecf0f1; color: #2c3e50; align-self: flex-start;
             border-bottom-right-radius: 2px; border: 1px solid #bdc3c7;
         }
-        .msg-angry { background: #e74c3c; color: white; border-color: #c0392b; }
         .bot-typing {
             font-style: italic; color: #7f8c8d; font-size: 0.8rem; margin-right: 10px; display: none;
         }
@@ -167,12 +166,12 @@
     <div id="chat-window">
         <div class="chat-header">
             <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">✖</span>
-            <span>Thaer Bot AI 🧠</span>
+            <span>Thaer Bot (Groq) 🧠</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">هلا! آني المساعد الذكي للأستاذ ثائر.. مدعوم بذكاء الاصطناعي . اسألني أي شي (قواعد،قطع،ترجمة..)!</div>
+            <div class="msg msg-bot">هلا! آني المساعد الذكي للأستاذ ثائر.. شغلتلك الموديل السريع (Llama3). اسألني أي شي! 😎</div>
         </div>
-        <div class="bot-typing" id="typingIndicator">Thaer Bot يفكر...</div>
+        <div class="bot-typing" id="typingIndicator">أستاذ ثائر ديفكر...</div>
         <div class="chat-input-area">
             <button id="sendBtn" onclick="sendMessage()">➤</button>
             <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleEnter(event)">
@@ -328,16 +327,9 @@
 
     <script>
         // ============================================
-        // 🔑 مكان المفتاح السري والموديل الصحيح
+        // 🔑 مفتاح Groq الجديد
         // ============================================
-        const GEMINI_API_KEY = 'AIzaSyB9-3vSL8wYGqfN9f0ETj3GOMC0W7OqF-4'; 
-        
-        // 🔥 قائمة الموديلات الذكية (الأولوية لـ gemini-3-flash-preview)
-        const modelsToTry = [
-            "gemini-3-flash-preview",  // الموديل اللي طلعناه من الصورة
-            "gemini-3-pro-preview",    // احتياط
-            "gemini-1.5-flash"         // احتياط
-        ];
+        const GROQ_API_KEY = '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'; 
 
         // === باقي الكود القديم للموقع ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
@@ -529,7 +521,7 @@
         }
 
         /* ======================================================= */
-        /* ========== 🧠 العقل المدبر (AI with Retry Logic) =========== */
+        /* ========== 🧠 العقل المدبر (تم تحويله لـ Groq) =========== */
         /* ======================================================= */
 
         function toggleChat() {
@@ -552,8 +544,8 @@
             var chatBody = document.getElementById('chatBody');
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // استخدام الذكاء الاصطناعي مع المحاولة التلقائية
-            tryModels(msg);
+            // إرسال الرسالة إلى Groq
+            sendToGroq(msg);
         }
 
         function addMsg(text, type) {
@@ -565,59 +557,53 @@
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // دالة تحاول الاتصال بعدة موديلات
-        async function tryModels(userMsg) {
+        // 🚀 الاتصال بـ Groq API بدلاً من Gemini
+        async function sendToGroq(userMsg) {
             const typing = document.getElementById('typingIndicator');
             
             const systemPrompt = `
-                 تصرف كأنك "أستاذ ثائر"، مدرس لغة إنجليزية عراقي مشهور يدرس صف خامس اعدادي المرحلة القبل السادس الاعدادي.
-                صفاتك: دمه خفيف بس قليل ،عصبي شوي، يحجي بلهجة عراقية، يحرص على مصلحة الطلاب بس بأسلوب فكاهي (رزالة محبة).
-              ممنوع تحجي سياسة او دين او تسب لا تقول حبك برص . 
+                تصرف كأنك "أستاذ ثائر"، مدرس لغة إنجليزية عراقي مشهور.
+                صفاتك: دمه خفيف، يحب النكات، يحكي بلهجة عراقية قوية، يحرص على مصلحة الطلاب بس بأسلوب فكاهي (رزالة محبة).
+                ممنوع تحجي سياسة او دين.
                 اذا الطالب سأل سؤال قواعدي، جاوبه وشجعه.
-                اذا الطالب دز شي تافه، رزله بشقة (مثل: روح اقرأ،اقرا زين وراك امتحان، طلع دفترك).
+                اذا الطالب دز شي تافه، رزله بشقة (مثل: روح اقرأ، حبك برص، طلع دفترك).
                 جاوب باختصار (لا تكتب جرائد).
-                السؤال هو: ${userMsg}
             `;
 
-            for (let model of modelsToTry) {
-                try {
-                    console.log("Trying model: " + model);
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-                    
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: systemPrompt }] }]
-                        })
-                    });
+            try {
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama3-8b-8192", // موديل سريع وممتاز
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: userMsg }
+                        ],
+                        temperature: 0.7
+                    })
+                });
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        const aiReply = data.candidates[0].content.parts[0].text;
-                        typing.style.display = 'none';
-                        addMsg(aiReply, 'bot');
-                        return; // نجح الاتصال، نخرج من الدالة
-                    } else {
-                        // إذا فشل هذا الموديل، ننتقل للتالي
-                        const err = await response.json();
-                        console.warn(`Model ${model} failed:`, err);
-                        continue;
-                    }
-
-                } catch (error) {
-                    console.error("Network/System Error:", error);
-                    continue; // ننتقل للموديل التالي
+                const data = await response.json();
+                
+                if (data.choices && data.choices.length > 0) {
+                    const aiReply = data.choices[0].message.content;
+                    typing.style.display = 'none';
+                    addMsg(aiReply, 'bot');
+                } else {
+                    throw new Error("No response from Groq");
                 }
-            }
 
-            // إذا فشلت كل الموديلات
-            typing.style.display = 'none';
-            addMsg("عذراً، النت ضعيف أو السيرفر مشغول . حاول مرة ثانية!", 'bot');
+            } catch (error) {
+                console.error("Groq Error:", error);
+                typing.style.display = 'none';
+                addMsg("عذراً، السيرفر مشغول شوية (النت فصل). حاول مرة ثانية!", 'bot');
+            }
         }
 
     </script>
 </body>
-                                                                     </html>
-
-
+            </html>
