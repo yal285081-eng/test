@@ -6,14 +6,6 @@
     <title>Mr. Thayer's Class 🎓</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
-        }
-      }
-    </script>
 
     <style>
         body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
@@ -24,32 +16,30 @@
         .playing-animation { animation: shake 0.3s infinite; border-color: #f1c40f !important; box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset !important; }
         @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); } 100% { transform: rotate(0deg); } }
         .profile-img { width: 170px; height: 170px; object-fit: cover; border-radius: 50%; border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3); background: #fff; transition: all 0.2s; }
-        .badge { position: absolute; bottom: 5px; right: -5px; background: #f1c40f; color: #333; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-family: 'Permanent Marker', cursive; transform: rotate(-10deg); border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .side-emoji { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; cursor: pointer; z-index: 25; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); text-decoration: none; }
+        .badge { position: absolute; bottom: 5px; right: -5px; background: #f1c40f; color: #333; padding: 5px 12px; border-radius: 15px; font-weight: bold; transform: rotate(-10deg); border: 2px solid white; }
+        .side-emoji { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; cursor: pointer; z-index: 25; transition: all 0.3s; text-decoration: none; }
         .emoji-left { left: -50px; }
         .emoji-right { right: -50px; }
         .click-hint { display: block; font-size: 0.8rem; color: #f1c40f; margin-bottom: 5px; font-weight: bold; animation: blink 2s infinite; }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
         .btn-wrapper { position: relative; width: 90%; max-width: 400px; margin: 30px auto 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
-        .action-btn { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; border: none; padding: 20px 10px; font-size: 1rem; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4); font-family: 'Tajawal', sans-serif; transition: transform 0.1s; width: 100%; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 1rem; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; animation: pulseBtn 2s infinite; }
+        .action-btn { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; border: none; padding: 20px 10px; font-size: 1rem; border-radius: 15px; cursor: pointer; font-family: 'Tajawal', sans-serif; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; text-align: center; animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); } 70% { transform: translate(-50%, -50%) scale(1.05); } 100% { transform: translate(-50%, -50%) scale(1); } }
-        
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .secret-box { background: white; color: #333; width: 85%; max-width: 350px; padding: 40px 20px; border-radius: 20px; text-align: center; position: relative; border: 4px solid #f1c40f; animation: popIn 0.3s; }
-        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .secret-box { background: white; color: #333; width: 85%; max-width: 350px; padding: 40px 20px; border-radius: 20px; text-align: center; position: relative; border: 4px solid #f1c40f; }
         .close-icon { position: absolute; top: 10px; right: 15px; font-size: 1.8rem; font-weight: bold; cursor: pointer; color: #e74c3c; }
 
-        /* شات بوت ستايل */
+        /* الشات بوت */
         #chat-icon { position: fixed; bottom: 70px; right: 20px; width: 60px; height: 60px; background: #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10002; font-size: 30px; cursor: pointer; }
         #chat-window { display: none; position: fixed; bottom: 140px; right: 20px; width: 320px; height: 450px; background: #fff; border-radius: 20px; z-index: 10003; flex-direction: column; overflow: hidden; border: 3px solid #3498db; }
-        .chat-header { background: #3498db; color: white; padding: 15px; text-align: right; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header { background: #3498db; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f1f2f6; display: flex; flex-direction: column; gap: 10px; position: relative; scroll-behavior: smooth; }
         .chat-input-area { padding: 10px; background: white; border-top: 1px solid #ddd; display: flex; gap: 5px; }
         #chatInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-family: 'Tajawal'; text-align: right; }
-        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; line-height: 1.4; color: #333; text-align: right; }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; line-height: 1.4; text-align: right; }
         .msg-user { background: #3498db; color: white; align-self: flex-end; }
-        .msg-bot { background: #e0e0e0; align-self: flex-start; }
+        .msg-bot { background: #e0e0e0; color: #333; align-self: flex-start; }
 
         /* أنيميشن النقاط */
         .typing-dots { display: none; align-self: flex-start; background: #e0e0e0; padding: 10px 15px; border-radius: 15px; margin-bottom: 5px; }
@@ -57,8 +47,7 @@
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        
-        #scroll-down-btn { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); background: #3498db; color: white; border-radius: 50%; width: 30px; height: 30px; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
+        #scroll-down-btn { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); background: #3498db; color: white; border-radius: 50%; width: 30px; height: 30px; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
 
         .news-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; background: #c0392b; border-top: 4px solid #f1c40f; z-index: 9999; display: flex; align-items: center; }
         .ticker-text { font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 1.2rem; color: white; width: 100%; }
@@ -66,19 +55,19 @@
 </head>
 <body>
 
-    <div id="chat-icon" onclick="toggleChat()">💬</div>
+    <div id="chat-icon" onclick="window.toggleChat()">💬</div>
     <div id="chat-window">
-        <div class="chat-header"><span onclick="toggleChat()" style="cursor:pointer">✖</span><span>Thaer Bot (AI) 🧠</span></div>
+        <div class="chat-header"><span onclick="window.toggleChat()" style="cursor:pointer">✖</span><span>Thaer Bot (AI) 🧠</span></div>
         <div class="chat-body" id="chatBody">
-            <div id="scroll-down-btn" onclick="scrollToBottom()">↓</div>
+            <div id="scroll-down-btn" onclick="window.scrollToBottom()">↓</div>
             <div class="msg msg-bot">هلا طلابي الغوالي! آني المساعد الذكي للأستاذ ثائر.. شلون أساعدكم اليوم؟ 😎</div>
             <div class="typing-dots" id="typingIndicator">
                 <div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
         </div>
         <div class="chat-input-area">
-            <button id="sendBtn" onclick="sendMessage()" style="background:#3498db; color:white; border:none; padding:10px; border-radius:50%; cursor:pointer;">➤</button>
-            <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="window.sendMessage()" style="background:#3498db; color:white; border:none; padding:10px; border-radius:50%; cursor:pointer;">➤</button>
+            <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter') window.sendMessage()">
         </div>
     </div>
 
@@ -87,7 +76,7 @@
         <p>The King of English / ملك اللغة الانجليزية</p>
     </header>
 
-    <div class="profile-container" onclick="handleImageClick()">
+    <div class="profile-container" onclick="window.handleImageClick()">
         <span class="click-hint">🎵 اضغط للتشغيل / الإيقاف 🎵</span>
         <div class="side-emoji emoji-left">✉️</div>
         <a href="https://youtube.com/@mrthaer-yo9zn" target="_blank" class="side-emoji emoji-right">🎬</a>
@@ -96,46 +85,47 @@
     </div>
 
     <div class="btn-wrapper">
-        <button class="action-btn" onclick="openHomework()">📚<br>الواجب</button>
-        <button class="action-btn google-btn" onclick="window.open('https://translate.google.com')">🌍<br>المترجم</button>
-        <button class="quiz-center-btn" onclick="openQuiz()">اختبار</button>
-        <button class="action-btn predict-btn" onclick="alert('توقع الأستاذ: راح تجيب درجة كاملة يا بطل! 🔥')">🔮<br>توقع نتيجتك</button>
-        <button class="action-btn prank-btn" onclick="alert('محاولة فاشلة! الأستاذ كشفك، روح اقرا 😂')">⚠️<br>إلغاء الامتحان</button>
+        <button class="action-btn" onclick="window.openHomework()">📚<br>الواجب</button>
+        <button class="action-btn" onclick="window.open('https://translate.google.com')">🌍<br>المترجم</button>
+        <button class="quiz-center-btn" onclick="window.openQuiz()">اختبار</button>
+        <button class="action-btn" onclick="alert('توقع الأستاذ: 100% يا بطل! 🔥')">🔮<br>توقع نتيجتك</button>
+        <button class="action-btn" onclick="alert('روح اقرا أحسنلك 😂')">⚠️<br>إلغاء الامتحان</button>
     </div>
 
     <div id="modalHomework" class="modal-overlay">
         <div class="secret-box">
-            <span class="close-icon" onclick="closeModal('modalHomework')">×</span>
+            <span class="close-icon" onclick="window.closeModal('modalHomework')">×</span>
             <p style="font-size:1.5rem; font-weight:800; color:#2c3e50;">لا يوجد واجب حالياً 🌟</p>
         </div>
     </div>
 
     <div id="modalQuiz" class="modal-overlay">
         <div class="secret-box" style="border-color:#e67e22;">
-            <span class="close-icon" onclick="closeModal('modalQuiz')">×</span>
+            <span class="close-icon" onclick="window.closeModal('modalQuiz')">×</span>
             <p style="font-size:1.5rem; font-weight:800; color:#2c3e50;">لا يتوفر اختبار حالياً 📖</p>
         </div>
     </div>
 
     <div class="news-container">
         <marquee class="ticker-text" behavior="scroll" direction="right" scrollamount="10">
-            🌟 مرحبا بيكم طلابنا الاعزاء في صفحة الاستاذ ثائر التعليمية.. أنتم جيل المستقبل وفخر العراق 🇮🇶 .. معا سنجعل اللغة الانجليزية أسهل وأمتع .. أهلا بطلبة العلم والمبدعين 🎉
+            🌟 مرحبا بيكم طلابنا الاعزاء في صفحة الاستاذ ثائر التعليمية.. أنتم جيل المستقبل وفخر العراق 🇮🇶 .. معا سنجعل اللغة الانجليزية أسهل وأمتع 🎉
         </marquee>
     </div>
 
     <script type="module">
+        // استيراد مباشر ومستقر
         import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-        // 🔑 ضع مفتاحك هنا
         const API_KEY = "AIzaSyC5pGUCq_ao3Ba9FRji7NjHFQszvGNAHkY"; 
         const genAI = new GoogleGenerativeAI(API_KEY);
         
         let chatHistory = [{ role: "user", parts: [{ text: "أنت أستاذ ثائر، مدرس لغة إنجليزية عراقي محبوب. تحكي بلهجة عراقية قوية ونكات خفيفة. لا تتدخل بالسياسة أو الدين." }] }];
-
+        
         var mySong = new Audio('song.mp3'); 
+        mySong.loop = true;
         window.isPlaying = false;
 
-        // ربط جميع الدوال بالنافذة (window) لتعمل مع HTML
+        // ربط الدوال بـ window
         window.handleImageClick = function() {
             var img = document.getElementById('teacherImg');
             if (window.isPlaying) {
@@ -143,7 +133,7 @@
                 window.isPlaying = false;
                 img.classList.remove('playing-animation');
             } else {
-                mySong.play();
+                mySong.play().catch(e => console.log("Music play blocked"));
                 window.isPlaying = true;
                 img.classList.add('playing-animation');
                 confetti();
@@ -174,17 +164,18 @@
                 const result = await chat.sendMessage(msg);
                 const response = await result.response;
                 
-                // تأخير 6 ثوانٍ للرد
                 setTimeout(() => {
                     typing.style.display = 'none';
-                    addMsgToUI(response.text(), 'bot');
+                    const text = response.text();
+                    addMsgToUI(text, 'bot');
                     window.scrollToBottom();
                     chatHistory.push({ role: "user", parts: [{ text: msg }] });
-                    chatHistory.push({ role: "model", parts: [{ text: response.text() }] });
+                    chatHistory.push({ role: "model", parts: [{ text: text }] });
                 }, 6000);
             } catch (e) {
                 typing.style.display = 'none';
-                addMsgToUI("عذراً، فصل عندي النت. جرب مرة ثانية!", 'bot');
+                addMsgToUI("عذراً، حاول مرة ثانية!", 'bot');
+                console.error(e);
             }
         };
 
@@ -205,11 +196,10 @@
         window.openQuiz = () => document.getElementById('modalQuiz').style.display = 'flex';
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 
-        // مراقبة التمرير لإظهار سهم النزول
-        const chatBodyElement = document.getElementById('chatBody');
-        chatBodyElement.onscroll = function() {
+        const chatBodyEl = document.getElementById('chatBody');
+        chatBodyEl.onscroll = function() {
             const btn = document.getElementById('scroll-down-btn');
-            if (chatBodyElement.scrollTop < chatBodyElement.scrollHeight - 600) {
+            if (chatBodyEl.scrollTop < chatBodyEl.scrollHeight - 600) {
                 btn.style.display = 'flex';
             } else {
                 btn.style.display = 'none';
