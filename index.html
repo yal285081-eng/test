@@ -328,9 +328,9 @@
 
     <script>
         // ============================================
-        // 🔑 مفتاح الذكاء الاصطناعي
+        // 🔑 مفتاح الذكاء الاصطناعي الجديد (Boot)
         // ============================================
-        const GEMINI_API_KEY = 'AIzaSyByFkhJJqYhqxoWHYvxLysp2D4XvdzzAeA'; 
+        const GEMINI_API_KEY = 'AIzaSyDXcjZB_IhsDysUc4SVFfBwRu_YmuX1ve4'; 
 
         // === باقي الكود القديم للموقع ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
@@ -562,11 +562,13 @@
         async function tryModels(userMsg) {
             const typing = document.getElementById('typingIndicator');
             
-            // قائمة الموديلات التي سنجربها بالترتيب
+            // 🔥 قائمة الموديلات اللي راح يجربها البوت بالترتيب
+            // راح يبدي بـ 1.5 لأن هو الأساسي، وإذا ما لگاه يروح للجديد
             const modelsToTry = [
-                "gemini-3-pro-preview", // الموديل الأحدث حسب الصورة
-                "gemini-pro",           // الموديل القياسي (دائماً يعمل)
-                "gemini-1.5-flash"      // موديل فلاش السريع
+                "gemini-1.5-flash",
+                "gemini-1.5-pro",
+                "gemini-2.0-flash-exp",
+                "gemini-pro"
             ];
 
             const systemPrompt = `
@@ -618,4 +620,4 @@
 
     </script>
 </body>
-                </html>
+    </html>
