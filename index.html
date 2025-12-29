@@ -16,7 +16,14 @@
     </script>
 
     <style>
+        /* === نفس الستايلات الأصلية دون أي تغيير === */
         body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 9999; }
+        .flash-active { animation: flashAnim 0.2s ease-out; }
+        @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
+        .floating-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .float-letter { position: absolute; color: rgba(255, 255, 255, 0.05); font-family: 'Permanent Marker', cursive; font-size: 4rem; animation: floatUp 10s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
         header { background: #e74c3c; padding: 20px; box-shadow: 0 4px 0 #c0392b; transform: rotate(-1deg); margin-bottom: 30px; position: relative; z-index: 10; }
         header h1 { margin: 0; font-family: 'Permanent Marker', cursive; font-size: 2.2rem; letter-spacing: 1px; }
         header p { margin: 5px 0 0; font-weight: bold; }
@@ -28,11 +35,14 @@
         .side-emoji { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; cursor: pointer; z-index: 25; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); text-decoration: none; }
         .emoji-left { left: -50px; }
         .emoji-right { right: -50px; }
+        .smoke-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto; z-index: 9000; display: none; cursor: pointer; }
         .click-hint { display: block; font-size: 0.8rem; color: #f1c40f; margin-bottom: 5px; font-weight: bold; animation: blink 2s infinite; }
-        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+        @keyframes blink { 0% {opacity:1;} 50% {opacity:0.5;} 100% {opacity:1;} }
+        .funny-text { font-size: 1.1rem; margin: 20px auto; max-width: 90%; line-height: 1.6; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; border: 2px dashed rgba(255,255,255,0.3); }
+        .en-word { font-family: 'Permanent Marker', cursive; color: #f1c40f; font-size: 1.2em; display: inline-block; margin: 0 2px; }
         .btn-wrapper { position: relative; width: 90%; max-width: 400px; margin: 30px auto 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
         .action-btn { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; border: none; padding: 20px 10px; font-size: 1rem; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4); font-family: 'Tajawal', sans-serif; transition: transform 0.1s; width: 100%; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 1rem; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; animation: pulseBtn 2s infinite; }
+        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 1rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); } 70% { transform: translate(-50%, -50%) scale(1.05); } 100% { transform: translate(-50%, -50%) scale(1); } }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -43,7 +53,7 @@
         /* شات بوت ستايل */
         #chat-icon { position: fixed; bottom: 70px; right: 20px; width: 60px; height: 60px; background: #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10002; font-size: 30px; cursor: pointer; }
         #chat-window { display: none; position: fixed; bottom: 140px; right: 20px; width: 320px; height: 450px; background: #fff; border-radius: 20px; z-index: 10003; flex-direction: column; overflow: hidden; border: 3px solid #3498db; }
-        .chat-header { background: #3498db; color: white; padding: 15px; text-align: right; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header { background: #3498db; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f1f2f6; display: flex; flex-direction: column; gap: 10px; position: relative; scroll-behavior: smooth; }
         .chat-input-area { padding: 10px; background: white; border-top: 1px solid #ddd; display: flex; gap: 5px; }
         #chatInput { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; font-family: 'Tajawal'; text-align: right; }
@@ -57,7 +67,6 @@
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        
         #scroll-down-btn { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); background: #3498db; color: white; border-radius: 50%; width: 30px; height: 30px; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
 
         .news-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; background: #c0392b; border-top: 4px solid #f1c40f; z-index: 9999; display: flex; align-items: center; }
@@ -77,7 +86,7 @@
             </div>
         </div>
         <div class="chat-input-area">
-            <button id="sendBtn" onclick="sendMessage()" style="background:#3498db; color:white; border:none; padding:10px; border-radius:50%; cursor:pointer;">➤</button>
+            <button onclick="sendMessage()" style="background:#3498db; color:white; border:none; padding:10px; border-radius:50%; cursor:pointer;">➤</button>
             <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
         </div>
     </div>
@@ -95,10 +104,19 @@
         <div class="badge">Top Teacher</div>
     </div>
 
+    <div class="funny-text">
+        <p>
+            يا هلا بيكم في <span class="en-word">Thaer's Zone</span> 👋<br>
+            هنا الـ <span class="en-word">Past</span> نخليه صدك <span class="en-word">Simple</span> وما يتعقد.<br>
+            والـ <span class="en-word">Future</span> ويانا دائماً <span class="en-word">Perfect</span> ✨<br>
+            <small style="color:#bdc3c7; font-size:0.9em; margin-top: 10px; display:block;">(الإنكليزي صار بالجيب 😎)</small>
+        </p>
+    </div>
+
     <div class="btn-wrapper">
-        <button class="action-btn" onclick="openHomework()">📚<br>الواجب</button>
+        <button class="action-btn" onclick="openModal('modalHomework')">📚<br>الواجب</button>
         <button class="action-btn google-btn" onclick="window.open('https://translate.google.com')">🌍<br>المترجم</button>
-        <button class="quiz-center-btn" onclick="openQuiz()">اختبار</button>
+        <button class="quiz-center-btn" onclick="openModal('modalQuiz')">اختبار</button>
         <button class="action-btn predict-btn" onclick="alert('توقع الأستاذ: راح تجيب درجة كاملة يا بطل! 🔥')">🔮<br>توقع نتيجتك</button>
         <button class="action-btn prank-btn" onclick="alert('محاولة فاشلة! الأستاذ كشفك، روح اقرا 😂')">⚠️<br>إلغاء الامتحان</button>
     </div>
@@ -128,7 +146,7 @@
 
         const API_KEY = "AIzaSyC5pGUCq_ao3Ba9FRji7NjHFQszvGNAHkY"; 
         const genAI = new GoogleGenerativeAI(API_KEY);
-        let chatHistory = [{ role: "user", parts: [{ text: "أنت أستاذ ثائر، مدرس لغة إنجليزية عراقي محبوب. تحكي بلهجة عراقية قوية ونكات خفيفة. لا تتدخل بالسياسة أو الدين." }] }];
+        let chatHistory = [{ role: "user", parts: [{ text: "أنت أستاذ ثائر، مدرس لغة إنجليزية عراقي محبوب تحكي بلهجة عراقية قوية، تحب النكات، تشرح القواعد بوضوح بلهجة بسيطة، وتعتبر الطلاب اخوتك. ممنوع السياسة والدين." }] }];
 
         var mySong = new Audio('song.mp3'); 
         window.isPlaying = false;
@@ -150,6 +168,7 @@
         window.toggleChat = function() {
             var win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            if(win.style.display === 'flex') scrollToBottom();
         }
 
         window.sendMessage = async function() {
@@ -174,6 +193,8 @@
                     typing.style.display = 'none';
                     addMsg(response.text(), 'bot');
                     scrollToBottom();
+                    chatHistory.push({ role: "user", parts: [{ text: msg }] });
+                    chatHistory.push({ role: "model", parts: [{ text: response.text() }] });
                 }, 6000);
             } catch (e) {
                 typing.style.display = 'none';
@@ -204,10 +225,8 @@
             }
         }
 
-        window.openHomework = () => document.getElementById('modalHomework').style.display = 'flex';
-        window.openQuiz = () => document.getElementById('modalQuiz').style.display = 'flex';
+        window.openModal = (id) => document.getElementById(id).style.display = 'flex';
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
     </script>
 </body>
 </html>
-
