@@ -62,7 +62,7 @@
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
-        .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } /* زر الردود الجديد */
+        .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } 
         
         .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 0.9rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
@@ -84,11 +84,16 @@
         .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
         .quiz-style { border: 5px solid #e67e22; background: #34495e; color: white; box-shadow: 0 0 30px rgba(230, 126, 34, 0.5); }
         .replies-style { border: 5px solid #1abc9c; box-shadow: 0 0 30px rgba(26, 188, 156, 0.5); background: #ecf0f1; }
+        .alert-style { border: 4px solid #e74c3c; box-shadow: 0 0 40px rgba(231, 76, 60, 0.4); background: #fff; color: #333; }
         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; z-index: 10; }
         .close-icon:hover { color: #e74c3c; }
         .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        
+        /* === زر التحديث الجديد === */
+        .refresh-btn { position: absolute; top: 18px; left: 20px; font-size: 1.5rem; cursor: pointer; color: #16a085; z-index: 10; transition: transform 0.3s; }
+        .refresh-btn:active { transform: rotate(360deg); }
 
         /* === Quiz Styles === */
         .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
@@ -241,6 +246,16 @@
         <button class="close-btn" style="background:#2ecc71; margin-top:10px;" onclick="closeCallMsg()">صار أستاذ 🏃‍♂️</button>
     </div>
 
+    <div id="customAlert" class="modal-overlay">
+        <div class="secret-box alert-style">
+            <h2 style="color: #c0392b; margin-top:0;">⚠️ تنبيه</h2>
+            <p style="font-size: 1.3rem; font-weight: bold; margin: 20px 0;">
+                يجب كتابة الاسم الثلاثي أولاً!
+            </p>
+            <button class="close-btn" style="background: #e74c3c;" onclick="document.getElementById('customAlert').style.display='none'">حاضر</button>
+        </div>
+    </div>
+
     <div class="floating-bg">
         <div class="float-letter" style="left: 10%; animation-duration: 7s;">A</div>
         <div class="float-letter" style="left: 30%; animation-duration: 9s;">B</div>
@@ -293,6 +308,7 @@
 
     <div id="modalReplies" class="modal-overlay">
         <div class="secret-box replies-style">
+            <span class="refresh-btn" onclick="fetchReplies()" title="تحديث الردود">🔄</span>
             <span class="close-icon" onclick="closeModal('modalReplies')">✖</span>
             <h2 style="color: #16a085; font-family: 'Tajawal'; margin-bottom: 20px;">📢 آخر التبليغات والردود</h2>
             
@@ -381,8 +397,6 @@
         // ============================================
         const TELEGRAM_BOT_TOKEN = '7882648720:AAGAtsicCo-T_N_8Vixd6H_DenSO1eemKKM'; 
         const TELEGRAM_CHAT_ID = '612272154';
-
-        // 🔴 تم إضافة رابط ملفك بنجاح
         const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTPVJBKAh_e1ORNxAw3iIsC3RvStPzR3LeUGsPm-ER5XYJYZB6ninCNrV6m_-YoxYWWG-keh9B_pjJ2/pub?output=csv';
 
 
@@ -586,33 +600,33 @@
 
         function fetchReplies() {
             const container = document.getElementById('repliesContainer');
+            // إضافة مؤشر تحميل بسيط عند الضغط على التحديث
+            container.innerHTML = '<div class="loading-replies">جاري التحديث... 🔄</div>';
             
-            // سحب البيانات من الرابط
-            fetch(GOOGLE_SHEET_URL)
+            // إضافة وقت حالي للرابط لمنع المتصفح من حفظ النسخة القديمة
+            const freshURL = GOOGLE_SHEET_URL + '&t=' + Date.now();
+
+            fetch(freshURL)
             .then(response => response.text())
             .then(data => {
-                // تحويل الـ CSV إلى مصفوفة
-                const rows = data.split('\n');
-                container.innerHTML = ''; // تفريغ المحتوى القديم
+                const rows = data.split(/\r?\n/); 
+                container.innerHTML = ''; 
 
-                // نبدأ من 1 لتجاهل العناوين، ونعرض آخر الردود
                 let hasReplies = false;
-                
-                // نعكس المصفوفة حتى يظهر الجديد فوق
                 const dataRows = rows.slice(1).reverse(); 
 
                 dataRows.forEach(row => {
-                    // نتعامل مع الفواصل بحذر (في حال النص بي فوارز)
-                    // هذا كود بسيط لتقسيم النص
-                    const columns = row.split(',');
+                    if (!row.trim()) return;
+
+                    const firstCommaIndex = row.indexOf(',');
                     
-                    if (columns.length >= 2) {
-                        // تنظيف النص من علامات التنصيص الزايدة
-                        const name = columns[0] ? columns[0].replace(/"/g, '') : ''; 
-                        // نجمع باقي الأعمدة خاف الرد بي فوارز
-                        const reply = columns.slice(1).join(',').replace(/"/g, ''); 
+                    if (firstCommaIndex > -1) {
+                        let name = row.substring(0, firstCommaIndex).replace(/^"|"$/g, '').trim(); 
+                        let reply = row.substring(firstCommaIndex + 1).replace(/^"|"$/g, '').trim(); 
                         
-                        if (name.trim() && reply.trim()) {
+                        reply = reply.replace(/""/g, '"');
+
+                        if (name && reply) {
                             hasReplies = true;
                             const div = document.createElement('div');
                             div.className = 'reply-item';
@@ -672,12 +686,15 @@
             var msg = msgInput.value.trim();
 
             if (!msg) return;
+            
+            // تحقق من الاسم - التعديل الجديد ⚠️
             if (!name) {
-                alert("🔴 يرجى كتابة اسمك الثلاثي أولاً!");
-                nameInput.style.border = "2px solid red";
+                // بدلاً من alert العادية، نطلع المربع الجديد
+                document.getElementById('customAlert').style.display = 'flex';
+                nameInput.style.border = "2px solid #e74c3c"; // لون أحمر
                 return;
             } else {
-                nameInput.style.border = "1px solid #e67e22";
+                nameInput.style.border = "1px solid #e67e22"; // رجعه طبيعي
             }
 
             // 3. تحديث الواجهة
@@ -744,4 +761,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
