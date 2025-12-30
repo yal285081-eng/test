@@ -744,8 +744,10 @@
             }
 
             // 🚫🚫🚫 نظام الفلتر الأخلاقي (جديد) 🚫🚫🚫
+            // نفحص الاسم والرسالة معاً
+            let fullText = name + " " + msg;
             for (let word of BAD_WORDS) {
-                if (msg.includes(word)) {
+                if (fullText.includes(word)) {
                     document.getElementById('alertMessage').innerHTML = 
                         "🚫 تم التعرف على ألفاظ غير لائقة!<br><span style='font-size:0.9rem; color:#7f8c8d; display:block; margin-top:10px;'>أخلاقك هي مستقبلك.. يرجى احترام القناة والطلاب.</span>";
                     document.getElementById('customAlert').style.display = 'flex';
@@ -818,4 +820,4 @@
         }
     </script>
 </body>
-    </html>
+                </html>
