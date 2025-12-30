@@ -64,10 +64,10 @@
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
         .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } 
         
-        /* زر الاختبار المستحيل (تعديل الارتفاع فقط) */
+        /* زر الاختبار المستحيل (دائرة بالوسط - مرتفع بنسبة 33% ليكون بالوسط تماماً) */
         .quiz-center-btn { 
             position: absolute; 
-            top: 33%; /* 🔥 هذا التعديل يخليه بالوسط بالضبط */
+            top: 33%; /* ✅ هذا الرقم السحري لوسط المربعات */
             left: 50%; 
             transform: translate(-50%, -50%); 
             width: 90px; 
@@ -191,8 +191,11 @@
             display: flex; flex-direction: column; gap: 5px;
         }
         #chatInput, #senderName {
-            padding: 10px; border-radius: 10px; border: 1px solid #ddd;
+            /* ✅✅ التعديل هنا: زيادة الـ Padding لضمان ظهور النقاط */
+            padding: 15px 10px; 
+            border-radius: 10px; border: 1px solid #ddd;
             text-align: right; outline: none; font-family: 'Tajawal';
+            line-height: normal; /* تحسين ارتفاع السطر */
         }
         #senderName {
             background: #fdf2e9; border: 1px solid #e67e22; color: #d35400; font-weight: bold; font-size: 0.9rem;
