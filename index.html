@@ -167,12 +167,12 @@
     <div id="chat-window">
         <div class="chat-header">
             <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">✖</span>
-            <span>Thaer Bot AI 🧠</span>
+            <span>مراسلة الأستاذ ثائر 📱</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">هلا! آني المساعد الذكي للأستاذ ثائر.. مدعوم بذكاء الاصطناعي . اسألني أي شي (قواعد،قطع،ترجمة..)!</div>
+            <div class="msg msg-bot">هلا! اكتب رسالتك هنا وراح توصل للأستاذ ثائر مباشرة على موبايله 📱</div>
         </div>
-        <div class="bot-typing" id="typingIndicator">Thaer Bot يفكر...</div>
+        <div class="bot-typing" id="typingIndicator">جاري الإرسال...</div>
         <div class="chat-input-area">
             <button id="sendBtn" onclick="sendMessage()">➤</button>
             <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleEnter(event)">
@@ -327,6 +327,12 @@
     </div>
 
     <script>
+        // ============================================
+        // 🔑 إعدادات تيليجرام
+        // ============================================
+        const TELEGRAM_BOT_TOKEN = '7882648720:AAGAtsicCo-T_N_8Vixd6H_DenSO1eemKKM'; 
+        const TELEGRAM_CHAT_ID = '612272154';
+
         // === باقي الكود القديم للموقع ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
         var isPlaying = false;
@@ -517,26 +523,19 @@
         }
 
         /* ======================================================= */
-        /* ========== 🧠 العقل المدبر (AI Secure V2) =========== */
+        /* ========== 📨 نظام المراسلة عبر تيليجرام ============= */
         /* ======================================================= */
-
-        // 🟢 ضع المفتاح المشفر هنا (بعد تحويله في موقع Base64 Encode)
-        // مثال: "QUl6YVN5..."
-        const ENCRYPTED_KEY = "QUl6YVN5QnNpTE9zUDRfanRIZTc4Y2hiR0doSS02NnZmUk5veDNZ"; 
-
-        function getKey() {
-            // هذه الدالة تفك التشفير فقط عند الحاجة حتى لا يراه جوجل
-            try {
-                return atob(ENCRYPTED_KEY);
-            } catch (e) {
-                console.error("خطأ في فك تشفير المفتاح. تأكد أنك نسخت كود Base64 الصحيح.");
-                return "";
-            }
-        }
 
         function toggleChat() {
             var win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            
+            var chatBody = document.getElementById('chatBody');
+            var welcomeMsg = chatBody.querySelector('.msg-bot');
+            // تأكد أن رسالة الترحيب مناسبة
+            if (welcomeMsg && welcomeMsg.innerText.includes('AI')) {
+                 welcomeMsg.innerText = "هلا! اكتب رسالتك هنا وراح توصل للأستاذ ثائر مباشرة على موبايله 📱";
+            }
         }
 
         function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
@@ -546,16 +545,20 @@
             var msg = input.value.trim();
             if (!msg) return;
 
+            // إضافة رسالة الطالب
             addMsg(msg, 'user');
             input.value = '';
 
+            // إظهار جاري الإرسال
             var typing = document.getElementById('typingIndicator');
+            typing.innerText = "جاري إرسال الرسالة للأستاذ...";
             typing.style.display = 'block';
+            
             var chatBody = document.getElementById('chatBody');
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // استخدام الذكاء الاصطناعي مع المحاولة التلقائية
-            tryModels(msg);
+            // إرسال إلى تيليجرام
+            sendToTelegram(msg);
         }
 
         function addMsg(text, type) {
@@ -567,81 +570,38 @@
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // 🔥 قائمة الموديلات الصحيحة والمتاحة حالياً
-        const modelsToTry = [
-            "gemini-1.5-flash", 
-            "gemini-1.5-pro",
-            "gemini-1.0-pro"
-        ];
-
-        async function tryModels(userMsg) {
+        function sendToTelegram(userMsg) {
             const typing = document.getElementById('typingIndicator');
-            const apiKey = getKey();
-
-            if (!apiKey || apiKey.includes("ضع_المفتاح")) {
-                typing.style.display = 'none';
-                addMsg("⚠️ عذراً، لم يتم وضع مفتاح API بشكل صحيح في الكود.", 'bot');
-                return;
-            }
             
-            // إعدادات لتعطيل الفلاتر حتى يسمح بالمزاح والرزالة
-            const safetySettings = [
-                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-            ];
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            const data = {
+                chat_id: TELEGRAM_CHAT_ID,
+                text: `📩 *رسالة جديدة من الموقع:*\n\n${userMsg}`,
+                parse_mode: 'Markdown'
+            };
 
-            const systemPrompt = `
-                 تصرف كأنك "أستاذ ثائر"، مدرس لغة إنجليزية عراقي مشهور يدرس صف خامس اعدادي المرحلة القبل السادس الاعدادي.
-                صفاتك: دمه خفيف بس قليل ،عصبي شوي، يحجي بلهجة عراقية، يحرص على مصلحة الطلاب بس بأسلوب فكاهي (رزالة محبة).
-              ممنوع تحجي سياسة او دين او تسب لا تقول حبك برص . 
-                اذا الطالب سأل سؤال قواعدي، جاوبه وشجعه.
-                اذا الطالب دز شي تافه، رزله بشقة (مثل: روح اقرأ،اقرا زين وراك امتحان، طلع دفترك).
-                جاوب باختصار (لا تكتب جرائد).
-                السؤال هو: ${userMsg}
-            `;
-
-            for (let model of modelsToTry) {
-                try {
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: systemPrompt }] }],
-                            safetySettings: safetySettings
-                        })
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.candidates && data.candidates[0].content) {
-                            const aiReply = data.candidates[0].content.parts[0].text;
-                            typing.style.display = 'none';
-                            addMsg(aiReply, 'bot');
-                            return; 
-                        } else {
-                             console.warn(`Model ${model} blocked response.`);
-                             continue;
-                        }
-                    } else {
-                        console.warn(`Model ${model} failed:`, await response.text());
-                        continue;
-                    }
-
-                } catch (error) {
-                    console.error("Network error:", error);
-                    continue; 
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                typing.style.display = 'none';
+                if (data.ok) {
+                    addMsg("✅ وصلت رسالتك للأستاذ! راح يشوفها ويرد عليك قريباً.", 'bot');
+                } else {
+                    addMsg("❌ صار خطأ بالإرسال، تأكد من النت.", 'bot');
+                    console.error('Telegram Error:', data);
                 }
-            }
-
-            // إذا فشلت كل الموديلات
-            typing.style.display = 'none';
-            addMsg("عذراً، النت ضعيف أو السيرفر مشغول. حاول مرة ثانية!", 'bot');
+            })
+            .catch(error => {
+                typing.style.display = 'none';
+                addMsg("❌ عذراً، ما كدرت أرسل الرسالة. تأكد من اتصالك بالإنترنت.", 'bot');
+                console.error('Network Error:', error);
+            });
         }
-
     </script>
 </body>
-                                                                                                           </html>
+            </html>
