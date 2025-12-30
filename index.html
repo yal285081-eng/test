@@ -62,11 +62,33 @@
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
-        /* زر الردود ياخذ مكانين */
         .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } 
         
-        /* زر الاختبار المستحيل (الستايل القديم الدائري بالوسط) */
-        .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 0.9rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
+        /* زر الاختبار المستحيل (دائرة بالوسط - مرفوعة قليلاً) */
+        .quiz-center-btn { 
+            position: absolute; 
+            top: 45%; /* رفعناه شوية عن النص (50%) */
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%; 
+            background: radial-gradient(circle, #f1c40f, #f39c12); 
+            border: 5px solid #2c3e50; 
+            color: #2c3e50; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            line-height: 1.2; 
+            cursor: pointer; 
+            z-index: 10; 
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            font-family: 'Tajawal', sans-serif; 
+            animation: pulseBtn 2s infinite; 
+        }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
         
         .youtube-container { width: 90%; max-width: 320px; margin: 0 auto 20px; padding: 0 10px; box-sizing: border-box; transform: translateX(20px); }
