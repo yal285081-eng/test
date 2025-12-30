@@ -433,6 +433,13 @@
         const TELEGRAM_CHAT_ID = '612272154';
         const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTPVJBKAh_e1ORNxAw3iIsC3RvStPzR3LeUGsPm-ER5XYJYZB6ninCNrV6m_-YoxYWWG-keh9B_pjJ2/pub?output=csv';
 
+        // ⛔ قائمة الكلمات المحظورة (السب)
+        const BAD_WORDS = [
+            "حيوان", "كلب", "غبي", "مطي", "ساقط", "ادبسز", "قندرة", "طاح", "نعال", "زمال", 
+            "حقير", "تافه", "عار", "سخيف", "انجب", "نجب", "طيز", "خرا", "زرب", "نعل", "كلاب",
+            "عير", "كس", "طايح حظ", "ابن الكحبه", "كحبه", "منيوج", "نايج"
+        ]; 
+        // ملاحظة: تكدر تضيف أي كلمة ثانية بين علامات التنصيص وتفصل بفارزة
 
         // === الكود ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
@@ -736,6 +743,17 @@
                 return;
             }
 
+            // 🚫🚫🚫 نظام الفلتر الأخلاقي (جديد) 🚫🚫🚫
+            for (let word of BAD_WORDS) {
+                if (msg.includes(word)) {
+                    document.getElementById('alertMessage').innerHTML = 
+                        "🚫 تم التعرف على ألفاظ غير لائقة!<br><span style='font-size:0.9rem; color:#7f8c8d; display:block; margin-top:10px;'>أخلاقك هي مستقبلك.. يرجى احترام القناة والطلاب.</span>";
+                    document.getElementById('customAlert').style.display = 'flex';
+                    msgInput.value = ''; // مسح الكلام السيء
+                    return; // إيقاف الإرسال فوراً
+                }
+            }
+
             // 3. تحديث الواجهة
             addMsg(msg, 'user');
             msgInput.value = '';
@@ -800,4 +818,4 @@
         }
     </script>
 </body>
-            </html>
+    </html>
