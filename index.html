@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Permanent+Marker&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        /* === نفس الستايلات والتصميم بالضبط === */
+        /* === الستايلات العامة === */
         body { background-color: #2c3e50; color: white; font-family: 'Tajawal', sans-serif; margin: 0; text-align: center; overflow-x: hidden; padding-bottom: 90px; user-select: none; -webkit-tap-highlight-color: transparent; }
         .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 9999; }
         .flash-active { animation: flashAnim 0.2s ease-out; }
@@ -30,6 +30,8 @@
         .emoji-right { right: -50px; animation: floatEmojiRight 3.5s ease-in-out infinite; }
         @keyframes floatEmojiLeft { 0%,100%{transform:translateY(-50%) rotate(-10deg);} 50%{transform:translateY(-60%) rotate(10deg);} }
         @keyframes floatEmojiRight { 0%,100%{transform:translateY(-50%) rotate(10deg);} 50%{transform:translateY(-40%) rotate(-10deg);} }
+        
+        /* === Call & Prank Styles === */
         .call-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; flex-direction: column; align-items: center; justify-content: space-between; padding: 60px 20px; box-sizing: border-box; backdrop-filter: blur(5px); }
         .call-info { text-align: center; animation: pulseCall 2s infinite; }
         .caller-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
@@ -42,6 +44,8 @@
         @keyframes pulseCall { 0%{opacity: 0.8;} 50%{opacity: 1;} 100%{opacity: 0.8;} }
         @keyframes bounceCall { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
         .call-msg-box { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #333; width: 80%; max-width: 350px; padding: 25px; border-radius: 20px; text-align: center; z-index: 10001; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 4px solid #4cd964; animation: popIn 0.3s; }
+        
+        /* === Helper Styles === */
         .smoke-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto; z-index: 9000; display: none; cursor: pointer; }
         .smoke-particle { position: absolute; bottom: -60px; background: radial-gradient(circle, rgba(220,220,220,0.6) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; width: 100px; height: 100px; opacity: 0; filter: blur(3px); will-change: transform, opacity; animation: smokeRise 4s forwards; }
         .protection-msg { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); background: rgba(44, 62, 80, 0.95); border: 2px solid #f1c40f; padding: 20px; border-radius: 15px; z-index: 9001; text-align: center; display: none; box-shadow: 0 0 50px rgba(241, 196, 15, 0.3); pointer-events: none; animation: popIn 0.5s; }
@@ -50,28 +54,43 @@
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
         .funny-text { font-size: 1.1rem; margin: 20px auto; max-width: 90%; line-height: 1.6; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; border: 2px dashed rgba(255,255,255,0.3); }
         .en-word { font-family: 'Permanent Marker', cursive; color: #f1c40f; font-size: 1.2em; display: inline-block; margin: 0 2px; }
+        
+        /* === Buttons & Actions === */
         .btn-wrapper { position: relative; width: 90%; max-width: 400px; margin: 30px auto 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
         .action-btn { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; border: none; padding: 20px 10px; font-size: 1rem; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4); font-family: 'Tajawal', sans-serif; transition: transform 0.1s; width: 100%; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .action-btn:active { transform: scale(0.95); }
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
+        .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } /* زر الردود الجديد */
+        
         .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 0.9rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
+        
         .youtube-container { width: 90%; max-width: 320px; margin: 0 auto 20px; padding: 0 10px; box-sizing: border-box; transform: translateX(20px); }
         .yt-btn { display: block; width: 100%; text-decoration: none; background: linear-gradient(45deg, #FF0000, #c4302b); color: white; padding: 15px; border-radius: 15px; font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4); transition: transform 0.1s; animation: pulseRed 2s infinite; border: 2px solid rgba(255,255,255,0.2); text-align: center; }
         .yt-btn:active { transform: scale(0.95); }
         @keyframes pulseRed { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); } }
+        
         .hero-counter { margin: 10px auto 10px; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; width: 85%; max-width: 400px; }
         .hero-label { font-size: 0.9rem; color: #bdc3c7; display: block; margin-bottom: 5px; }
         .hero-number { font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+
+        /* === Modals === */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .secret-box { background: white; color: #333; width: 85%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .secret-box { background: white; color: #333; width: 85%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 80vh; overflow-y: auto; }
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
         .prank-style { border: 5px solid #e74c3c; box-shadow: 0 0 30px rgba(231, 76, 60, 0.5); background: #2c3e50; color: white;}
         .quiz-style { border: 5px solid #e67e22; background: #34495e; color: white; box-shadow: 0 0 30px rgba(230, 126, 34, 0.5); }
+        .replies-style { border: 5px solid #1abc9c; box-shadow: 0 0 30px rgba(26, 188, 156, 0.5); background: #ecf0f1; }
         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; z-index: 10; }
+        .close-icon:hover { color: #e74c3c; }
+        .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
+
+        /* === Quiz Styles === */
         .quiz-question { font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; color: #f1c40f; }
         .quiz-options { display: flex; flex-direction: column; gap: 10px; position: relative; min-height: 220px; justify-content: center; }
         .quiz-btn-opt { background: white; color: #2c3e50; border: none; padding: 12px; border-radius: 10px; font-size: 1rem; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold; transition: all 0.3s; width: 100%; position: relative; z-index: 2; }
@@ -87,6 +106,8 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fallDown { 0% { transform: translateY(0) rotate(0); } 100% { transform: translateY(300px) rotate(45deg); opacity: 0; } }
         @keyframes shrinkEffect { to { transform: scale(0); opacity: 0; } }
+        
+        /* === Helpers === */
         .fact-box { background: #fdf2e9; border-left: 5px solid #e67e22; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: right; direction: rtl; min-height: 60px; display: flex; flex-direction: column; justify-content: center; }
         .fact-title { color: #e67e22; font-weight: bold; display: block; margin-bottom: 5px; font-family: 'Tajawal'; font-size: 0.9rem; }
         .fact-content { font-weight: bold; color: #2c3e50; font-size: 1.1rem; transition: opacity 0.5s ease-in-out; opacity: 1; }
@@ -94,12 +115,17 @@
         .progress-bar { width: 0%; height: 100%; background-color: #2ecc71; transition: width 0.3s; }
         .status-text { font-size: 1.1rem; margin-bottom: 10px; color: #f39c12; min-height: 30px; }
         .fail-message { display: none; color: #e74c3c; font-size: 1.3rem; font-weight: bold; margin-top: 20px; animation: shake 0.5s; }
-        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #bdc3c7; transition: color 0.3s; z-index: 10; }
-        .close-icon:hover { color: #e74c3c; }
-        .close-btn { color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
         .news-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; background: #c0392b; border-top: 4px solid #f1c40f; z-index: 9999; display: flex; align-items: center; direction: ltr; }
         .ticker-text { font-family: 'Tajawal', sans-serif; font-weight: bold; font-size: 1.2rem; color: white; width: 100%; }
         .sep { color: #f1c40f; margin: 0 10px; }
+
+        /* === ستايلات الردود الجديدة === */
+        .reply-item { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 4px solid #1abc9c; }
+        .reply-header { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .student-name { font-weight: bold; color: #e67e22; }
+        .teacher-badge { background: #1abc9c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; }
+        .reply-content { color: #2c3e50; font-weight: bold; line-height: 1.5; font-size: 1.1rem; }
+        .loading-replies { color: #7f8c8d; font-style: italic; margin: 20px 0; }
 
         /* === ستايلات الشات بوت === */
         #chat-icon {
@@ -132,12 +158,17 @@
         }
         .chat-input-area {
             padding: 10px; background: white; border-top: 1px solid #ddd;
-            display: flex; gap: 5px;
+            display: flex; flex-direction: column; gap: 5px;
         }
-        #chatInput {
-            flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd;
+        #chatInput, #senderName {
+            padding: 10px; border-radius: 10px; border: 1px solid #ddd;
             text-align: right; outline: none; font-family: 'Tajawal';
         }
+        #senderName {
+            background: #fdf2e9; border: 1px solid #e67e22; color: #d35400; font-weight: bold; font-size: 0.9rem;
+        }
+        .input-row { display: flex; gap: 5px; width: 100%; }
+        #chatInput { flex: 1; border-radius: 20px; }
         #sendBtn {
             background: #3498db; color: white; border: none; padding: 0 15px;
             border-radius: 50%; cursor: pointer; font-size: 1.2rem;
@@ -154,10 +185,10 @@
             background: #ecf0f1; color: #2c3e50; align-self: flex-start;
             border-bottom-right-radius: 2px; border: 1px solid #bdc3c7;
         }
-        .msg-angry { background: #e74c3c; color: white; border-color: #c0392b; }
         .bot-typing {
             font-style: italic; color: #7f8c8d; font-size: 0.8rem; margin-right: 10px; display: none;
         }
+        .msg-error { background: #e74c3c; color: white; align-self: center; text-align: center; }
     </style>
 </head>
 <body>
@@ -170,12 +201,16 @@
             <span>مراسلة الأستاذ ثائر 📱</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">هلا! اكتب رسالتك هنا وراح توصل للأستاذ ثائر مباشرة على موبايله 📱</div>
+            <div class="msg msg-bot">هلا! اكتب اسمك واكتب رسالتك وراح توصل للأستاذ ثائر مباشرة 📱</div>
         </div>
         <div class="bot-typing" id="typingIndicator">جاري الإرسال...</div>
+        
         <div class="chat-input-area">
-            <button id="sendBtn" onclick="sendMessage()">➤</button>
-            <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleEnter(event)">
+            <input type="text" id="senderName" placeholder="اكتب اسمك الثلاثي هنا (مهم)">
+            <div class="input-row">
+                <button id="sendBtn" onclick="sendMessage()">➤</button>
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="handleEnter(event)">
+            </div>
         </div>
     </div>
 
@@ -242,6 +277,7 @@
         <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
+        <button class="action-btn replies-btn" onclick="openReplies()">📢<br>لوحة الردود والتبليغات</button>
     </div>
 
     <div class="youtube-container">
@@ -253,6 +289,19 @@
     <div class="hero-counter">
         <span class="hero-label">عدد الطلاب الذين أنقذهم الأستاذ من الرسوب 🦸‍♂️</span>
         <span id="savedStudents" class="hero-number">9,875,420</span>
+    </div>
+
+    <div id="modalReplies" class="modal-overlay">
+        <div class="secret-box replies-style">
+            <span class="close-icon" onclick="closeModal('modalReplies')">✖</span>
+            <h2 style="color: #16a085; font-family: 'Tajawal'; margin-bottom: 20px;">📢 آخر التبليغات والردود</h2>
+            
+            <div id="repliesContainer" style="max-height: 300px; overflow-y: auto; text-align: right;">
+                <div class="loading-replies">جاري تحميل الردود... 📡</div>
+            </div>
+
+            <button class="close-btn" style="background: #16a085; margin-top:15px;" onclick="closeModal('modalReplies')">إغلاق</button>
+        </div>
     </div>
 
     <div id="modalQuiz" class="modal-overlay">
@@ -328,12 +377,16 @@
 
     <script>
         // ============================================
-        // 🔑 إعدادات تيليجرام
+        // 🔑 إعدادات تيليجرام + رابط الردود
         // ============================================
         const TELEGRAM_BOT_TOKEN = '7882648720:AAGAtsicCo-T_N_8Vixd6H_DenSO1eemKKM'; 
         const TELEGRAM_CHAT_ID = '612272154';
 
-        // === باقي الكود القديم للموقع ===
+        // 🔴 تم إضافة رابط ملفك بنجاح
+        const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTPVJBKAh_e1ORNxAw3iIsC3RvStPzR3LeUGsPm-ER5XYJYZB6ninCNrV6m_-YoxYWWG-keh9B_pjJ2/pub?output=csv';
+
+
+        // === الكود ===
         var mySong = new Audio('song.mp3'); mySong.loop = true; 
         var isPlaying = false;
         var harmalSound = new Audio('1.mp3'); harmalSound.loop = true; 
@@ -523,33 +576,114 @@
         }
 
         /* ======================================================= */
+        /* ========== 📋 نظام عرض الردود (Google Sheets) ========= */
+        /* ======================================================= */
+        
+        function openReplies() {
+            document.getElementById('modalReplies').style.display = 'flex';
+            fetchReplies();
+        }
+
+        function fetchReplies() {
+            const container = document.getElementById('repliesContainer');
+            
+            // سحب البيانات من الرابط
+            fetch(GOOGLE_SHEET_URL)
+            .then(response => response.text())
+            .then(data => {
+                // تحويل الـ CSV إلى مصفوفة
+                const rows = data.split('\n');
+                container.innerHTML = ''; // تفريغ المحتوى القديم
+
+                // نبدأ من 1 لتجاهل العناوين، ونعرض آخر الردود
+                let hasReplies = false;
+                
+                // نعكس المصفوفة حتى يظهر الجديد فوق
+                const dataRows = rows.slice(1).reverse(); 
+
+                dataRows.forEach(row => {
+                    // نتعامل مع الفواصل بحذر (في حال النص بي فوارز)
+                    // هذا كود بسيط لتقسيم النص
+                    const columns = row.split(',');
+                    
+                    if (columns.length >= 2) {
+                        // تنظيف النص من علامات التنصيص الزايدة
+                        const name = columns[0] ? columns[0].replace(/"/g, '') : ''; 
+                        // نجمع باقي الأعمدة خاف الرد بي فوارز
+                        const reply = columns.slice(1).join(',').replace(/"/g, ''); 
+                        
+                        if (name.trim() && reply.trim()) {
+                            hasReplies = true;
+                            const div = document.createElement('div');
+                            div.className = 'reply-item';
+                            div.innerHTML = `
+                                <div class="reply-header">
+                                    <span class="student-name">👤 ${name}</span>
+                                    <span class="teacher-badge">رد الأستاذ</span>
+                                </div>
+                                <div class="reply-content">${reply}</div>
+                            `;
+                            container.appendChild(div);
+                        }
+                    }
+                });
+
+                if (!hasReplies) {
+                    container.innerHTML = '<div style="color:#7f8c8d; margin-top:20px;">📭 لا توجد ردود جديدة حالياً</div>';
+                }
+            })
+            .catch(error => {
+                container.innerHTML = '<div class="msg-error">❌ خطأ في تحميل الردود. تأكد من الانترنت.</div>';
+                console.error(error);
+            });
+        }
+
+        /* ======================================================= */
         /* ========== 📨 نظام المراسلة عبر تيليجرام ============= */
         /* ======================================================= */
 
         function toggleChat() {
             var win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-            
-            var chatBody = document.getElementById('chatBody');
-            var welcomeMsg = chatBody.querySelector('.msg-bot');
-            // تأكد أن رسالة الترحيب مناسبة
-            if (welcomeMsg && welcomeMsg.innerText.includes('AI')) {
-                 welcomeMsg.innerText = "هلا! اكتب رسالتك هنا وراح توصل للأستاذ ثائر مباشرة على موبايله 📱";
-            }
         }
 
         function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
 
         function sendMessage() {
-            var input = document.getElementById('chatInput');
-            var msg = input.value.trim();
+            // 1. نظام الحماية (منع التكرار)
+            let msgCount = localStorage.getItem('chatMsgCount') || 0;
+            let lastMsgTime = localStorage.getItem('chatLastTime') || 0;
+            let now = Date.now();
+
+            if (now - lastMsgTime > 600000) { 
+                msgCount = 0; 
+                localStorage.setItem('chatMsgCount', 0);
+            }
+
+            if (msgCount >= 5) {
+                addMsg("⛔ انتظر تم ارسال الكثير من الرسائل", 'error');
+                return;
+            }
+
+            // 2. جلب البيانات
+            var nameInput = document.getElementById('senderName');
+            var msgInput = document.getElementById('chatInput');
+            var name = nameInput.value.trim();
+            var msg = msgInput.value.trim();
+
             if (!msg) return;
+            if (!name) {
+                alert("🔴 يرجى كتابة اسمك الثلاثي أولاً!");
+                nameInput.style.border = "2px solid red";
+                return;
+            } else {
+                nameInput.style.border = "1px solid #e67e22";
+            }
 
-            // إضافة رسالة الطالب
+            // 3. تحديث الواجهة
             addMsg(msg, 'user');
-            input.value = '';
+            msgInput.value = '';
 
-            // إظهار جاري الإرسال
             var typing = document.getElementById('typingIndicator');
             typing.innerText = "جاري إرسال الرسالة للأستاذ...";
             typing.style.display = 'block';
@@ -557,27 +691,35 @@
             var chatBody = document.getElementById('chatBody');
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // إرسال إلى تيليجرام
-            sendToTelegram(msg);
+            // 4. تحديث العداد
+            localStorage.setItem('chatMsgCount', parseInt(msgCount) + 1);
+            localStorage.setItem('chatLastTime', now);
+
+            // 5. إرسال إلى تيليجرام
+            sendToTelegram(name, msg);
         }
 
         function addMsg(text, type) {
             var div = document.createElement('div');
-            div.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-bot');
+            if (type === 'error') {
+                div.className = 'msg msg-error';
+            } else {
+                div.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-bot');
+            }
             div.innerText = text;
             var chatBody = document.getElementById('chatBody');
             chatBody.appendChild(div);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        function sendToTelegram(userMsg) {
+        function sendToTelegram(name, userMsg) {
             const typing = document.getElementById('typingIndicator');
             
             const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
             
             const data = {
                 chat_id: TELEGRAM_CHAT_ID,
-                text: `📩 *رسالة جديدة من الموقع:*\n\n${userMsg}`,
+                text: `📩 *رسالة جديدة*\n\n👤 *من الطالب:* ${name}\n💬 *الرسالة:* ${userMsg}`,
                 parse_mode: 'Markdown'
             };
 
@@ -590,18 +732,16 @@
             .then(data => {
                 typing.style.display = 'none';
                 if (data.ok) {
-                    addMsg("✅ وصلت رسالتك للأستاذ! راح يشوفها ويرد عليك قريباً.", 'bot');
+                    addMsg("✅ وصلت رسالتك للأستاذ! تابع زر (لوحة الردود) بالموقع لتشوف الجواب.", 'bot');
                 } else {
-                    addMsg("❌ صار خطأ بالإرسال، تأكد من النت.", 'bot');
-                    console.error('Telegram Error:', data);
+                    addMsg("❌ صار خطأ بالإرسال.", 'bot');
                 }
             })
             .catch(error => {
                 typing.style.display = 'none';
-                addMsg("❌ عذراً، ما كدرت أرسل الرسالة. تأكد من اتصالك بالإنترنت.", 'bot');
-                console.error('Network Error:', error);
+                addMsg("❌ تأكد من الانترنت.", 'bot');
             });
         }
     </script>
 </body>
-            </html>
+</html>
