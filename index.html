@@ -62,8 +62,10 @@
         .google-btn { background: linear-gradient(to bottom, #4285F4, #34a853); box-shadow: 0 4px 10px rgba(66, 133, 244, 0.4); }
         .predict-btn { background: linear-gradient(to bottom, #9b59b6, #8e44ad); box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4); }
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
+        /* زر الردود ياخذ مكانين */
         .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } 
         
+        /* زر الاختبار المستحيل (الستايل القديم الدائري بالوسط) */
         .quiz-center-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #f1c40f, #f39c12); border: 5px solid #2c3e50; color: #2c3e50; font-weight: 800; font-size: 0.9rem; line-height: 1.2; cursor: pointer; z-index: 10; box-shadow: 0 0 20px rgba(241, 196, 15, 0.6); display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Tajawal', sans-serif; animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
         
@@ -77,7 +79,8 @@
         .hero-number { font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
 
         /* === Modals === */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        /* Z-Index increased to 20000 to be above chat window */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 20000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .secret-box { background: white; color: #333; width: 85%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 80vh; overflow-y: auto; }
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
         .predict-style { border: 5px solid #9b59b6; box-shadow: 0 0 30px rgba(155, 89, 182, 0.5); }
@@ -249,7 +252,7 @@
     <div id="customAlert" class="modal-overlay">
         <div class="secret-box alert-style">
             <h2 style="color: #c0392b; margin-top:0;">⚠️ تنبيه</h2>
-            <p style="font-size: 1.3rem; font-weight: bold; margin: 20px 0;">
+            <p id="alertMessage" style="font-size: 1.3rem; font-weight: bold; margin: 20px 0;">
                 يجب كتابة الاسم الثلاثي أولاً!
             </p>
             <button class="close-btn" style="background: #e74c3c;" onclick="document.getElementById('customAlert').style.display='none'">حاضر</button>
@@ -289,7 +292,9 @@
     <div class="btn-wrapper">
         <button class="action-btn" onclick="openSecret()">📚<br>الواجب</button>
         <button class="action-btn google-btn" onclick="openGoogleTranslate()">🌍<br>المترجم</button>
+        
         <button class="quiz-center-btn" onclick="startQuiz()">الاختبار<br>المستحيل</button>
+        
         <button class="action-btn predict-btn" onclick="predictGrade()">🔮<br>توقع نتيجتك<br>بالامتحان</button>
         <button class="action-btn prank-btn" onclick="openPrank()">⚠️<br><span style="font-size:0.85rem">اضغط لإلغاء<br>الامتحان القادم</span></button>
         <button class="action-btn replies-btn" onclick="openReplies()">📢<br>لوحة الردود والتبليغات</button>
@@ -685,16 +690,21 @@
             var name = nameInput.value.trim();
             var msg = msgInput.value.trim();
 
-            if (!msg) return;
-            
-            // تحقق من الاسم - التعديل الجديد ⚠️
+            // تحقق من الاسم أولاً
             if (!name) {
-                // بدلاً من alert العادية، نطلع المربع الجديد
+                document.getElementById('alertMessage').innerText = "يجب كتابة الاسم الثلاثي أولاً!";
                 document.getElementById('customAlert').style.display = 'flex';
-                nameInput.style.border = "2px solid #e74c3c"; // لون أحمر
+                nameInput.style.border = "2px solid #e74c3c"; 
                 return;
             } else {
-                nameInput.style.border = "1px solid #e67e22"; // رجعه طبيعي
+                nameInput.style.border = "1px solid #e67e22"; 
+            }
+
+            // تحقق من الرسالة (لازم يكتب شي)
+            if (!msg) {
+                document.getElementById('alertMessage').innerText = "⚠️ يرجى كتابة رسالة!";
+                document.getElementById('customAlert').style.display = 'flex';
+                return;
             }
 
             // 3. تحديث الواجهة
@@ -761,4 +771,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
