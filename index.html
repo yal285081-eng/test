@@ -64,10 +64,10 @@
         .prank-btn { background: linear-gradient(to bottom, #c0392b, #922b21); box-shadow: 0 4px 10px rgba(192, 57, 43, 0.4); border: 2px solid #e74c3c; }
         .replies-btn { background: linear-gradient(to bottom, #16a085, #1abc9c); box-shadow: 0 4px 10px rgba(22, 160, 133, 0.4); grid-column: span 2; } 
         
-        /* زر الاختبار المستحيل (دائرة بالوسط - مرتفع بنسبة 33% ليكون بالوسط تماماً) */
+        /* زر الاختبار المستحيل */
         .quiz-center-btn { 
             position: absolute; 
-            top: 33%; /* ✅ هذا الرقم السحري لوسط المربعات */
+            top: 33%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
             width: 90px; 
@@ -101,7 +101,6 @@
         .hero-number { font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
 
         /* === Modals === */
-        /* Z-Index increased to 20000 to be above chat window */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 20000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .secret-box { background: white; color: #333; width: 85%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 80vh; overflow-y: auto; }
         .homework-style { border: 5px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5); }
@@ -190,15 +189,18 @@
             padding: 10px; background: white; border-top: 1px solid #ddd;
             display: flex; flex-direction: column; gap: 5px;
         }
+        
+        /* 🔥🔥 التعديل هنا: تصغير الخط + ضبط الحواشي (Padding) */
         #chatInput, #senderName {
-            /* ✅✅ التعديل هنا: زيادة الـ Padding لضمان ظهور النقاط */
-            padding: 15px 10px; 
+            padding: 12px 10px;
+            font-size: 0.85rem; /* تصغير الخط قليلاً */
             border-radius: 10px; border: 1px solid #ddd;
             text-align: right; outline: none; font-family: 'Tajawal';
-            line-height: normal; /* تحسين ارتفاع السطر */
+            line-height: 1.5; /* ضمان ظهور النقاط بشكل كامل */
         }
+        
         #senderName {
-            background: #fdf2e9; border: 1px solid #e67e22; color: #d35400; font-weight: bold; font-size: 0.9rem;
+            background: #fdf2e9; border: 1px solid #e67e22; color: #d35400; font-weight: bold;
         }
         .input-row { display: flex; gap: 5px; width: 100%; }
         #chatInput { flex: 1; border-radius: 20px; }
@@ -796,4 +798,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
